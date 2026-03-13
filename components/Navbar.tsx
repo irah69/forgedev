@@ -550,41 +550,11 @@ export default function Navbar() {
           {/* NAV LINKS */}
           <ul className="nb-links">
             {/* Services */}
-            <li
-              className="nb-link-item"
-              onMouseEnter={() => handleMouseEnter("services")}
-              onMouseLeave={handleMouseLeave}
-            >
-              <button
-                className={`nb-link ${activeDropdown === "services" ? "active" : ""}`}
-                onClick={() =>
-                  setActiveDropdown(
-                    activeDropdown === "services" ? null : "services"
-                  )
-                }
-              >
-                Services
-                <svg viewBox="0 0 10 6" fill="none">
-                  <path d="M1 1l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </button>
-
-              <div className={`nb-dropdown ${activeDropdown === "services" ? "open" : ""}`}>
-                <div className="nb-services-grid">
-                  {services.map((s) => (
-                    <a href="#" className="nb-service-card" key={s.title}>
-                      <span className="nb-service-icon" style={{ color: s.color }}>
-                        {s.icon}
-                      </span>
-                      <div className="nb-service-info">
-                        <h4>{s.title}</h4>
-                        <p>{s.desc}</p>
-                      </div>
-                    </a>
-                  ))}
-                </div>
-              </div>
-            </li>
+            <li className="nb-link-item">
+  <a href="/services" className="nb-link">
+    Services
+  </a>
+</li>
 
             {/* Work */}
             <li
@@ -623,7 +593,7 @@ export default function Navbar() {
                   <div className="nb-work-featured">
                     <span className="nb-featured-label">Featured</span>
                     <p className="nb-featured-title">SaaS Dashboard Rebuild</p>
-                    <a href="#" className="nb-featured-cta">
+                    <a href="/work" className="nb-featured-cta">
                       View Case Study →
                     </a>
                   </div>
