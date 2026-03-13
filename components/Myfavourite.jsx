@@ -53,52 +53,32 @@ const T = {
 const products = [
   {
     id: 1,
-    name: "SL GRANO",
-    tag: "STVZO",
-    description: "Front light for bicycles",
-    price: "€229,00",
-    lumen: "900 lm",
-    distance: "230 m",
-    badge: "OSRAM",
+    name: "Murgan Collections",
+    tag: "E-Commerce Website",
+    description: "A modern online clothing store with product browsing, cart, and secure checkout features.",
+    price: "Starting from €19,99",
+    category: "Fashion & Clothing",
+    technology: "React, Node.js, MongoDB",
+    badge: "Featured Project",
     rating: 5,
     gradient: "linear-gradient(135deg,#1a1440 0%,#0D1128 100%)",
+    image: "/murgan.png",
+    url: "https://murgan-ui.vercel.app/",
   },
-  {
-    id: 2,
-    name: "ROTLICHT PRO",
-    tag: "STVZO",
-    description: "Taillight for bicycles",
-    price: "€189,00",
-    lumen: "128 lm",
-    distance: null,
-    badge: "OSRAM",
-    rating: 5,
-    gradient: "linear-gradient(135deg,#0e1a2e 0%,#0D1128 100%)",
-  },
-  {
-    id: 3,
-    name: "PENTA PRO 5700K",
-    tag: null,
-    description: "Headlamp with external battery",
-    price: "€289,00",
-    lumen: "1400 lm",
-    distance: "140 m",
-    badge: "CREE+",
-    rating: 0,
-    gradient: "linear-gradient(135deg,#131033 0%,#0D1128 100%)",
-  },
-  {
-    id: 4,
-    name: "ALPHA EDGE 2800",
-    tag: "STVZO",
-    description: "High-performance trail light",
-    price: "€349,00",
-    lumen: "2800 lm",
-    distance: "300 m",
-    badge: "OSRAM",
-    rating: 5,
-    gradient: "linear-gradient(135deg,#0a1a30 0%,#0D1128 100%)",
-  },
+{
+  id: 2,
+  name: "SL Grano",
+  tag: "Home Automation       ",
+  description: "A smart home automation company catalog website showcasing lighting, security, and IoT automation products.",
+  price: "Product Catalog",
+  category: "Smart Home Solutions",
+  technology: "React, Tailwind CSS, Node.js",
+  badge: "Automation",
+  rating: 5,
+  gradient: "linear-gradient(135deg,#1a1440 0%,#0D1128 100%)",
+  image: "/slgrano.jpg",
+  url: "https://slgrano-lights.example.com",
+}
 ];
 
 /* ─── STAR RATING ─────────────────────────────────────────────────────────── */
@@ -177,8 +157,16 @@ function CosmicOrb({ size = 600 }) {
 function ProductCard({ product, isMobile, bp = "desktop" }) {
   const [hovered, setHovered] = useState(false);
 
+  // Redirect to product.url on click
+  const handleClick = () => {
+    if (product.url) {
+      window.open(product.url, "_blank");
+    }
+  };
+
   return (
     <div
+      onClick={handleClick}
       onMouseEnter={() => !isMobile && setHovered(true)}
       onMouseLeave={() => !isMobile && setHovered(false)}
       style={{
@@ -186,7 +174,7 @@ function ProductCard({ product, isMobile, bp = "desktop" }) {
         border: `1px solid ${hovered ? T.borderHover : T.border}`,
         borderRadius: "12px",
         overflow: "hidden",
-        cursor: "pointer",
+        cursor: product.url ? "pointer" : "default",
         transition: "all 0.4s cubic-bezier(0.23,1,0.32,1)",
         transform: hovered ? "translateY(-8px) scale(1.01)" : "translateY(0) scale(1)",
         boxShadow: hovered
@@ -197,6 +185,9 @@ function ProductCard({ product, isMobile, bp = "desktop" }) {
         display: "flex",
         flexDirection: "column",
       }}
+      tabIndex={0}
+      role={product.url ? "link" : undefined}
+      aria-label={product.name}
     >
       {/* Top glow line */}
       <div style={{
@@ -266,22 +257,41 @@ function ProductCard({ product, isMobile, bp = "desktop" }) {
             <line key={`v${i}`} x1={`${(i + 1) * 12.5}%`} y1="0" x2={`${(i + 1) * 12.5}%`} y2="100%" stroke={T.accent1} strokeWidth="0.5" />
           ))}
         </svg>
-        <div style={{
-          width: isMobile ? "80px" : "140px",
-          height: isMobile ? "52px" : "100px",
-          border: `1px solid ${T.accent1}22`,
-          borderRadius: "8px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          color: T.accent1 + "40",
-          fontSize: isMobile ? "7px" : "10px",
-          letterSpacing: "0.15em",
-          fontFamily: "monospace",
-          background: "rgba(123,110,246,0.03)",
-        }}>
-          {isMobile ? "IMG" : "PRODUCT IMAGE"}
-        </div>
+        {product.image ? (
+          <img
+            src={product.image}
+            alt={product.name}
+            style={{
+              position: "absolute",
+              inset: 0,
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              borderRadius: "8px",
+              border: `1px solid ${T.accent1}22`,
+              background: "rgba(123,110,246,0.03)",
+              zIndex: 1,
+            }}
+            loading="lazy"
+          />
+        ) : (
+          <div style={{
+            width: isMobile ? "80px" : "140px",
+            height: isMobile ? "52px" : "100px",
+            border: `1px solid ${T.accent1}22`,
+            borderRadius: "8px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            color: T.accent1 + "40",
+            fontSize: isMobile ? "7px" : "10px",
+            letterSpacing: "0.15em",
+            fontFamily: "monospace",
+            background: "rgba(123,110,246,0.03)",
+          }}>
+            {isMobile ? "IMG" : "PRODUCT IMAGE"}
+          </div>
+        )}
       </div>
 
       {/* Info */}
@@ -326,15 +336,7 @@ function ProductCard({ product, isMobile, bp = "desktop" }) {
         </p>
 
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "14px" }}>
-          <span style={{
-            fontSize: "clamp(14px, 2vw, 16px)",
-            fontWeight: "800",
-            background: `linear-gradient(90deg, ${T.accent1}, ${T.accent2})`,
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-          }}>
-            {product.price}
-          </span>
+
           <button style={{
             background: hovered
               ? `linear-gradient(135deg, ${T.accent1}, ${T.accent3})`
@@ -612,16 +614,7 @@ export default function Favourites() {
             )}
 
             {/* Title — strictly left-aligned, margin: 0 */}
-            <span style={{
-              fontSize: bp === "xs" ? "11px" : "13px",
-              fontWeight: "700",
-              color: T.accent1,
-              letterSpacing: "0.25em",
-              textTransform: "uppercase",
-              display: "block",
-              marginBottom: "4px",
-              marginLeft: 0,
-            }}>MOST</span>
+
 
             <h2 style={{
               margin: 0,

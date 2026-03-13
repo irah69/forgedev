@@ -42,9 +42,9 @@ const services = [
 
 const workCategories = [
  /*  { label: "SaaS Products", count: "08" }, */
-  { label: "E-Commerce", count: "12" },
-  { label: "Branding & Web", count: "06" },
-  { label: "Mobile Apps", count: "04" },
+  { label: "All", count: "12" },
+  { label: "Web App", count: "06" },
+  { label: "E-Commerce", count: "04" },
 ];
 
 type DropdownType = "services" | "work" | null;
@@ -607,7 +607,12 @@ export default function Navbar() {
                   <div className="nb-work-categories">
                     <h3>Categories</h3>
                     {workCategories.map((cat) => (
-                      <a href="#" className="nb-work-cat-item" key={cat.label}>
+                      <a
+                        href={`/work?category=${encodeURIComponent(cat.label)}`}
+                        className="nb-work-cat-item"
+                        key={cat.label}
+                        style={{ cursor: "pointer" }}
+                      >
                         <span>{cat.label}</span>
                         <span className="nb-work-badge">{cat.count}</span>
                       </a>
