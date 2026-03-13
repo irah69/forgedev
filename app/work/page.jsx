@@ -109,6 +109,7 @@ function useScrollProgress() {
   const ref = useRef(null);
   const [progress, setProgress] = useState(0);
   useEffect(() => {
+    if (typeof window === "undefined") return;
     const el = ref.current;
     if (!el) return;
     const fn = () => {
