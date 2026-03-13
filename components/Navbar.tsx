@@ -539,7 +539,9 @@ export default function Navbar() {
         <div className={`nb-bar ${scrolled ? "scrolled" : ""}`}>
           {/* LOGO */}
           <a href="/" className="nb-logo">
-            <div className="nb-logo-mark">N</div>
+            <div className="nb-logo-mark" style={{padding:0,background:'none',boxShadow:'none'}}>
+              <img src="/logo.svg" alt="IRAH Logo" style={{width:32,height:32,display:'block'}} />
+            </div>
             <span className="nb-logo-text">
               IRAH
             </span>
@@ -631,7 +633,7 @@ export default function Navbar() {
 
             <li><a href="/about" className="nb-link">About Us</a></li>
             <li><a href="/process" className="nb-link">Process</a></li>
-            <li><a href="/blog" className="nb-link">Blog</a></li>
+            <li><a href="/tech" className="nb-link">Tech</a></li>
             <li><a href="/contact" className="nb-link">Contact</a></li>
           </ul>
 
