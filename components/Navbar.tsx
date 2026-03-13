@@ -636,7 +636,7 @@ export default function Navbar() {
           <a href="/work" className="nb-mobile-link">Work</a>
           <a href="/about" className="nb-mobile-link">About Us</a>
           <a href="/process" className="nb-mobile-link">Process</a>
-          <a href="/blog" className="nb-mobile-link">Blog</a>
+          <a href="/tech" className="nb-mobile-link">Tech</a>
           <a href="/contact" className="nb-mobile-link">Contact</a>
           <a href="/contact" className="nb-mobile-cta">Start a Project ✦</a>
         </div>

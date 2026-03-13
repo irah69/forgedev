@@ -92,13 +92,7 @@ export default function ContactPage() {
           background: radial-gradient(circle, #00d4aa, transparent);
           bottom: -80px; right: -60px;
         }
-        .bg-grid {
-          position: absolute; inset: 0;
-          background-image:
-            linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-          background-size: 48px 48px; pointer-events: none;
-        }
+        /* .bg-grid removed */
         .contact-card {
           position: relative;
           background: rgba(255,255,255,0.04);
@@ -255,7 +249,6 @@ export default function ContactPage() {
       <div className="contact-root">
         <div className="bg-orb bg-orb-1" />
         <div className="bg-orb bg-orb-2" />
-        <div className="bg-grid" />
 
         <div className="contact-card">
           {submitted ? (
