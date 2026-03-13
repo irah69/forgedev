@@ -333,13 +333,7 @@ export default function VideoHero() {
           maxWidth: "860px",
         }}>
 
-          {/* Badge */}
-          <div style={{ marginBottom: "28px", animation: "heroFadeUp 0.8s ease both 0.1s" }}>
-            <span className="vh-badge">
-              <span className="vh-badge-dot" />
-              Digital · Innovation · Growth
-            </span>
-          </div>
+
 
           {/* Headline */}
           <h1 className="vh-title" style={{ marginBottom: "24px", animation: "heroFadeUp 0.9s ease both 0.3s" }}>
@@ -359,9 +353,7 @@ export default function VideoHero() {
             lineHeight: 1.75,
             maxWidth: "460px",
             animation: "heroFadeUp 0.9s ease both 0.5s",
-          }}>
-            We empower organisations with first-rate creative challenges
-            and real-world digital success.
+          }}>“Building fast, scalable websites that turn ideas into powerful digital experiences.”
           </p>
 
           {/* CTAs */}
@@ -369,41 +361,12 @@ export default function VideoHero() {
             display: "flex", gap: "16px", flexWrap: "wrap",
             animation: "heroFadeUp 0.9s ease both 0.7s",
           }}>
-            <button className="vh-cta-primary">
-              Get Started
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                <path d="M1 7h12M7 1l6 6-6 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </button>
-            <button className="vh-cta-secondary">
-              <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
-                <circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" strokeWidth="1.2"/>
-                <path d="M5 4.5l4 2-4 2V4.5z" fill="currentColor"/>
-              </svg>
-              Our Work
-            </button>
+           
+            
           </div>
 
           {/* Stats */}
-          <div style={{
-            display: "flex", gap: "40px", marginTop: "56px", flexWrap: "wrap",
-            animation: "heroFadeUp 0.9s ease both 0.9s",
-          }}>
-            {[
-              { val: "50+",  label: "Projects" },
-              { val: "100%", label: "Satisfaction" },
-              { val: "24/7", label: "Support" },
-            ].map((stat) => (
-              <div key={stat.label} style={{
-                display: "flex", flexDirection: "column",
-                borderLeft: "2px solid rgba(123,110,246,0.35)",
-                paddingLeft: "16px",
-              }}>
-                <span className="vh-stat-val">{stat.val}</span>
-                <span className="vh-stat-label">{stat.label}</span>
-              </div>
-            ))}
-          </div>
+
         </div>
 
         {/* ── VIDEO CONTROLS (bottom-right) ───────────────────────────── */}

@@ -318,13 +318,13 @@ export default function VideoHero() {
         className="absolute inset-0 flex flex-col items-center justify-center text-center px-6 pointer-events-none"
         style={{ opacity: visible ? 1 : 0, transition: "opacity 1.2s ease" }}
       >
-        <div className="flex items-center gap-3 mb-5" style={{ fontFamily: "'DM Mono', monospace" }}>
+{/*         <div className="flex items-center gap-3 mb-5" style={{ fontFamily: "'DM Mono', monospace" }}>
           <span className="h-px w-8 bg-blue-500/50" />
           <span className="text-blue-400/80 text-xs uppercase tracking-[0.3em]">
             Digital · Innovation · Growth
           </span>
           <span className="h-px w-8 bg-blue-500/50" />
-        </div>
+        </div> */}
 
         <h1
           className="leading-tight mb-5 text-white"
@@ -406,9 +406,10 @@ export default function VideoHero() {
         ))}
       </div> */}
 
-      <p className="absolute top-5 right-6 text-white/25 text-xs pointer-events-none" style={{ fontFamily: "'DM Mono', monospace" }}>
+{/*       <p className="absolute top-5 right-6 text-white/25 text-xs pointer-events-none" style={{ fontFamily: "'DM Mono', monospace" }}>
         drag to rotate · hover to displace
-      </p>
+      </p> */}
+      
 
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500&display=swap');
