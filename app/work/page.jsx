@@ -1,33 +1,30 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useSearchParams } from "next/navigation";
 
 /* ─── DATA ────────────────────────────────────────────────────────────────── */
 const projects = [
   {
     id: "01",
-    title: "Murgan Collections",
-    category: "E-Commerce · Fashion & Clothing",
-    tags: ["React", "Node.js", "MongoDB"],
-    desc: "A modern online clothing store with product browsing, cart functionality, and secure checkout for seamless fashion shopping.",
+    title: "AURA FINANCE",
+    category: "Web App · UI/UX",
+    tags: ["React", "Node.js", "Stripe"],
+    desc: "Next-gen personal finance dashboard with real-time portfolio tracking and AI-driven insights.",
     year: "2024",
-    color: "#1a1440",
-    accent: "#0D1128",
+    color: "#7B6EF6",
+    accent: "#4FC3F7",
     size: "large",
-    image: "/murgan.png",
   },
   {
     id: "02",
-    title: "SL Grano",
-    category: "Smart Home Solutions · Home Automation",
-    tags: ["React", "Tailwind CSS", "Node.js"],
-    desc: "A smart home automation catalog website showcasing lighting, security systems, and IoT automation products.",
+    title: "VELO COMMERCE",
+    category: "E-Commerce · SEO",
+    tags: ["Next.js", "Shopify", "Tailwind"],
+    desc: "High-conversion storefront scaling from 0 to 2M ARR in eight months.",
     year: "2024",
-    color: "#1a1440",
-    accent: "#0D1128",
+    color: "#4FC3F7",
+    accent: "#7B6EF6",
     size: "small",
-    image: "/slgrano.jpg",
   },
   {
     id: "03",
@@ -39,7 +36,6 @@ const projects = [
     color: "#8B5CF6",
     accent: "#60efff",
     size: "small",
-    image: "/nexus.jpg",
   },
   {
     id: "04",
@@ -51,7 +47,6 @@ const projects = [
     color: "#60efff",
     accent: "#8B5CF6",
     size: "large",
-    image: "/drift.jpg",
   },
   {
     id: "05",
@@ -63,7 +58,6 @@ const projects = [
     color: "#a78bfa",
     accent: "#4FC3F7",
     size: "small",
-    image: "/pulse.jpg",
   },
   {
     id: "06",
@@ -75,7 +69,6 @@ const projects = [
     color: "#38bdf8",
     accent: "#7B6EF6",
     size: "small",
-    image: "/orion.jpg",
   },
 ];
 
@@ -109,7 +102,6 @@ function useScrollProgress() {
   const ref = useRef(null);
   const [progress, setProgress] = useState(0);
   useEffect(() => {
-    if (typeof window === "undefined") return;
     const el = ref.current;
     if (!el) return;
     const fn = () => {
@@ -182,22 +174,6 @@ function ProjectCard({ project, index }) {
           overflow: "hidden",
           flexShrink: 0,
         }}>
-          {project.image && (
-            <img
-              src={project.image}
-              alt={project.title}
-              style={{
-                position: "absolute",
-                inset: 0,
-                width: "100%",
-                height: "100%",
-                objectFit: "cover",
-                borderRadius: "0",
-                zIndex: 1,
-              }}
-              loading="lazy"
-            />
-          )}
           {/* grid lines */}
           <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}>
             {Array.from({ length: 7 }).map((_, i) => (
@@ -317,7 +293,7 @@ function ProjectCard({ project, index }) {
 
 /* ─── MARQUEE ─────────────────────────────────────────────────────────────── */
 function Marquee() {
-  const items = ["Web Development","UI/UX Design","E-Commerce","SEO","API Integration","Branding","SaaS Products"];
+  const items = ["Web Development","UI/UX Design","E-Commerce","SEO","API Integration","Branding","SaaS Products","Mobile Apps"];
   const doubled = [...items, ...items];
   return (
     <div style={{
@@ -383,23 +359,11 @@ function Stat({ stat, index }) {
 export default function OurWork() {
   const [sectionRef, progress] = useScrollProgress();
   const [headerRef, headerInView] = useInView(0.15);
-  const searchParams = useSearchParams();
   const [activeFilter, setActiveFilter] = useState("All");
-
-  // Set filter from query param on mount or when it changes
-  useEffect(() => {
-    const category = searchParams.get("category");
-    if (category && category !== activeFilter) {
-      setActiveFilter(category);
-    }
-  }, [searchParams, activeFilter]);
 
   const filtered = activeFilter === "All"
     ? projects
-    : projects.filter(p =>
-        p.category.toLowerCase().includes(activeFilter.toLowerCase()) ||
-        p.title.toLowerCase().includes(activeFilter.toLowerCase())
-      );
+    : projects.filter(p => p.category.toLowerCase().includes(activeFilter.toLowerCase()));
 
   const parallaxY = progress * -50;
 
@@ -665,7 +629,13 @@ export default function OurWork() {
         <Marquee />
 
         {/* ── STATS ──────────────────────────────────────────────── */}
-
+        <div className="ow-stats-grid">
+          {stats.map((s, i) => (
+            <div key={s.label} className={i > 0 ? "ow-stat-divider" : ""}>
+              <Stat stat={s} index={i} />
+            </div>
+          ))}
+        </div>
 
         {/* ── CTA ────────────────────────────────────────────────── */}
         <div style={{
