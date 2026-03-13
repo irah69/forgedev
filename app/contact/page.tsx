@@ -414,13 +414,21 @@ export default function ContactPage() {
                 </button>
               </form>
 
-              <div className="divider">or email us directly</div>
+              <div className="divider">or reach us directly</div>
 
               <a href="mailto:irahtech69@gmail.com" className="email-chip">
                 <div className="email-chip-icon">✉</div>
                 <div>
                   <div className="email-chip-label">Our Email</div>
                   <div className="email-chip-value">irahtech69@gmail.com</div>
+                </div>
+              </a>
+
+              <a href="tel:+919014497622" className="email-chip" style={{ marginTop: "10px" }}>
+                <div className="email-chip-icon">📞</div>
+                <div>
+                  <div className="email-chip-label">Our Phone</div>
+                  <div className="email-chip-value">+91 90144 97622</div>
                 </div>
               </a>
             </>
