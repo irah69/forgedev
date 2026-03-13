@@ -1,0 +1,92 @@
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&display=swap");
+
+.perspectives-section {
+  padding: 120px 0;
+  background: #fff;
+  overflow: hidden;
+  margin-top: 0;
+  scroll-margin-top: 80px;
+}
+
+/* Header */
+.perspectives-header {
+  padding: 0 6vw;
+  margin-bottom: 60px;
+  position: relative;
+  z-index: 10;
+}
+
+.perspectives-header h2 {
+  font-family: "Playfair Display", serif;
+  font-size: clamp(4rem, 10vw, 10rem);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+.perspectives-header p {
+  margin-top: 12px;
+  font-size: 14px;
+  color: #666;
+  max-width: 420px;
+}
+
+/* Viewport */
+.perspectives-viewport {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  z-index: 5;
+}
+
+/* Track (THIS MOVES) */
+.perspectives-track {
+  display: flex;
+  gap: 40px;
+  width: max-content;
+  animation: perspectives-marquee 35s linear infinite;
+}
+
+/* Card */
+.perspective-card {
+  position: relative;
+  min-width: 380px;
+  height: 520px;
+  overflow: hidden;
+}
+
+.perspective-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Name overlay */
+.perspective-card span {
+  position: absolute;
+  bottom: 24px;
+  left: 24px;
+  font-size: 28px;
+  font-weight: 500;
+  color: white;
+  text-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+/* RIGHT ➜ LEFT */
+@keyframes perspectives-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+@media (max-width: 600px) {
+  .perspective-card {
+    min-width: 80vw;
+    height: 60vw;
+    max-width: 95vw;
+  }
+  .perspectives-header h2 {
+    font-size: 2.2rem;
+  }
+}

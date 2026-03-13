@@ -1,0 +1,22 @@
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&display=swap");
+
+header {
+  font-family: "Playfair Display", serif;
+}
+
+header button,
+header span,
+header p,
+header a {
+  font-family: "Playfair Display", serif;
+}
+
+header .text-black {
+  font-family: "Playfair Display", serif;
+}
+
+header .font-bold,
+header .font-semibold,
+header .font-medium {
+  font-family: "Playfair Display", serif;
+}

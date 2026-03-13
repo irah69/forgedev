@@ -1,0 +1,19 @@
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&display=swap");
+
+footer {
+  font-family: "Playfair Display", serif;
+}
+
+footer h3,
+footer h2,
+footer span,
+footer p,
+footer a {
+  font-family: "Playfair Display", serif;
+}
+
+footer .font-semibold,
+footer .font-bold,
+footer .font-medium {
+  font-family: "Playfair Display", serif;
+}

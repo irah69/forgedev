@@ -1,0 +1,260 @@
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&display=swap");
+
+/* Pedestal-inspired Premium Minimalist Theme */
+
+:root {
+  --primary-dark: #1a1a1a;
+  --primary-light: #ffffff;
+  --secondary-gray: #f5f5f5;
+  --text-primary: #1a1a1a;
+  --text-secondary: #666666;
+  --border-light: #e8e8e8;
+  --accent-color: #000000;
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--primary-light);
+  color: var(--text-primary);
+  line-height: 1.65;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-family);
+  font-weight: 300;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+h1 { font-size: 3rem; margin-bottom: 1.5rem; letter-spacing: -0.5px; }
+h2 { font-size: 2.25rem; margin-bottom: 1.25rem; letter-spacing: -0.3px; }
+h3 { font-size: 1.5rem; margin-bottom: 1rem; font-weight: 400; }
+h4 { font-size: 1.25rem; margin-bottom: 0.75rem; font-weight: 500; }
+h5 { font-size: 1.1rem; margin-bottom: 0.75rem; font-weight: 500; }
+h6 { font-size: 1rem; margin-bottom: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+
+p {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin-bottom: 1rem;
+  font-weight: 400;
+}
+
+a {
+  color: var(--text-primary);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--text-secondary);
+}
+
+/* Lists */
+ul, ol {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  line-height: 1.7;
+  margin-bottom: 0.75rem;
+  font-weight: 400;
+}
+
+/* Button Styles */
+.btn-custom {
+  transition: all 0.3s ease;
+  font-weight: 500;
+  font-size: 0.95rem;
+  letter-spacing: 0.3px;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-primary-pedestal {
+  background-color: var(--accent-color);
+  color: white;
+  padding: 0.875rem 2.25rem;
+  border-radius: 0;
+  display: inline-block;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.95rem;
+  letter-spacing: 0.3px;
+}
+
+.btn-primary-pedestal:hover {
+  background-color: #333333;
+}
+
+.btn-secondary-pedestal {
+  background-color: var(--secondary-gray);
+  color: var(--text-primary);
+  padding: 0.875rem 2.25rem;
+  border-radius: 0;
+  border: 1px solid var(--border-light);
+  display: inline-block;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.95rem;
+  letter-spacing: 0.3px;
+}
+
+.btn-secondary-pedestal:hover {
+  background-color: #efefef;
+}
+
+/* Card Styles (unique prefix) */
+.pg-product-card {
+  background: white;
+  border-radius: 0;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  border: 1px solid var(--border-light);
+}
+
+.pg-product-card:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+/* Loading Animation */
+.loading {
+  display: inline-block;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Badge Styles */
+.badge-custom {
+  display: inline-block;
+  padding: 0.35rem 0.85rem;
+  border-radius: 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.badge-primary-custom {
+  background-color: var(--accent-color);
+  color: white;
+}
+
+.badge-success-custom {
+  background-color: #4a7c59;
+  color: white;
+}
+
+/* Price Tag */
+.price-tag {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: -0.2px;
+}
+
+/* Rating Stars */
+.stars {
+  color: #d4a574;
+  margin-right: 0.5rem;
+  font-size: 0.9rem;
+}
+
+/* Form Styles */
+.form-input-custom {
+  border: 1px solid var(--border-light);
+  border-radius: 0;
+  padding: 0.75rem 1rem;
+  transition: all 0.3s ease;
+  background-color: white;
+  font-size: 1rem;
+  font-family: var(--font-family);
+  font-weight: 400;
+}
+
+.form-input-custom:focus {
+  outline: none;
+  border-color: var(--accent-color);
+  box-shadow: none;
+}
+
+/* Responsive Grid */
+.container-custom {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.hero-marquee-wrapper {
+  position: absolute;
+  bottom: 20%;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.hero-marquee-text {
+  position: absolute;
+
+  /* BIG TEXT */
+  font-size: clamp(4rem, 12vw, 12rem);
+  font-weight: 500;
+  color: white;
+
+  white-space: nowrap;
+
+  /* START COMPLETELY OUTSIDE LEFT */
+  transform: translateX(-120%);
+  animation: hero-marquee 22s linear infinite;
+
+  text-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+}
+
+/* FULL LEFT ➜ RIGHT FLOW */
+@keyframes hero-marquee {
+  from {
+    transform: translateX(-120%);
+  }
+  to {
+    transform: translateX(120vw);
+  }
+}
+
+@media (max-width: 768px) {
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.75rem; }
+  h3 { font-size: 1.25rem; }
+  
+  .studio-content {
+    grid-template-columns: 1fr;
+  }
+}
+
+.font-playfair {
+  font-family: 'Playfair Display', serif;
+}
