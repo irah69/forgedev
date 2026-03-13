@@ -583,33 +583,7 @@ export default function Services() {
           <ServiceSection key={service.id} service={service} index={i} />
         ))}
 
-        {/* Footer CTA */}
-        <section
-          className="relative z-10 w-full py-32 flex flex-col items-center text-center px-6"
-          style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}
-        >
-          <p className="text-white/30 text-xs font-mono tracking-widest uppercase mb-4">Ready to begin?</p>
-          <h2
-            className="text-white font-black uppercase mb-8"
-            style={{ fontSize: "clamp(2.5rem, 6vw, 5rem)", letterSpacing: "-0.02em" }}
-          >
-            Let&apos;s Build{" "}
-            <span style={{ background: "linear-gradient(135deg, #7C6FFF, #22D3EE)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
-              Together
-            </span>
-          </h2>
-          <button
-            className="px-10 py-4 rounded-full font-semibold tracking-wide text-sm uppercase transition-all duration-300 hover:scale-105"
-            style={{
-              background: "linear-gradient(135deg, #7C6FFF, #22D3EE)",
-              color: "#060610",
-              boxShadow: "0 0 60px #7C6FFF40",
-              fontFamily: "'DM Sans', sans-serif",
-            }}
-          >
-            Start a Project →
-          </button>
-        </section>
+
       </div>
     </>
   );
