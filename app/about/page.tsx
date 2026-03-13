@@ -125,10 +125,11 @@ const VALUES: Value[] = [
 ];
 
 const TEAM: TeamMember[] = [
-  { name: "Alex Reyes",   role: "Founder & CEO",     accent: "#7B6EF6" },
-  { name: "Mia Tanaka",   role: "Lead Designer",      accent: "#4FC3F7" },
-  { name: "Jordan Cole",  role: "Engineering Lead",   accent: "#8B5CF6" },
-  { name: "Priya Nair",   role: "Product Strategist", accent: "#7B6EF6" },
+  { name: "Ram",   role: "Founder & CEO",accent: "#7B6EF6" },
+  { name: "Harika",   role: "Co-Founder", accent: "#7B6EF6" },
+  { name: "Jashwanth",   role: "Frontend Developer",accent: "#7B6EF6" },
+  { name: "Surya",  role: "Engineering Lead",accent: "#8B5CF6" },
+  { name: "Anil",   role: "Frontend Developer",accent: "#7B6EF6" },
 ];
 
 const TIMELINE: TimelineItem[] = [
