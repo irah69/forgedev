@@ -291,7 +291,7 @@ export default function ContactPage() {
                     <input
                       id="name" name="name" type="text"
                       className={`form-input${errors.name ? " error-field" : ""}`}
-                      placeholder="John Doe"
+                 
                       value={formData.name}
                       onChange={handleChange}
                       autoComplete="name"
@@ -307,7 +307,7 @@ export default function ContactPage() {
                     <input
                       id="mobile" name="mobile" type="tel"
                       className={`form-input${errors.mobile ? " error-field" : ""}`}
-                      placeholder="+91 98765 43210"
+                     
                       value={formData.mobile}
                       onChange={handleChange}
                       autoComplete="tel"

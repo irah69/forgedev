@@ -622,8 +622,8 @@ export default function Footer() {
               We craft digital solutions that are fast, scalable, and built to grow with your business. From idea to launch — and beyond.
             </p>
 
-            <p className="ft-newsletter-label">Stay in the loop</p>
-            {!subscribed ? (
+            {/* <p className="ft-newsletter-label">Stay in the loop</p> */}
+            {/* {!subscribed ? (
               <form className="ft-newsletter-form" onSubmit={handleSubscribe}>
                 <input
                   type="email"
@@ -642,7 +642,7 @@ export default function Footer() {
                 <span>✓</span>
                 <span>You're on the list — welcome!</span>
               </div>
-            )}
+            )} */}
 
             <div className="ft-socials">
               {socials.map((s) => (

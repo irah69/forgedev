@@ -441,7 +441,7 @@ export default function VideoHero() {
         </div>
 
         {/* ── TOP-RIGHT HINT ───────────────────────────────────────────── */}
-        <div style={{
+{/*         <div style={{
           position: "absolute", top: "28px", right: "40px",
           zIndex: 20,
           fontSize: "9px", letterSpacing: "0.18em",
@@ -449,7 +449,7 @@ export default function VideoHero() {
           animation: "heroFadeIn 1s ease both 1s",
         }}>
           drag to rotate · hover to displace
-        </div>
+        </div> */}
 
       </section>
     </>
