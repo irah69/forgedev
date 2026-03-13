@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 
 type FooterLink = { label: string; href: string; badge?: string };
 const footerLinks: Record<string, FooterLink[]> = {
@@ -83,6 +84,9 @@ export default function Footer() {
     }
   };
 
+  // Hide CTA banner on /contact page using Next.js router
+  const pathname = usePathname ? usePathname() : '';
+  const isContactPage = pathname === '/contact';
   return (
     <>
       <style>{`
@@ -573,24 +577,26 @@ export default function Footer() {
         <div className="ft-glow-bottom" />
 
         {/* CTA BANNER */}
-        <div className="ft-cta-banner">
-          <div className="ft-cta-left">
-            <h2>
-              Ready to build something <em>remarkable?</em>
-            </h2>
-            <p>
-              Let's turn your idea into a high-performing digital product. No fluff — just clean code, sharp design, and results.
-            </p>
+        {!isContactPage && (
+          <div className="ft-cta-banner">
+            <div className="ft-cta-left">
+              <h2>
+                Ready to build something <em>remarkable?</em>
+              </h2>
+              <p>
+                Let's turn your idea into a high-performing digital product. No fluff — just clean code, sharp design, and results.
+              </p>
+            </div>
+            <div className="ft-cta-actions">
+              <a href="/contact" className="ft-btn-primary">
+                ✦ Start a Project
+              </a>
+              <a href="/work" className="ft-btn-secondary">
+                View Our Work →
+              </a>
+            </div>
           </div>
-          <div className="ft-cta-actions">
-            <a href="/contact" className="ft-btn-primary">
-              ✦ Start a Project
-            </a>
-            <a href="/work" className="ft-btn-secondary">
-              View Our Work →
-            </a>
-          </div>
-        </div>
+        )}
 
         {/* STATS */}
 {/*         <div className="ft-stats">

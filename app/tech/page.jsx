@@ -292,24 +292,7 @@ export default function TechStack() {
             transition={{ duration: 0.7, delay: 0.3 }}
             className="mt-16 text-center"
           >
-            <motion.button
-              whileHover={{ scale: 1.04 }}
-              whileTap={{ scale: 0.97 }}
-              className="relative inline-flex items-center gap-3 px-8 py-4 rounded-full text-sm font-bold text-white overflow-hidden group"
-              style={{
-                background: "linear-gradient(135deg, #7C3AED, #0EA5E9)",
-                boxShadow: "0 0 40px rgba(124,58,237,0.4)",
-                fontFamily: "'Syne', sans-serif",
-              }}
-            >
-              <motion.span
-                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                style={{
-                  background: "linear-gradient(135deg, #0EA5E9, #7C3AED)",
-                }}
-              />
-              <span className="relative z-10">• Start a Project</span>
-            </motion.button>
+            
           </motion.div>
         </div>
       </section>
