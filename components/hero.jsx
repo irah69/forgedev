@@ -237,28 +237,53 @@ function useGlobe(canvasRef) {
       cursorX = -9999; cursorY = -9999;
     }
 
+    // Mobile touch: only rotate if touch starts on globe
+    let touchStartedOnGlobe = false;
     function onTouchStart(e) {
-      dragging = true;
-      prevMX = e.touches[0].clientX;
-      prevMY = e.touches[0].clientY;
       getCursorInCanvas(e.touches[0].clientX, e.touches[0].clientY);
+      // Check if touch is on the globe
+      const w = canvas.offsetWidth;
+      const h = canvas.offsetHeight;
+      const cx = w / 2;
+      const cy = h / 2;
+      const R = Math.min(w, h) * 0.33;
+      const csxN = (cursorX - cx) / R;
+      const csyN = -(cursorY - cy) / R;
+      const csLen2 = csxN * csxN + csyN * csyN;
+      touchStartedOnGlobe = csLen2 <= 1.0;
+      if (touchStartedOnGlobe) {
+        dragging = true;
+        prevMX = e.touches[0].clientX;
+        prevMY = e.touches[0].clientY;
+        // Prevent scroll if interacting with globe
+        e.preventDefault();
+      } else {
+        dragging = false;
+      }
     }
     function onTouchMove(e) {
       getCursorInCanvas(e.touches[0].clientX, e.touches[0].clientY);
-      if (!dragging) return;
+      if (!dragging || !touchStartedOnGlobe) return;
       const dx = e.touches[0].clientX - prevMX;
       const dy = e.touches[0].clientY - prevMY;
       velY = dx * 0.006; velX = dy * 0.006;
       rotY += velY; rotX += velX;
       prevMX = e.touches[0].clientX;
       prevMY = e.touches[0].clientY;
+      // Prevent scroll while rotating globe
+      e.preventDefault();
     }
-    function onTouchEnd() { dragging = false; cursorX = -9999; cursorY = -9999; }
+    function onTouchEnd() {
+      dragging = false;
+      touchStartedOnGlobe = false;
+      cursorX = -9999; cursorY = -9999;
+    }
 
     canvas.addEventListener("mousedown",  onMouseDown);
     canvas.addEventListener("mouseleave", onMouseLeave);
-    canvas.addEventListener("touchstart", onTouchStart, { passive: true });
-    canvas.addEventListener("touchmove",  onTouchMove,  { passive: true });
+    // Use passive: false so we can call preventDefault
+    canvas.addEventListener("touchstart", onTouchStart, { passive: false });
+    canvas.addEventListener("touchmove",  onTouchMove,  { passive: false });
     canvas.addEventListener("touchend",   onTouchEnd);
     window.addEventListener("mousemove",  onMouseMove);
     window.addEventListener("mouseup",    onMouseUp);

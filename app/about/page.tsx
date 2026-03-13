@@ -130,6 +130,7 @@ const TEAM: TeamMember[] = [
   { name: "Jashwanth",   role: "Frontend Developer",accent: "#7B6EF6" },
   { name: "Surya",  role: "Engineering Lead",accent: "#8B5CF6" },
   { name: "Anil",   role: "Frontend Developer",accent: "#7B6EF6" },
+  { name: "Gayathri",   role: "Frontend Developer",accent: "#7B6EF6" },
 ];
 
 const TIMELINE: TimelineItem[] = [
