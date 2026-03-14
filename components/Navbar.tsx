@@ -590,13 +590,13 @@ export default function Navbar() {
                       </a>
                     ))}
                   </div>
-                  <div className="nb-work-featured">
+{/*                   <div className="nb-work-featured">
                     <span className="nb-featured-label">Featured</span>
                     <p className="nb-featured-title">SaaS Dashboard Rebuild</p>
                     <a href="/work" className="nb-featured-cta">
                       View Case Study →
                     </a>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </li>
