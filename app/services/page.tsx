@@ -8,34 +8,8 @@ import * as THREE from "three";
 ───────────────────────────────────────────── */
 const SERVICES = [
   {
-    id: "ecommerce",
-    index: "01",
-    title: "E-Commerce",
-    subtitle: "Solutions",
-    symbol: "ecommerce" as const,
-    accent: "#7C6FFF",
-    accentAlt: "#A78BFA",
-    description:
-      "We architect high-converting storefronts that turn browsers into buyers. From headless commerce to checkout optimization — every pixel is revenue-engineered.",
-    bullets: ["Custom Storefront Architecture", "Headless Commerce (Next.js + Shopify)", "Payment & Checkout Optimization", "Inventory & CMS Integration"],
-    svg: (
-      <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: "100%", height: "100%" }}>
-        <rect x="28" y="42" width="64" height="44" rx="4" stroke="#7C6FFF" strokeWidth="1.5" fill="none" strokeDasharray="4 3" opacity="0.4" />
-        <path d="M28 54h64" stroke="#7C6FFF" strokeWidth="1.5" />
-        <circle cx="40" cy="48" r="3" fill="#7C6FFF" opacity="0.7" />
-        <circle cx="52" cy="48" r="3" fill="#A78BFA" opacity="0.7" />
-        <rect x="36" y="62" width="20" height="14" rx="2" fill="#7C6FFF" opacity="0.2" stroke="#7C6FFF" strokeWidth="1" />
-        <rect x="64" y="62" width="20" height="14" rx="2" fill="#A78BFA" opacity="0.1" stroke="#A78BFA" strokeWidth="1" />
-        <path d="M46 34 L46 44M52 30 L52 44" stroke="#7C6FFF" strokeWidth="1.5" strokeLinecap="round" />
-        <path d="M60 34 L64 30 L68 34" stroke="#A78BFA" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-        <circle cx="88" cy="36" r="8" fill="#7C6FFF" opacity="0.15" stroke="#7C6FFF" strokeWidth="1" />
-        <path d="M85 36 L87 38 L92 33" stroke="#7C6FFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-    ),
-  },
-  {
     id: "webdev",
-    index: "02",
+    index: "01",
     title: "Web",
     subtitle: "Development",
     symbol: "webdev" as const,
@@ -62,7 +36,7 @@ const SERVICES = [
   },
   {
     id: "seo",
-    index: "03",
+    index: "02",
     title: "SEO",
     subtitle: "Strategy",
     symbol: "seo" as const,
@@ -77,8 +51,6 @@ const SERVICES = [
         <circle cx="52" cy="52" r="18" stroke="#34D399" strokeWidth="1" fill="none" opacity="0.3" />
         <path d="M72 72 L95 95" stroke="#34D399" strokeWidth="2.5" strokeLinecap="round" />
         <path d="M38 52 Q52 34 66 52 Q52 70 38 52Z" stroke="#6EE7B7" strokeWidth="1" fill="#34D399" fillOpacity="0.1" />
-        <path d="M42 44 Q52 42 62 44" stroke="#34D399" strokeWidth="1" strokeLinecap="round" opacity="0.6" />
-        <path d="M40 60 Q52 62 64 60" stroke="#34D399" strokeWidth="1" strokeLinecap="round" opacity="0.6" />
         <path d="M30 90 L50 75 L65 82 L90 62" stroke="#6EE7B7" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
         <circle cx="30" cy="90" r="2.5" fill="#34D399" />
         <circle cx="50" cy="75" r="2.5" fill="#34D399" />
@@ -89,7 +61,7 @@ const SERVICES = [
   },
   {
     id: "maintenance",
-    index: "04",
+    index: "03",
     title: "Web",
     subtitle: "Maintenance",
     symbol: "maintenance" as const,
@@ -112,6 +84,32 @@ const SERVICES = [
         <rect x="30" y="89" width="20" height="8" rx="1.5" fill="#F472B6" fillOpacity="0.3" />
         <rect x="54" y="89" width="12" height="8" rx="1.5" fill="#F9A8D4" fillOpacity="0.2" />
         <rect x="70" y="89" width="20" height="8" rx="1.5" fill="#F472B6" fillOpacity="0.15" />
+      </svg>
+    ),
+  },
+  {
+    id: "ecommerce",
+    index: "04",
+    title: "E-Commerce",
+    subtitle: "Solutions",
+    symbol: "ecommerce" as const,
+    accent: "#7C6FFF",
+    accentAlt: "#A78BFA",
+    description:
+      "We architect high-converting storefronts that turn browsers into buyers. From headless commerce to checkout optimization — every pixel is revenue-engineered.",
+    bullets: ["Custom Storefront Architecture", "Headless Commerce (Next.js + Shopify)", "Payment & Checkout Optimization", "Inventory & CMS Integration"],
+    svg: (
+      <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: "100%", height: "100%" }}>
+        <rect x="28" y="42" width="64" height="44" rx="4" stroke="#7C6FFF" strokeWidth="1.5" fill="none" strokeDasharray="4 3" opacity="0.4" />
+        <path d="M28 54h64" stroke="#7C6FFF" strokeWidth="1.5" />
+        <circle cx="40" cy="48" r="3" fill="#7C6FFF" opacity="0.7" />
+        <circle cx="52" cy="48" r="3" fill="#A78BFA" opacity="0.7" />
+        <rect x="36" y="62" width="20" height="14" rx="2" fill="#7C6FFF" opacity="0.2" stroke="#7C6FFF" strokeWidth="1" />
+        <rect x="64" y="62" width="20" height="14" rx="2" fill="#A78BFA" opacity="0.1" stroke="#A78BFA" strokeWidth="1" />
+        <path d="M46 34 L46 44M52 30 L52 44" stroke="#7C6FFF" strokeWidth="1.5" strokeLinecap="round" />
+        <path d="M60 34 L64 30 L68 34" stroke="#A78BFA" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <circle cx="88" cy="36" r="8" fill="#7C6FFF" opacity="0.15" stroke="#7C6FFF" strokeWidth="1" />
+        <path d="M85 36 L87 38 L92 33" stroke="#7C6FFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     ),
   },
@@ -277,45 +275,55 @@ function genCodeBrackets(count: number): [number,number,number][] {
   return pts.slice(0, count);
 }
 
-/* ── 03 SEO: Magnifying glass with trend arrow inside
-   Circle lens (thick ring), angled handle bottom-right,
-   trend arrow chart inside the glass.
+/* ── 03 SEO: Magnifying glass with upward trend arrow inside
+   - Lens centered at (-0.15, 0.12) — upper-left area
+   - Thick ring (3 concentric arcs for weight)
+   - Handle: diagonal going toward bottom-right
+   - Inside lens: trend arrow rising left→right (upward in screen = positive Y in Three.js)
+   - Arrowhead pointing upper-right
 ───────────────────────────────────────────── */
 function genMagnifier(count: number): [number,number,number][] {
   const pts: [number,number,number][] = [];
   const PI2 = Math.PI * 2;
 
-  // Lens — thick ring (outer + inner circle = ring)
-  const lensR = 0.58;
-  const lensX = -0.18, lensY = -0.10;
-  // Outer ring
-  pts.push(...sampleArc(lensX, lensY, lensR,       0, PI2, Math.floor(count * 0.24)));
-  // Inner ring (slightly smaller)
-  pts.push(...sampleArc(lensX, lensY, lensR-0.07,  0, PI2, Math.floor(count * 0.18)));
-  // Fill between rings for thickness
-  pts.push(...sampleArc(lensX, lensY, lensR-0.035, 0, PI2, Math.floor(count * 0.10)));
+  // Lens center & radius
+  const lx = -0.14, ly = 0.14, lr = 0.54;
 
-  // Handle — thick diagonal line from bottom-right of lens going further down-right
-  // Reference: handle is a thick bar, not just a line
-  const hx0 = lensX + Math.cos(-Math.PI*0.22)*lensR;
-  const hy0 = lensY + Math.sin(-Math.PI*0.22)*lensR;
-  const handlePts: [number,number][] = [[hx0, hy0], [hx0+0.50, hy0+0.50]];
-  for (let t = -0.045; t <= 0.045; t += 0.022) {
-    pts.push(...samplePolyline(handlePts.map(([x,y]) => [x+t, y+t] as [number,number]), Math.floor(count * 0.045)));
+  // Thick ring — 3 circles close together to look like a chunky stroke
+  pts.push(...sampleArc(lx, ly, lr,        0, PI2, Math.floor(count * 0.22)));
+  pts.push(...sampleArc(lx, ly, lr - 0.06, 0, PI2, Math.floor(count * 0.18)));
+  pts.push(...sampleArc(lx, ly, lr - 0.03, 0, PI2, Math.floor(count * 0.10)));
+
+  // Handle: exits the lens at ~315° (bottom-right), goes diagonally down-right
+  // In Three.js: bottom-right = positive X, negative Y
+  const handleAngle = -Math.PI * 0.28; // ~315 degrees = bottom-right
+  const hStartX = lx + Math.cos(handleAngle) * lr;
+  const hStartY = ly + Math.sin(handleAngle) * lr;
+  const hEndX   = hStartX + 0.48;
+  const hEndY   = hStartY - 0.48;
+  // Fat handle — 5 offset lines
+  for (let t = -0.04; t <= 0.04; t += 0.02) {
+    pts.push(...samplePolyline(
+      [[hStartX + t, hStartY + t], [hEndX + t, hEndY + t]],
+      Math.floor(count * 0.038)
+    ));
   }
 
-  // Trend arrow INSIDE the lens
-  // Rising line from bottom-left to top-right of lens interior
-  const arrowLine: [number,number][] = [
-    [lensX - 0.32, lensY + 0.20],
-    [lensX - 0.14, lensY + 0.04],
-    [lensX + 0.04, lensY + 0.14],
-    [lensX + 0.26, lensY - 0.22],
-  ];
-  pts.push(...samplePolyline(arrowLine, Math.floor(count * 0.10)));
-  // Arrow head (two lines)
-  pts.push(...samplePolyline([[lensX+0.26, lensY-0.22], [lensX+0.26, lensY-0.04]], Math.floor(count * 0.03)));
-  pts.push(...samplePolyline([[lensX+0.26, lensY-0.22], [lensX+0.12, lensY-0.22]], Math.floor(count * 0.03)));
+  // Trend arrow INSIDE lens — going from bottom-left to upper-right
+  // In Three.js Y-axis: positive = UP on screen
+  // Arrow starts bottom-left of lens interior, ends upper-right
+  const ax0 = lx - 0.30, ay0 = ly - 0.22; // start: lower-left inside lens
+  const ax1 = lx - 0.08, ay1 = ly + 0.02; // mid-low
+  const ax2 = lx + 0.10, ay2 = ly - 0.06; // mid bump
+  const ax3 = lx + 0.28, ay3 = ly + 0.22; // end: upper-right inside lens
+
+  const arrowLine: [number,number][] = [[ax0,ay0],[ax1,ay1],[ax2,ay2],[ax3,ay3]];
+  pts.push(...samplePolyline(arrowLine, Math.floor(count * 0.12)));
+
+  // Arrowhead at upper-right tip — two lines pointing toward upper-right
+  // Head points: one going down from tip, one going left from tip
+  pts.push(...samplePolyline([[ax3, ay3], [ax3 - 0.14, ay3]], Math.floor(count * 0.04))); // left
+  pts.push(...samplePolyline([[ax3, ay3], [ax3, ay3 - 0.14]], Math.floor(count * 0.04))); // down
 
   return pts.slice(0, count);
 }
