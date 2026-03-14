@@ -6,17 +6,32 @@ import { useEffect, useRef, useState } from "react";
 const projects = [
   {
     id: "01",
+    title: "MURGAN COLLECTIONS",
+    category: "E-Commerce · Web Dev",
+    tags: ["Next.js", "Tailwind", "Commerce"],
+    desc: "Handpicked collection of exquisite sarees — from timeless silks to vibrant Banarasi weaves. Crafted to celebrate the elegance and grace of every woman.",
+    year: "2025",
+    color: "#C9A84C",
+    accent: "#e8c96a",
+    size: "large",
+    link: "https://murgan-ui.vercel.app/",
+    image: "/murgan.png",
+  },
+  {
+    id: "02",
     title: "AURA FINANCE",
     category: "Web App · UI/UX",
     tags: ["React", "Node.js", "Stripe"],
     desc: "Next-gen personal finance dashboard with real-time portfolio tracking and AI-driven insights.",
-    year: "2024",
+    year: "2026",
     color: "#7B6EF6",
     accent: "#4FC3F7",
-    size: "large",
+    size: "small",
+    link: null,
+    image: null,
   },
   {
-    id: "02",
+    id: "03",
     title: "VELO COMMERCE",
     category: "E-Commerce · SEO",
     tags: ["Next.js", "Shopify", "Tailwind"],
@@ -25,9 +40,11 @@ const projects = [
     color: "#4FC3F7",
     accent: "#7B6EF6",
     size: "small",
+    link: null,
+    image: null,
   },
   {
-    id: "03",
+    id: "04",
     title: "NEXUS API",
     category: "API · Backend",
     tags: ["GraphQL", "PostgreSQL", "AWS"],
@@ -36,9 +53,11 @@ const projects = [
     color: "#8B5CF6",
     accent: "#60efff",
     size: "small",
+    link: null,
+    image: null,
   },
   {
-    id: "04",
+    id: "05",
     title: "DRIFT STUDIO",
     category: "Branding · Web Dev",
     tags: ["Three.js", "GSAP", "Webflow"],
@@ -47,9 +66,11 @@ const projects = [
     color: "#60efff",
     accent: "#8B5CF6",
     size: "large",
+    link: null,
+    image: null,
   },
   {
-    id: "05",
+    id: "06",
     title: "PULSE HEALTH",
     category: "SaaS · Maintenance",
     tags: ["React Native", "Firebase", "HIPAA"],
@@ -58,9 +79,11 @@ const projects = [
     color: "#a78bfa",
     accent: "#4FC3F7",
     size: "small",
+    link: null,
+    image: null,
   },
   {
-    id: "06",
+    id: "07",
     title: "ORION MAPS",
     category: "Web App · API",
     tags: ["MapboxGL", "Python", "Redis"],
@@ -69,6 +92,8 @@ const projects = [
     color: "#38bdf8",
     accent: "#7B6EF6",
     size: "small",
+    link: null,
+    image: null,
   },
 ];
 
@@ -121,19 +146,20 @@ function ProjectCard({ project, index }) {
   const [cardRef, inView] = useInView(0.08);
   const [hovered, setHovered] = useState(false);
   const isLarge = project.size === "large";
+  const isMurgan = project.id === "01";
   const delay = (index % 3) * 110;
 
-  return (
+  const cardContent = (
     <div
       ref={cardRef}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
-        gridColumn: isLarge ? "span 8" : "span 4",
         position: "relative",
-        cursor: "pointer",
+        cursor: project.link ? "pointer" : "default",
         borderRadius: "14px",
         overflow: "hidden",
+        height: "100%",
         opacity: inView ? 1 : 0,
         transform: inView ? "translateY(0) scale(1)" : "translateY(56px) scale(0.97)",
         transition: `opacity 0.7s ease ${delay}ms, transform 0.7s cubic-bezier(0.23,1,0.32,1) ${delay}ms`,
@@ -142,105 +168,157 @@ function ProjectCard({ project, index }) {
       {/* gradient border */}
       <div style={{
         position: "absolute", inset: 0,
-        borderRadius: "14px",
-        padding: "1px",
+        borderRadius: "14px", padding: "1px",
         background: hovered
           ? `linear-gradient(135deg, ${project.color}, ${project.accent})`
-          : "linear-gradient(135deg, rgba(123,110,246,0.22), rgba(79,195,247,0.08))",
+          : isMurgan
+            ? `linear-gradient(135deg, rgba(201,168,76,0.5), rgba(232,201,106,0.15))`
+            : "linear-gradient(135deg, rgba(123,110,246,0.22), rgba(79,195,247,0.08))",
         WebkitMask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
         WebkitMaskComposite: "xor",
         maskComposite: "exclude",
         transition: "background 0.4s ease",
-        pointerEvents: "none",
-        zIndex: 2,
+        pointerEvents: "none", zIndex: 2,
       }} />
 
       {/* card body */}
       <div style={{
-        background: hovered ? "#0D1128" : "#080B1A",
+        background: hovered
+          ? isMurgan ? "#1A1408" : "#0D1128"
+          : isMurgan ? "#110E05" : "#080B1A",
         borderRadius: "14px",
         overflow: "hidden",
-        display: "flex",
-        flexDirection: "column",
+        display: "flex", flexDirection: "column",
         height: "100%",
         transition: "background 0.4s ease",
       }}>
 
-        {/* image area */}
+        {/* ── IMAGE / VISUAL AREA ── */}
         <div style={{
           position: "relative",
           height: isLarge ? "300px" : "220px",
-          background: `linear-gradient(135deg, ${project.color}16 0%, #080B1A 100%)`,
-          overflow: "hidden",
-          flexShrink: 0,
+          overflow: "hidden", flexShrink: 0,
+          background: isMurgan
+            ? "linear-gradient(135deg, #1a1408 0%, #2a1f08 50%, #1a1408 100%)"
+            : `linear-gradient(135deg, ${project.color}16 0%, #080B1A 100%)`,
         }}>
-          {/* grid lines */}
-          <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}>
-            {Array.from({ length: 7 }).map((_, i) => (
-              <line key={`h${i}`} x1="0" y1={`${(i+1)*12.5}%`} x2="100%" y2={`${(i+1)*12.5}%`}
-                stroke={project.color} strokeWidth="0.5" strokeOpacity="0.1" />
-            ))}
-            {Array.from({ length: 7 }).map((_, i) => (
-              <line key={`v${i}`} x1={`${(i+1)*12.5}%`} y1="0" x2={`${(i+1)*12.5}%`} y2="100%"
-                stroke={project.color} strokeWidth="0.5" strokeOpacity="0.1" />
-            ))}
-          </svg>
 
-          {/* radial glow */}
-          <div style={{
-            position: "absolute", inset: 0,
-            background: `radial-gradient(ellipse at center, ${project.color}20 0%, transparent 65%)`,
-            opacity: hovered ? 1 : 0.4,
-            transition: "opacity 0.4s",
-          }} />
-
-          {/* big ID watermark */}
-          <span style={{
-            position: "absolute", bottom: "-16px", right: "14px",
-            fontFamily: "'Space Mono', monospace",
-            fontSize: "110px", fontWeight: 700,
-            color: project.color, opacity: 0.05,
-            lineHeight: 1, pointerEvents: "none", userSelect: "none",
-          }}>{project.id}</span>
+          {/* Murgan: real screenshot image */}
+          {isMurgan && project.image ? (
+            <>
+              <img
+                src={project.image}
+                alt="Murgan Collections"
+                style={{
+                  position: "absolute", inset: 0,
+                  width: "100%", height: "100%",
+                  objectFit: "cover", objectPosition: "top center",
+                  opacity: hovered ? 0.75 : 0.6,
+                  transition: "opacity 0.4s ease, transform 0.6s ease",
+                  transform: hovered ? "scale(1.04)" : "scale(1)",
+                }}
+              />
+              {/* golden overlay tint */}
+              <div style={{
+                position: "absolute", inset: 0,
+                background: hovered
+                  ? "linear-gradient(to bottom, rgba(201,168,76,0.08) 0%, rgba(0,0,0,0.5) 100%)"
+                  : "linear-gradient(to bottom, rgba(201,168,76,0.12) 0%, rgba(0,0,0,0.65) 100%)",
+                transition: "background 0.4s",
+              }} />
+            </>
+          ) : (
+            <>
+              {/* grid lines for non-image cards */}
+              <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}>
+                {Array.from({ length: 7 }).map((_, i) => (
+                  <line key={`h${i}`} x1="0" y1={`${(i+1)*12.5}%`} x2="100%" y2={`${(i+1)*12.5}%`}
+                    stroke={project.color} strokeWidth="0.5" strokeOpacity="0.1" />
+                ))}
+                {Array.from({ length: 7 }).map((_, i) => (
+                  <line key={`v${i}`} x1={`${(i+1)*12.5}%`} y1="0" x2={`${(i+1)*12.5}%`} y2="100%"
+                    stroke={project.color} strokeWidth="0.5" strokeOpacity="0.1" />
+                ))}
+              </svg>
+              <div style={{
+                position: "absolute", inset: 0,
+                background: `radial-gradient(ellipse at center, ${project.color}20 0%, transparent 65%)`,
+                opacity: hovered ? 1 : 0.4, transition: "opacity 0.4s",
+              }} />
+              <span style={{
+                position: "absolute", bottom: "-16px", right: "14px",
+                fontFamily: "'Space Mono', monospace",
+                fontSize: "110px", fontWeight: 700,
+                color: project.color, opacity: 0.05,
+                lineHeight: 1, pointerEvents: "none", userSelect: "none",
+              }}>{project.id}</span>
+            </>
+          )}
 
           {/* year tag */}
           <span style={{
             position: "absolute", top: "14px", left: "16px",
             fontFamily: "'Space Mono', monospace",
             fontSize: "9px", letterSpacing: "0.2em",
-            color: "rgba(180,200,240,0.4)",
-            background: "rgba(3,4,15,0.55)",
+            color: isMurgan ? "rgba(201,168,76,0.9)" : "rgba(180,200,240,0.4)",
+            background: "rgba(3,4,15,0.65)",
             padding: "3px 8px", borderRadius: "4px",
-            border: "1px solid rgba(255,255,255,0.06)",
+            border: `1px solid ${isMurgan ? "rgba(201,168,76,0.3)" : "rgba(255,255,255,0.06)"}`,
+            zIndex: 2,
           }}>{project.year}</span>
+
+          {/* LIVE badge for Murgan */}
+          {isMurgan && (
+            <span style={{
+              position: "absolute", top: "14px", right: "16px",
+              fontFamily: "'Space Mono', monospace",
+              fontSize: "9px", letterSpacing: "0.18em",
+              color: "#C9A84C",
+              background: "rgba(201,168,76,0.12)",
+              padding: "3px 10px", borderRadius: "4px",
+              border: "1px solid rgba(201,168,76,0.35)",
+              display: "flex", alignItems: "center", gap: "5px",
+              zIndex: 2,
+            }}>
+              <span style={{
+                width: "5px", height: "5px", borderRadius: "50%",
+                background: "#C9A84C", display: "inline-block",
+                animation: "owPulse 2s ease-in-out infinite",
+              }} />
+              LIVE
+            </span>
+          )}
 
           {/* hover arrow */}
           <div style={{
             position: "absolute", top: "50%", left: "50%",
-            width: "52px", height: "52px",
-            borderRadius: "50%",
+            width: "52px", height: "52px", borderRadius: "50%",
             border: `1.5px solid ${project.color}`,
             display: "flex", alignItems: "center", justifyContent: "center",
             fontSize: "22px", color: project.color,
-            background: "rgba(3,4,15,0.5)",
-            backdropFilter: "blur(8px)",
+            background: "rgba(3,4,15,0.6)", backdropFilter: "blur(8px)",
             opacity: hovered ? 1 : 0,
             transform: hovered ? "translate(-50%,-50%) scale(1)" : "translate(-50%,-50%) scale(0.6)",
             transition: "all 0.35s cubic-bezier(0.23,1,0.32,1)",
+            zIndex: 3,
           }}>↗</div>
 
-          {/* scan line on hover */}
+          {/* scan line */}
           <div style={{
-            position: "absolute", left: 0, right: 0,
-            height: "1px",
+            position: "absolute", left: 0, right: 0, height: "1px",
             background: `linear-gradient(90deg, transparent, ${project.color}88, transparent)`,
             top: hovered ? "100%" : "-2px",
             transition: hovered ? "top 0.6s ease" : "none",
+            zIndex: 2,
           }} />
         </div>
 
-        {/* info */}
-        <div style={{ padding: "20px 20px 22px", flex: 1, display: "flex", flexDirection: "column", gap: "5px" }}>
+        {/* ── INFO ── */}
+        <div style={{
+          padding: "20px 20px 22px", flex: 1,
+          display: "flex", flexDirection: "column", gap: "5px",
+          borderTop: isMurgan ? "1px solid rgba(201,168,76,0.1)" : "none",
+        }}>
           <p style={{
             fontFamily: "'Space Mono', monospace",
             fontSize: "9.5px", letterSpacing: "0.2em",
@@ -264,17 +342,32 @@ function ProjectCard({ project, index }) {
             lineHeight: 1.65, fontWeight: 400, flex: 1, marginTop: "2px",
           }}>{project.desc}</p>
 
-          <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginTop: "12px" }}>
-            {project.tags.map(tag => (
-              <span key={tag} style={{
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: "12px", flexWrap: "wrap", gap: "8px" }}>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
+              {project.tags.map(tag => (
+                <span key={tag} style={{
+                  fontFamily: "'Space Mono', monospace",
+                  fontSize: "9px", letterSpacing: "0.1em",
+                  padding: "3px 9px", borderRadius: "4px",
+                  border: `1px solid ${hovered ? project.color + "55" : "rgba(255,255,255,0.08)"}`,
+                  color: hovered ? project.color : "rgba(180,200,240,0.45)",
+                  transition: "all 0.3s",
+                }}>{tag}</span>
+              ))}
+            </div>
+
+            {/* visit link for Murgan */}
+            {isMurgan && project.link && (
+              <span style={{
                 fontFamily: "'Space Mono', monospace",
-                fontSize: "9px", letterSpacing: "0.1em",
-                padding: "3px 9px", borderRadius: "4px",
-                border: `1px solid ${hovered ? project.color + "55" : "rgba(255,255,255,0.08)"}`,
-                color: hovered ? project.color : "rgba(180,200,240,0.45)",
-                transition: "all 0.3s",
-              }}>{tag}</span>
-            ))}
+                fontSize: "9.5px", letterSpacing: "0.1em",
+                color: hovered ? "#C9A84C" : "rgba(201,168,76,0.5)",
+                transition: "color 0.3s",
+                whiteSpace: "nowrap",
+              }}>
+                murgan-ui.vercel.app ↗
+              </span>
+            )}
           </div>
         </div>
       </div>
@@ -283,12 +376,26 @@ function ProjectCard({ project, index }) {
       <div style={{
         position: "absolute", bottom: 0, left: 0, right: 0, height: "2px",
         background: `linear-gradient(90deg, transparent, ${project.color}, ${project.accent}, transparent)`,
-        opacity: hovered ? 1 : 0,
-        transition: "opacity 0.4s",
-        zIndex: 3,
+        opacity: hovered ? 1 : 0, transition: "opacity 0.4s", zIndex: 3,
       }} />
     </div>
   );
+
+  // Wrap with anchor tag if project has a link
+  if (project.link) {
+    return (
+      <a
+        href={project.link}
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{ textDecoration: "none", display: "block", height: "100%" }}
+      >
+        {cardContent}
+      </a>
+    );
+  }
+
+  return cardContent;
 }
 
 /* ─── MARQUEE ─────────────────────────────────────────────────────────────── */
@@ -300,21 +407,15 @@ function Marquee() {
       overflow: "hidden",
       borderTop: "1px solid rgba(123,110,246,0.1)",
       borderBottom: "1px solid rgba(123,110,246,0.1)",
-      padding: "16px 0",
-      marginBottom: "80px",
+      padding: "16px 0", marginBottom: "80px",
     }}>
-      <div style={{
-        display: "flex",
-        animation: "owMarquee 26s linear infinite",
-        width: "max-content",
-      }}>
+      <div style={{ display: "flex", animation: "owMarquee 26s linear infinite", width: "max-content" }}>
         {doubled.map((item, i) => (
           <span key={i} style={{
             display: "flex", alignItems: "center", gap: "14px",
             fontFamily: "'Space Mono', monospace",
             fontSize: "10px", letterSpacing: "0.28em",
-            textTransform: "uppercase",
-            color: "rgba(180,200,240,0.35)",
+            textTransform: "uppercase", color: "rgba(180,200,240,0.35)",
             padding: "0 28px", whiteSpace: "nowrap",
           }}>
             <span style={{ color: "#7B6EF6", fontSize: "9px" }}>✦</span>
@@ -332,8 +433,7 @@ function Stat({ stat, index }) {
   return (
     <div ref={ref} style={{
       display: "flex", flexDirection: "column",
-      alignItems: "center", gap: "8px",
-      padding: "36px 24px",
+      alignItems: "center", gap: "8px", padding: "36px 24px",
       position: "relative",
       opacity: inView ? 1 : 0,
       transform: inView ? "translateY(0)" : "translateY(28px)",
@@ -371,38 +471,23 @@ export default function OurWork() {
     <>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800;900&family=Space+Mono:wght@400;700&display=swap');
-
         .ow-wrap *, .ow-wrap *::before, .ow-wrap *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-        @keyframes owMarquee {
-          from { transform: translateX(0); }
-          to   { transform: translateX(-50%); }
-        }
+        @keyframes owMarquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+        @keyframes owFadeUp  { from { opacity: 0; transform: translateY(32px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes owPulse   { 0%,100%{opacity:1} 50%{opacity:.3} }
 
-        @keyframes owFadeUp {
-          from { opacity: 0; transform: translateY(32px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
-
-        /* grid responsive */
         .ow-grid {
           display: grid;
           grid-template-columns: repeat(12, 1fr);
           gap: 20px;
           max-width: 1400px;
           margin: 0 auto 80px;
-          position: relative;
-          z-index: 1;
+          position: relative; z-index: 1;
         }
+        @media (max-width: 1024px) { .ow-grid { grid-template-columns: repeat(6, 1fr); } }
+        @media (max-width: 768px)  { .ow-grid { grid-template-columns: 1fr; gap: 14px; } }
 
-        @media (max-width: 1024px) {
-          .ow-grid { grid-template-columns: repeat(6, 1fr); }
-        }
-        @media (max-width: 768px) {
-          .ow-grid { grid-template-columns: 1fr; gap: 14px; }
-        }
-
-        /* card responsive spans */
         @media (max-width: 1024px) {
           .ow-card-large { grid-column: span 6 !important; }
           .ow-card-small { grid-column: span 3 !important; }
@@ -411,109 +496,72 @@ export default function OurWork() {
           .ow-card-large, .ow-card-small { grid-column: span 1 !important; }
         }
 
-        /* stats responsive */
         .ow-stats-grid {
-          display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          gap: 0;
-          max-width: 1400px;
-          margin: 0 auto 80px;
+          display: grid; grid-template-columns: repeat(4, 1fr);
+          gap: 0; max-width: 1400px; margin: 0 auto 80px;
           background: rgba(8,11,26,0.7);
           border: 1px solid rgba(123,110,246,0.12);
-          border-radius: 16px;
-          overflow: hidden;
-          backdrop-filter: blur(16px);
-          position: relative;
-          z-index: 1;
+          border-radius: 16px; overflow: hidden;
+          backdrop-filter: blur(16px); position: relative; z-index: 1;
         }
-
-        .ow-stat-divider {
-          border-left: 1px solid rgba(123,110,246,0.1);
-        }
-
+        .ow-stat-divider { border-left: 1px solid rgba(123,110,246,0.1); }
         @media (max-width: 768px) {
           .ow-stats-grid { grid-template-columns: repeat(2, 1fr); }
           .ow-stat-divider:nth-child(3) { border-left: none; }
         }
-        @media (max-width: 480px) {
-          .ow-stats-grid { grid-template-columns: 1fr 1fr; }
-        }
 
         .ow-filter-btn {
-          padding: 8px 20px;
-          border-radius: 100px;
-          font-size: 11px;
-          font-weight: 700;
-          font-family: 'Space Mono', monospace;
-          letter-spacing: 0.1em;
-          cursor: pointer;
-          border: 1px solid rgba(123,110,246,0.22);
-          background: transparent;
-          color: rgba(180,200,240,0.55);
+          padding: 8px 20px; border-radius: 100px;
+          font-size: 11px; font-weight: 700;
+          font-family: 'Space Mono', monospace; letter-spacing: 0.1em;
+          cursor: pointer; border: 1px solid rgba(123,110,246,0.22);
+          background: transparent; color: rgba(180,200,240,0.55);
           transition: all 0.22s ease;
         }
-        .ow-filter-btn:hover {
-          border-color: rgba(123,110,246,0.5);
-          color: #fff;
-          background: rgba(123,110,246,0.08);
-        }
+        .ow-filter-btn:hover { border-color: rgba(123,110,246,0.5); color: #fff; background: rgba(123,110,246,0.08); }
         .ow-filter-btn--on {
           background: linear-gradient(135deg, #7B6EF6, #4FC3F7);
-          border-color: transparent;
-          color: #fff;
+          border-color: transparent; color: #fff;
           box-shadow: 0 0 22px rgba(123,110,246,0.38);
         }
 
         .ow-cta-primary {
           display: inline-flex; align-items: center; gap: 10px;
-          padding: 13px 30px;
-          border-radius: 10px;
-          font-family: 'Syne', sans-serif;
-          font-size: 14px; font-weight: 700;
+          padding: 13px 30px; border-radius: 10px;
+          font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700;
           background: linear-gradient(135deg, #7B6EF6, #4FC3F7);
-          color: #fff; border: none; cursor: pointer;
-          text-decoration: none;
+          color: #fff; border: none; cursor: pointer; text-decoration: none;
           box-shadow: 0 0 30px rgba(123,110,246,0.38);
           transition: transform 0.2s, box-shadow 0.2s;
         }
-        .ow-cta-primary:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 0 44px rgba(123,110,246,0.55), 0 12px 28px rgba(0,0,0,0.4);
-        }
+        .ow-cta-primary:hover { transform: translateY(-2px); box-shadow: 0 0 44px rgba(123,110,246,0.55), 0 12px 28px rgba(0,0,0,0.4); }
 
         .ow-cta-secondary {
           display: inline-flex; align-items: center; gap: 10px;
-          padding: 13px 28px;
-          border-radius: 10px;
-          font-family: 'Syne', sans-serif;
-          font-size: 14px; font-weight: 600;
-          background: transparent;
-          color: rgba(200,210,255,0.75);
-          border: 1px solid rgba(123,110,246,0.28);
-          cursor: pointer; text-decoration: none;
+          padding: 13px 28px; border-radius: 10px;
+          font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 600;
+          background: transparent; color: rgba(200,210,255,0.75);
+          border: 1px solid rgba(123,110,246,0.28); cursor: pointer; text-decoration: none;
           transition: all 0.22s ease;
         }
-        .ow-cta-secondary:hover {
-          border-color: rgba(123,110,246,0.55);
-          color: #fff;
-          background: rgba(123,110,246,0.07);
-          transform: translateY(-2px);
-        }
+        .ow-cta-secondary:hover { border-color: rgba(123,110,246,0.55); color: #fff; background: rgba(123,110,246,0.07); transform: translateY(-2px); }
+
+        /* responsive padding */
+        @media (max-width: 768px) { .ow-section { padding: 80px 20px 100px !important; } }
+        @media (max-width: 480px) { .ow-section { padding: 60px 16px 80px !important; } }
       `}</style>
 
       <section
         ref={sectionRef}
-        className="ow-wrap"
+        className="ow-wrap ow-section"
         style={{
           background: "#03040F",
           fontFamily: "'Syne', sans-serif",
-          position: "relative",
-          overflow: "hidden",
-          padding: "100px 60px 120px",
-          width: "100%",
+          position: "relative", overflow: "hidden",
+          padding: "100px 60px 120px", width: "100%",
         }}
       >
-        {/* bg grid with parallax */}
+        {/* bg grid */}
         <div style={{
           position: "absolute", inset: 0,
           backgroundImage: "linear-gradient(rgba(123,110,246,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(123,110,246,0.04) 1px, transparent 1px)",
@@ -525,29 +573,19 @@ export default function OurWork() {
         }} />
 
         {/* ambient glows */}
-        <div style={{
-          position: "absolute", width: "700px", height: "700px", borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(123,110,246,0.07) 0%, transparent 70%)",
-          top: "-100px", left: "-200px", pointerEvents: "none",
-        }} />
-        <div style={{
-          position: "absolute", width: "500px", height: "500px", borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(79,195,247,0.05) 0%, transparent 70%)",
-          bottom: "80px", right: "-80px", pointerEvents: "none",
-        }} />
+        <div style={{ position: "absolute", width: "700px", height: "700px", borderRadius: "50%", background: "radial-gradient(circle, rgba(123,110,246,0.07) 0%, transparent 70%)", top: "-100px", left: "-200px", pointerEvents: "none" }} />
+        <div style={{ position: "absolute", width: "500px", height: "500px", borderRadius: "50%", background: "radial-gradient(circle, rgba(79,195,247,0.05) 0%, transparent 70%)", bottom: "80px", right: "-80px", pointerEvents: "none" }} />
+        {/* golden glow for Murgan */}
+        <div style={{ position: "absolute", width: "400px", height: "400px", borderRadius: "50%", background: "radial-gradient(circle, rgba(201,168,76,0.04) 0%, transparent 70%)", top: "60px", right: "10%", pointerEvents: "none" }} />
 
-        {/* ── HEADER ─────────────────────────────────────────────── */}
-        <div
-          ref={headerRef}
-          style={{
-            position: "relative", zIndex: 1,
-            maxWidth: "1400px", margin: "0 auto 56px",
-            opacity: headerInView ? 1 : 0,
-            transform: headerInView ? "translateY(0)" : "translateY(40px)",
-            transition: "opacity 0.8s ease, transform 0.8s cubic-bezier(0.23,1,0.32,1)",
-          }}
-        >
-          {/* label */}
+        {/* ── HEADER ── */}
+        <div ref={headerRef} style={{
+          position: "relative", zIndex: 1,
+          maxWidth: "1400px", margin: "0 auto 56px",
+          opacity: headerInView ? 1 : 0,
+          transform: headerInView ? "translateY(0)" : "translateY(40px)",
+          transition: "opacity 0.8s ease, transform 0.8s cubic-bezier(0.23,1,0.32,1)",
+        }}>
           <p style={{
             fontFamily: "'Space Mono', monospace",
             fontSize: "10.5px", letterSpacing: "0.42em",
@@ -560,7 +598,6 @@ export default function OurWork() {
             <span style={{ flex: "0 0 28px", height: "1px", background: "rgba(79,195,247,0.4)" }} />
           </p>
 
-          {/* title row */}
           <div style={{
             display: "flex", alignItems: "flex-end",
             justifyContent: "space-between", gap: "24px",
@@ -571,48 +608,30 @@ export default function OurWork() {
                 fontSize: "clamp(52px, 7.5vw, 100px)",
                 fontWeight: 900, textTransform: "uppercase",
                 letterSpacing: "-0.02em", lineHeight: 0.88,
-                fontFamily: "'Syne', sans-serif", color: "#fff",
-                margin: 0,
+                fontFamily: "'Syne', sans-serif", color: "#fff", margin: 0,
               }}>
                 Our{" "}
                 <em style={{
                   fontStyle: "italic",
                   background: "linear-gradient(90deg, #7B6EF6, #4FC3F7 55%, #60efff)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  backgroundClip: "text",
+                  WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text",
                 }}>Work</em>
               </h2>
-              <div style={{
-                marginTop: "14px", height: "2px", width: "90px",
-                background: "linear-gradient(90deg, #7B6EF6, #4FC3F7, transparent)",
-                borderRadius: "2px",
-              }} />
+              <div style={{ marginTop: "14px", height: "2px", width: "90px", background: "linear-gradient(90deg, #7B6EF6, #4FC3F7, transparent)", borderRadius: "2px" }} />
             </div>
-            <p style={{
-              maxWidth: "320px", fontSize: "13.5px",
-              color: "rgba(180,195,230,0.5)", lineHeight: 1.72,
-              fontWeight: 400, paddingBottom: "8px", flexShrink: 0,
-            }}>
+            <p style={{ maxWidth: "320px", fontSize: "13.5px", color: "rgba(180,195,230,0.5)", lineHeight: 1.72, fontWeight: 400, paddingBottom: "8px", flexShrink: 0 }}>
               A curated selection of projects where strategy, design, and engineering collide to create real-world impact.
             </p>
           </div>
 
-          {/* filters */}
           <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
             {filters.map(f => (
-              <button
-                key={f}
-                className={`ow-filter-btn ${activeFilter === f ? "ow-filter-btn--on" : ""}`}
-                onClick={() => setActiveFilter(f)}
-              >
-                {f}
-              </button>
+              <button key={f} className={`ow-filter-btn ${activeFilter === f ? "ow-filter-btn--on" : ""}`} onClick={() => setActiveFilter(f)}>{f}</button>
             ))}
           </div>
         </div>
 
-        {/* ── GRID ───────────────────────────────────────────────── */}
+        {/* ── GRID ── */}
         <div className="ow-grid">
           {filtered.map((project, i) => (
             <div
@@ -625,10 +644,9 @@ export default function OurWork() {
           ))}
         </div>
 
-        {/* ── MARQUEE ────────────────────────────────────────────── */}
         <Marquee />
 
-        {/* ── STATS ──────────────────────────────────────────────── */}
+        {/* ── STATS ── */}
         <div className="ow-stats-grid">
           {stats.map((s, i) => (
             <div key={s.label} className={i > 0 ? "ow-stat-divider" : ""}>
@@ -637,15 +655,11 @@ export default function OurWork() {
           ))}
         </div>
 
-        {/* ── CTA ────────────────────────────────────────────────── */}
-        <div style={{
-          display: "flex", alignItems: "center", justifyContent: "center",
-          gap: "16px", flexWrap: "wrap", position: "relative", zIndex: 1,
-        }}>
+        {/* ── CTA ── */}
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "16px", flexWrap: "wrap", position: "relative", zIndex: 1 }}>
           <a href="/work" className="ow-cta-primary">✦ View All Projects</a>
           <a href="/contact" className="ow-cta-secondary">Start a Project →</a>
         </div>
-
       </section>
     </>
   );
