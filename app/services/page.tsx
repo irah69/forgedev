@@ -117,11 +117,7 @@ const SERVICES = [
 
 /* ─────────────────────────────────────────────
    SHAPE POINT GENERATORS
-   Precise outlines matching reference images.
-   All shapes are flat (z≈0), no orbits/rings.
 ───────────────────────────────────────────── */
-
-/** Evenly distribute `n` points along a polyline */
 function samplePolyline(pts: [number, number][], n: number): [number, number, number][] {
   if (pts.length < 2 || n < 2) return [];
   const segs: { p0: [number,number]; p1: [number,number]; len: number }[] = [];
@@ -150,7 +146,6 @@ function samplePolyline(pts: [number, number][], n: number): [number, number, nu
   return result;
 }
 
-/** Evenly distribute `n` points on a circle arc */
 function sampleArc(cx: number, cy: number, r: number, a0: number, a1: number, n: number): [number,number,number][] {
   const pts: [number,number,number][] = [];
   for (let i = 0; i < n; i++) {
@@ -160,7 +155,6 @@ function sampleArc(cx: number, cy: number, r: number, a0: number, a1: number, n:
   return pts;
 }
 
-/** Evenly distribute `n` points on an ellipse arc */
 function sampleEllipseArc(cx: number, cy: number, rx: number, ry: number, a0: number, a1: number, n: number): [number,number,number][] {
   const pts: [number,number,number][] = [];
   for (let i = 0; i < n; i++) {
@@ -170,203 +164,103 @@ function sampleEllipseArc(cx: number, cy: number, rx: number, ry: number, a0: nu
   return pts;
 }
 
-/* ── 01 E-COMMERCE: Shopping CART (matches reference image exactly)
-   - Trapezoid cart body (wider at top, narrows at bottom)
-   - 3 horizontal shelf lines inside body
-   - 2 vertical divider lines inside body
-   - Handle bar: diagonal going top-left with grip end
-   - Bottom axle bar
-   - Two wheels (circles) at bottom
-───────────────────────────────────────────── */
 function genShoppingBag(count: number): [number,number,number][] {
   const pts: [number,number,number][] = [];
   const PI2 = Math.PI * 2;
-
-  // ── Cart body outline (trapezoid, wider top, narrower bottom) ──
-  // Top-left, top-right, bottom-right, bottom-left (perspective tilt like reference)
-  const body: [number,number][] = [
-    [-0.62,  0.52],  // top-left
-    [ 0.68,  0.52],  // top-right
-    [ 0.52, -0.24],  // bottom-right (narrows)
-    [-0.44, -0.24],  // bottom-left
-    [-0.62,  0.52],  // close
-  ];
+  const body: [number,number][] = [[-0.62,0.52],[0.68,0.52],[0.52,-0.24],[-0.44,-0.24],[-0.62,0.52]];
   pts.push(...samplePolyline(body, Math.floor(count * 0.22)));
-
-  // ── 3 horizontal shelf lines inside body ──
-  // Evenly spaced between top and bottom of body, same taper as body walls
   const shelves = [0.22, -0.02, -0.22] as const;
-  const shelfRatios = [0.065, 0.065, 0.065] as const;
-  shelves.forEach((sy, idx) => {
-    // Interpolate left/right x at this y based on body trapezoid
-    const t = (sy - (-0.24)) / (0.52 - (-0.24)); // 0=bottom, 1=top
+  shelves.forEach((sy) => {
+    const t = (sy - (-0.24)) / (0.52 - (-0.24));
     const lx = -0.44 + t * (-0.62 - (-0.44));
     const rx =  0.52 + t * (0.68 -  0.52);
-    pts.push(...samplePolyline([[lx + 0.02, sy], [rx - 0.02, sy]], Math.floor(count * shelfRatios[idx])));
+    pts.push(...samplePolyline([[lx + 0.02, sy], [rx - 0.02, sy]], Math.floor(count * 0.065)));
   });
-
-  // ── 2 vertical divider lines inside body ──
   const divX = [-0.08, 0.24] as const;
-  divX.forEach(dx => {
-    // Vertical line from top of body down to bottom edge
-    pts.push(...samplePolyline([[dx, 0.50], [dx + 0.04, -0.22]], Math.floor(count * 0.05)));
-  });
-
-  // ── Handle: diagonal bar going upper-left, with small grip rectangle ──
-  // Main diagonal shaft
+  divX.forEach(dx => { pts.push(...samplePolyline([[dx, 0.50], [dx + 0.04, -0.22]], Math.floor(count * 0.05))); });
   pts.push(...samplePolyline([[-0.62, 0.52], [-0.86, 0.74]], Math.floor(count * 0.06)));
-  // Grip bar (short horizontal bar at top of handle)
   pts.push(...samplePolyline([[-1.02, 0.66], [-0.78, 0.82]], Math.floor(count * 0.05)));
-  // Connect grip to shaft
   pts.push(...samplePolyline([[-0.86, 0.74], [-0.92, 0.70]], Math.floor(count * 0.02)));
-
-  // ── Bottom axle bar (horizontal bar below cart body) ──
   pts.push(...samplePolyline([[-0.50, -0.38], [ 0.58, -0.38]], Math.floor(count * 0.09)));
-  // Short vertical connectors from body bottom to axle
   pts.push(...samplePolyline([[-0.44, -0.24], [-0.46, -0.38]], Math.floor(count * 0.02)));
   pts.push(...samplePolyline([[ 0.52, -0.24], [ 0.54, -0.38]], Math.floor(count * 0.02)));
-
-  // ── Two wheels (circles) ──
   const wheelR = 0.11;
-  // Left wheel
-  pts.push(...sampleArc(-0.30, -0.56, wheelR,       0, PI2, Math.floor(count * 0.07)));
+  pts.push(...sampleArc(-0.30, -0.56, wheelR, 0, PI2, Math.floor(count * 0.07)));
   pts.push(...sampleArc(-0.30, -0.56, wheelR * 0.5, 0, PI2, Math.floor(count * 0.03)));
-  // Right wheel
-  pts.push(...sampleArc( 0.38, -0.56, wheelR,       0, PI2, Math.floor(count * 0.07)));
+  pts.push(...sampleArc( 0.38, -0.56, wheelR, 0, PI2, Math.floor(count * 0.07)));
   pts.push(...sampleArc( 0.38, -0.56, wheelR * 0.5, 0, PI2, Math.floor(count * 0.03)));
-
   return pts.slice(0, count);
 }
 
-/* ── 02 WEB DEV: </> code symbol
-   Exact shape from reference: chunky rounded < / > strokes,
-   each made of two diagonal lines meeting at a point.
-───────────────────────────────────────────── */
 function genCodeBrackets(count: number): [number,number,number][] {
   const pts: [number,number,number][] = [];
-
-  // Stroke thickness simulation: offset lines to give fat stroke look
   const thickness = 0.072;
-
-  // LEFT bracket  <  — two lines meeting at left vertex
-  // Top arm: top-right → left-center
-  // Bottom arm: left-center → bottom-right
   const lTop:    [number,number][] = [[-0.10, -0.64], [-0.72,  0.00]];
   const lBottom: [number,number][] = [[-0.72,  0.00], [-0.10,  0.64]];
   for (let t = -thickness; t <= thickness; t += thickness/2) {
     pts.push(...samplePolyline(lTop.map(([x,y]) => [x, y+t] as [number,number]), Math.floor(count * 0.055)));
     pts.push(...samplePolyline(lBottom.map(([x,y]) => [x, y+t] as [number,number]), Math.floor(count * 0.055)));
   }
-
-  // RIGHT bracket  >  — mirror of left
   const rTop:    [number,number][] = [[ 0.10, -0.64], [ 0.72,  0.00]];
   const rBottom: [number,number][] = [[ 0.72,  0.00], [ 0.10,  0.64]];
   for (let t = -thickness; t <= thickness; t += thickness/2) {
     pts.push(...samplePolyline(rTop.map(([x,y]) => [x, y+t] as [number,number]), Math.floor(count * 0.055)));
     pts.push(...samplePolyline(rBottom.map(([x,y]) => [x, y+t] as [number,number]), Math.floor(count * 0.055)));
   }
-
-  // SLASH  /  — diagonal line center, also fattened
   const slashLine: [number,number][] = [[ 0.22, -0.70], [-0.22,  0.70]];
   for (let t = -thickness; t <= thickness; t += thickness/2) {
     pts.push(...samplePolyline(slashLine.map(([x,y]) => [x+t, y] as [number,number]), Math.floor(count * 0.075)));
   }
-
   return pts.slice(0, count);
 }
 
-/* ── 03 SEO: Magnifying glass with upward trend arrow inside
-   - Lens centered at (-0.15, 0.12) — upper-left area
-   - Thick ring (3 concentric arcs for weight)
-   - Handle: diagonal going toward bottom-right
-   - Inside lens: trend arrow rising left→right (upward in screen = positive Y in Three.js)
-   - Arrowhead pointing upper-right
-───────────────────────────────────────────── */
 function genMagnifier(count: number): [number,number,number][] {
   const pts: [number,number,number][] = [];
   const PI2 = Math.PI * 2;
-
-  // Lens center & radius
   const lx = -0.14, ly = 0.14, lr = 0.54;
-
-  // Thick ring — 3 circles close together to look like a chunky stroke
   pts.push(...sampleArc(lx, ly, lr,        0, PI2, Math.floor(count * 0.22)));
   pts.push(...sampleArc(lx, ly, lr - 0.06, 0, PI2, Math.floor(count * 0.18)));
   pts.push(...sampleArc(lx, ly, lr - 0.03, 0, PI2, Math.floor(count * 0.10)));
-
-  // Handle: exits the lens at ~315° (bottom-right), goes diagonally down-right
-  // In Three.js: bottom-right = positive X, negative Y
-  const handleAngle = -Math.PI * 0.28; // ~315 degrees = bottom-right
+  const handleAngle = -Math.PI * 0.28;
   const hStartX = lx + Math.cos(handleAngle) * lr;
   const hStartY = ly + Math.sin(handleAngle) * lr;
   const hEndX   = hStartX + 0.48;
   const hEndY   = hStartY - 0.48;
-  // Fat handle — 5 offset lines
   for (let t = -0.04; t <= 0.04; t += 0.02) {
-    pts.push(...samplePolyline(
-      [[hStartX + t, hStartY + t], [hEndX + t, hEndY + t]],
-      Math.floor(count * 0.038)
-    ));
+    pts.push(...samplePolyline([[hStartX + t, hStartY + t], [hEndX + t, hEndY + t]], Math.floor(count * 0.038)));
   }
-
-  // Trend arrow INSIDE lens — going from bottom-left to upper-right
-  // In Three.js Y-axis: positive = UP on screen
-  // Arrow starts bottom-left of lens interior, ends upper-right
-  const ax0 = lx - 0.30, ay0 = ly - 0.22; // start: lower-left inside lens
-  const ax1 = lx - 0.08, ay1 = ly + 0.02; // mid-low
-  const ax2 = lx + 0.10, ay2 = ly - 0.06; // mid bump
-  const ax3 = lx + 0.28, ay3 = ly + 0.22; // end: upper-right inside lens
-
+  const ax0 = lx - 0.30, ay0 = ly - 0.22;
+  const ax1 = lx - 0.08, ay1 = ly + 0.02;
+  const ax2 = lx + 0.10, ay2 = ly - 0.06;
+  const ax3 = lx + 0.28, ay3 = ly + 0.22;
   const arrowLine: [number,number][] = [[ax0,ay0],[ax1,ay1],[ax2,ay2],[ax3,ay3]];
   pts.push(...samplePolyline(arrowLine, Math.floor(count * 0.12)));
-
-  // Arrowhead at upper-right tip — two lines pointing toward upper-right
-  // Head points: one going down from tip, one going left from tip
-  pts.push(...samplePolyline([[ax3, ay3], [ax3 - 0.14, ay3]], Math.floor(count * 0.04))); // left
-  pts.push(...samplePolyline([[ax3, ay3], [ax3, ay3 - 0.14]], Math.floor(count * 0.04))); // down
-
+  pts.push(...samplePolyline([[ax3, ay3], [ax3 - 0.14, ay3]], Math.floor(count * 0.04)));
+  pts.push(...samplePolyline([[ax3, ay3], [ax3, ay3 - 0.14]], Math.floor(count * 0.04)));
   return pts.slice(0, count);
 }
 
-/* ── 04 WEB MAINTENANCE: Globe (left) + Gear with tools (right)
-   Reference image exactly: grid globe on left half,
-   gear with wrench+hammer crossed inside on right half.
-───────────────────────────────────────────── */
 function genGlobeAndGear(count: number): [number,number,number][] {
   const pts: [number,number,number][] = [];
   const PI2 = Math.PI * 2;
-
-  /* ── GLOBE (left, centered at -0.42, 0) ── */
   const gx = -0.38, gy = 0.04, gr = 0.52;
-
-  // Outer circle of globe
   pts.push(...sampleArc(gx, gy, gr, 0, PI2, Math.floor(count * 0.10)));
-
-  // Horizontal latitude lines (3 of them)
   const latitudes = [-0.22, 0.04, 0.30];
   for (const lat of latitudes) {
     const absLat = Math.abs(lat - gy);
     const latR = Math.sqrt(Math.max(0, gr*gr - absLat*absLat));
     if (latR > 0.05) pts.push(...sampleArc(gx, lat, latR, 0, PI2, Math.floor(count * 0.035)));
   }
-
-  // Vertical longitude lines (3 of them — as ellipses projected)
   const longOffsets = [-0.28, 0.0, 0.28];
   for (const loff of longOffsets) {
     const ellRx = Math.sqrt(Math.max(0, gr*gr - loff*loff)) * 0.55;
     if (ellRx > 0.04) pts.push(...sampleEllipseArc(gx + loff*0.52, gy, ellRx, gr, 0, PI2, Math.floor(count * 0.038)));
   }
-
-  // Equator (bold middle horizontal line)
   pts.push(...sampleArc(gx, gy, gr, -Math.PI*0.55, Math.PI*0.55, Math.floor(count * 0.03)));
-
-  /* ── GEAR (right, centered at 0.38, -0.10) ── */
   const cx = 0.38, cy = -0.10;
   const gearR = 0.44;
   const innerR = 0.30;
   const teeth = 10;
-
-  // Gear teeth — alternating outer/inner radius points
   const gearOutline: [number,number][] = [];
   const steps = teeth * 8;
   for (let i = 0; i <= steps; i++) {
@@ -376,12 +270,8 @@ function genGlobeAndGear(count: number): [number,number,number][] {
     gearOutline.push([cx + Math.cos(a)*r, cy + Math.sin(a)*r]);
   }
   pts.push(...samplePolyline(gearOutline, Math.floor(count * 0.16)));
-
-  // Inner hub circle
   pts.push(...sampleArc(cx, cy, innerR, 0, PI2, Math.floor(count * 0.06)));
   pts.push(...sampleArc(cx, cy, 0.09,   0, PI2, Math.floor(count * 0.03)));
-
-  // Wrench shape inside gear (diagonal bar with bulge at one end)
   const wrenchAngle = -Math.PI * 0.20;
   const wLen = 0.24;
   const wx0 = cx + Math.cos(wrenchAngle + Math.PI) * wLen;
@@ -389,43 +279,61 @@ function genGlobeAndGear(count: number): [number,number,number][] {
   const wx1 = cx + Math.cos(wrenchAngle) * wLen;
   const wy1 = cy + Math.sin(wrenchAngle) * wLen;
   pts.push(...samplePolyline([[wx0, wy0],[wx1, wy1]], Math.floor(count * 0.04)));
-  // Wrench head circle
   pts.push(...sampleArc(wx1, wy1, 0.07, 0, PI2, Math.floor(count * 0.03)));
-
-  // Hammer/screwdriver (cross diagonal)
   const hammAngle = wrenchAngle + Math.PI/2;
   const hx0 = cx + Math.cos(hammAngle + Math.PI) * 0.20;
   const hy0 = cy + Math.sin(hammAngle + Math.PI) * 0.20;
   const hx1 = cx + Math.cos(hammAngle) * 0.20;
   const hy1 = cy + Math.sin(hammAngle) * 0.20;
   pts.push(...samplePolyline([[hx0, hy0],[hx1, hy1]], Math.floor(count * 0.04)));
-  // Hammer head (small rect-ish cluster)
   pts.push(...sampleArc(hx1, hy1, 0.055, 0, PI2, Math.floor(count * 0.025)));
-
   return pts.slice(0, count);
 }
 
 /* ─────────────────────────────────────────────
+   RESPONSIVE HOOK
+───────────────────────────────────────────── */
+function useViewport() {
+  const [vp, setVp] = useState({ width: 0, height: 0, isMobile: false, isTablet: false, isLandscape: false });
+  useEffect(() => {
+    const update = () => {
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      setVp({
+        width: w,
+        height: h,
+        isMobile: w < 768,
+        isTablet: w >= 768 && w < 1024,
+        isLandscape: w > h,
+      });
+    };
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
+  return vp;
+}
+
+/* ─────────────────────────────────────────────
    PARTICLE SYMBOL COMPONENT
-   Pure flat particle display — no rotation,
-   no orbits. Mouse/touch repulsion only.
 ───────────────────────────────────────────── */
 type SymbolType = "ecommerce" | "webdev" | "seo" | "maintenance";
 
 interface ParticleSymbolProps {
   color: string;
   symbol: SymbolType;
+  compact?: boolean;
 }
 
-function ParticleSymbol({ color, symbol }: ParticleSymbolProps) {
+function ParticleSymbol({ color, symbol, compact = false }: ParticleSymbolProps) {
   const mountRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const el = mountRef.current;
     if (!el) return;
 
-    const w = el.clientWidth || 380;
-    const h = el.clientHeight || 380;
+    const w = el.clientWidth || (compact ? 240 : 380);
+    const h = el.clientHeight || (compact ? 240 : 380);
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -434,14 +342,13 @@ function ParticleSymbol({ color, symbol }: ParticleSymbolProps) {
     el.appendChild(renderer.domElement);
 
     const scene = new THREE.Scene();
-    // Orthographic-ish: use PerspectiveCamera far back so it looks flat
     const camera = new THREE.PerspectiveCamera(38, w / h, 0.1, 100);
-    camera.position.z = 3.8;
+    camera.position.z = compact ? 4.2 : 3.8;
 
     const c = new THREE.Color(color);
 
-    // Generate shape
-    const COUNT = 2800;
+    // Reduce particle count on compact/mobile for performance
+    const COUNT = compact ? 1600 : 2800;
     let originPts: [number,number,number][];
     if      (symbol === "ecommerce")   originPts = genShoppingBag(COUNT);
     else if (symbol === "webdev")      originPts = genCodeBrackets(COUNT);
@@ -466,7 +373,7 @@ function ParticleSymbol({ color, symbol }: ParticleSymbolProps) {
 
     const mat = new THREE.PointsMaterial({
       color: c,
-      size: 0.028,
+      size: compact ? 0.032 : 0.028,
       sizeAttenuation: true,
       transparent: true,
       opacity: 0.88,
@@ -475,11 +382,8 @@ function ParticleSymbol({ color, symbol }: ParticleSymbolProps) {
     const pointsMesh = new THREE.Points(geo, mat);
     scene.add(pointsMesh);
 
-
-
-    // ── Mouse / touch repulsion ───────────────
     const mouse = { x: 99999, y: 99999 };
-    const REPEL_RADIUS = 0.42;
+    const REPEL_RADIUS = compact ? 0.36 : 0.42;
     const REPEL_FORCE  = 0.012;
     const RETURN_FORCE = 0.018;
     const DAMPING      = 0.92;
@@ -498,16 +402,15 @@ function ParticleSymbol({ color, symbol }: ParticleSymbolProps) {
       mouse.y = world.y;
     }
 
-    const onMouseMove  = (e: MouseEvent)      => screenToWorld(e.clientX, e.clientY);
-    const onTouchMove  = (e: TouchEvent)      => { if (e.touches[0]) screenToWorld(e.touches[0].clientX, e.touches[0].clientY); };
-    const onLeave      = ()                   => { mouse.x = 99999; mouse.y = 99999; };
+    const onMouseMove  = (e: MouseEvent)  => screenToWorld(e.clientX, e.clientY);
+    const onTouchMove  = (e: TouchEvent)  => { if (e.touches[0]) screenToWorld(e.touches[0].clientX, e.touches[0].clientY); };
+    const onLeave      = ()               => { mouse.x = 99999; mouse.y = 99999; };
 
     el.addEventListener("mousemove",  onMouseMove);
     el.addEventListener("mouseleave", onLeave);
     el.addEventListener("touchmove",  onTouchMove, { passive: true });
     el.addEventListener("touchend",   onLeave);
 
-    // ── Animation loop (no rotation, pure physics) ──
     let animId = 0;
     const animate = () => {
       animId = requestAnimationFrame(animate);
@@ -516,8 +419,6 @@ function ParticleSymbol({ color, symbol }: ParticleSymbolProps) {
       for (let i = 0; i < COUNT; i++) {
         const ix = i*3, iy = i*3+1, iz = i*3+2;
         const px = posArr[ix], py = posArr[iy];
-
-        // Repulsion from cursor
         const dx = px - mouse.x, dy = py - mouse.y;
         const distSq = dx*dx + dy*dy;
         if (distSq < REPEL_RADIUS*REPEL_RADIUS && distSq > 1e-6) {
@@ -526,18 +427,12 @@ function ParticleSymbol({ color, symbol }: ParticleSymbolProps) {
           velocities[ix] += (dx/d) * force;
           velocities[iy] += (dy/d) * force;
         }
-
-        // Spring back to origin
         velocities[ix] += (origins[ix] - px) * RETURN_FORCE;
         velocities[iy] += (origins[iy] - py) * RETURN_FORCE;
         velocities[iz] += (origins[iz] - posArr[iz]) * RETURN_FORCE;
-
-        // Damp
         velocities[ix] *= DAMPING;
         velocities[iy] *= DAMPING;
         velocities[iz] *= DAMPING;
-
-        // Integrate
         posArr[ix] += velocities[ix];
         posArr[iy] += velocities[iy];
         posArr[iz] += velocities[iz];
@@ -565,9 +460,18 @@ function ParticleSymbol({ color, symbol }: ParticleSymbolProps) {
       renderer.dispose();
       if (el.contains(renderer.domElement)) el.removeChild(renderer.domElement);
     };
-  }, [color, symbol]);
+  }, [color, symbol, compact]);
 
-  return <div ref={mountRef} className="w-full h-full" style={{ minHeight: 340 }} />;
+  return (
+    <div
+      ref={mountRef}
+      style={{
+        width: "100%",
+        height: "100%",
+        minHeight: compact ? 160 : 240,
+      }}
+    />
+  );
 }
 
 /* ─────────────────────────────────────────────
@@ -586,7 +490,7 @@ function StarField() {
     renderer.setPixelRatio(1);
     renderer.setSize(w, h);
     renderer.setClearColor(0x000000, 0);
-    (el as HTMLDivElement).appendChild(renderer.domElement);
+    el.appendChild(renderer.domElement);
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, w / h, 0.1, 1000);
@@ -619,88 +523,206 @@ function StarField() {
       window.removeEventListener("resize", onResize);
       cancelAnimationFrame(animId);
       renderer.dispose();
-      if ((el as HTMLDivElement).contains(renderer.domElement))
-        (el as HTMLDivElement).removeChild(renderer.domElement);
+      if (el.contains(renderer.domElement)) el.removeChild(renderer.domElement);
     };
   }, []);
 
+  return <div ref={mountRef} className="fixed inset-0 pointer-events-none" style={{ zIndex: 0 }} />;
+}
+
+/* ─────────────────────────────────────────────
+   MOBILE NAV MENU
+───────────────────────────────────────────── */
+function MobileMenu({ open, onClose, accent }: { open: boolean; onClose: () => void; accent: string }) {
+  if (!open) return null;
   return (
     <div
-      ref={mountRef}
-      className="fixed inset-0 pointer-events-none"
-      style={{ zIndex: 0 }}
-    />
+      style={{
+        position: "fixed",
+        inset: 0,
+        zIndex: 200,
+        background: "rgba(6,6,16,0.97)",
+        backdropFilter: "blur(24px)",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: 0,
+      }}
+    >
+      <button
+        onClick={onClose}
+        style={{
+          position: "absolute",
+          top: 20,
+          right: 20,
+          width: 44,
+          height: 44,
+          background: "rgba(255,255,255,0.06)",
+          border: "1px solid rgba(255,255,255,0.1)",
+          borderRadius: 10,
+          color: "#fff",
+          fontSize: 20,
+          cursor: "pointer",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        ✕
+      </button>
+      {["Services", "Work", "About Us", "Process", "Tech", "Contact"].map((item, i) => (
+        <a
+          key={item}
+          href="#"
+          onClick={onClose}
+          style={{
+            fontFamily: "'Bebas Neue', sans-serif",
+            fontSize: "clamp(2rem, 8vw, 3.5rem)",
+            letterSpacing: "0.1em",
+            color: i === 0 ? accent : "rgba(255,255,255,0.7)",
+            textDecoration: "none",
+            padding: "8px 0",
+            transition: "color 0.2s",
+          }}
+        >
+          {item}
+        </a>
+      ))}
+      <button
+        style={{
+          marginTop: 32,
+          padding: "14px 40px",
+          borderRadius: 100,
+          background: "linear-gradient(135deg, #7C6FFF, #22D3EE)",
+          color: "#fff",
+          border: "none",
+          fontFamily: "'DM Sans', sans-serif",
+          fontWeight: 600,
+          fontSize: "0.9rem",
+          letterSpacing: "0.1em",
+          textTransform: "uppercase",
+          cursor: "pointer",
+        }}
+      >
+        • Start a Project
+      </button>
+    </div>
   );
 }
 
 /* ─────────────────────────────────────────────
-   SERVICE SECTION  ← FIXED DESKTOP LAYOUT
+   SERVICE SECTION — FULLY RESPONSIVE
 ───────────────────────────────────────────── */
 interface ServiceSectionProps {
   service: (typeof SERVICES)[number];
   index: number;
 }
+
 function ServiceSection({ service, index }: ServiceSectionProps) {
   const [hovered, setHovered] = useState(false);
+  const { isMobile, isTablet, isLandscape, width, height } = useViewport();
   const isEven = index % 2 === 0;
+
+  // Determine layout mode
+  const isMobileLandscape = isMobile && isLandscape;
+  const isStackedLayout   = isMobile && !isLandscape;
+  const isSideBySide      = !isStackedLayout;
+
+  // Particle canvas height adapts to viewport
+  const particleHeight = isStackedLayout
+    ? Math.min(Math.max(height * 0.28, 160), 240)
+    : isMobileLandscape
+      ? Math.min(height * 0.65, 220)
+      : isTablet
+        ? 300
+        : 380;
 
   return (
     <section
-      className="relative w-full min-h-screen flex items-center overflow-hidden"
       style={{
+        position: "relative",
+        width: "100%",
+        minHeight: "unset",
+        display: "flex",
+        alignItems: "center",
+        overflow: "hidden",
         background: `radial-gradient(ellipse at ${isEven ? "70%" : "30%"} 50%, ${service.accent}11 0%, transparent 65%)`,
+        paddingTop: isStackedLayout ? "2rem" : "2.5rem",
+        paddingBottom: isStackedLayout ? "2rem" : "2.5rem",
       }}
     >
-      {/* Divider line */}
+      {/* Top divider */}
       <div
-        className="absolute top-0 left-8 right-8 h-px"
-        style={{ background: `linear-gradient(to right, transparent, ${service.accent}40, transparent)` }}
+        style={{
+          position: "absolute",
+          top: 0,
+          left: "2rem",
+          right: "2rem",
+          height: 1,
+          background: `linear-gradient(to right, transparent, ${service.accent}40, transparent)`,
+        }}
       />
 
-      {/*
-        ── KEY FIX ──────────────────────────────────────────────────────────────
-        Old:  px-8 md:px-16 lg:px-32  →  over-shrinks the container on desktop,
-              pushing the left column off-screen on narrower desktop viewports.
-        New:  Use a responsive clamp via inline style so padding scales smoothly
-              from 24px (mobile) up to 80px (wide desktop) without ever cutting
-              into the text column. max-w-6xl + mx-auto keeps it centred on
-              ultra-wide screens.
-        ─────────────────────────────────────────────────────────────────────── */}
       <div
-        className="relative z-10 w-full max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"
         style={{
-          padding: "5rem clamp(1.5rem, 5vw, 5rem)",
+          position: "relative",
+          zIndex: 10,
+          width: "100%",
+          maxWidth: isMobileLandscape ? "100%" : "72rem",
+          margin: "0 auto",
+          padding: `0 clamp(1rem, ${isMobileLandscape ? "3" : "5"}vw, 5rem)`,
+          display: "grid",
+          gridTemplateColumns: isStackedLayout
+            ? "1fr"
+            : isMobileLandscape
+              ? "1fr 1fr"
+              : "1fr 1fr",
+          gap: isStackedLayout ? "1rem" : isMobileLandscape ? "1rem" : "2rem",
+          alignItems: "center",
         }}
       >
-        {/* TEXT SIDE */}
+        {/* TEXT CONTENT */}
         <div
-          className={`flex flex-col gap-7 w-full ${isEven ? "lg:order-1" : "lg:order-2"}`}
           style={{
-            maxWidth: 520,
-            marginLeft: isEven ? 0 : "auto",
+            display: "flex",
+            flexDirection: "column",
+            gap: isStackedLayout ? "1rem" : "1.5rem",
+            order: isStackedLayout ? 2 : (isEven ? 1 : 2),
+            maxWidth: isSideBySide ? 520 : "100%",
+            marginLeft: (isSideBySide && !isEven) ? "auto" : 0,
           }}
         >
           {/* Index badge */}
-          <div className="flex items-center gap-4">
+          <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
             <span
-              className="font-mono text-xs tracking-[0.35em] uppercase px-3 py-1 rounded-full border"
               style={{
-                color: service.accent,
-                borderColor: `${service.accent}40`,
+                fontFamily: "monospace",
+                fontSize: "0.7rem",
+                letterSpacing: "0.3em",
+                textTransform: "uppercase",
+                padding: "4px 12px",
+                borderRadius: 100,
+                border: `1px solid ${service.accent}40`,
                 background: `${service.accent}10`,
+                color: service.accent,
               }}
             >
               {service.index}
             </span>
-            <div className="h-px w-12" style={{ background: `${service.accent}40` }} />
+            <div style={{ height: 1, width: 48, background: `${service.accent}40` }} />
           </div>
 
           {/* Heading */}
-          <div className="leading-none">
+          <div style={{ lineHeight: 1 }}>
             <h2
-              className="font-black uppercase text-white block"
               style={{
-                fontSize: "clamp(2.4rem, 4.5vw, 5rem)",
+                fontFamily: "'Bebas Neue', sans-serif",
+                fontWeight: 900,
+                textTransform: "uppercase",
+                color: "#fff",
+                display: "block",
+                fontSize: `clamp(${isStackedLayout ? "2rem" : "2.2rem"}, ${isStackedLayout ? "9vw" : "4vw"}, 5rem)`,
                 letterSpacing: "-0.02em",
                 lineHeight: 0.95,
               }}
@@ -708,9 +730,13 @@ function ServiceSection({ service, index }: ServiceSectionProps) {
               {service.title}
             </h2>
             <h2
-              className="font-black uppercase italic block"
               style={{
-                fontSize: "clamp(2.4rem, 4.5vw, 5rem)",
+                fontFamily: "'Bebas Neue', sans-serif",
+                fontWeight: 900,
+                textTransform: "uppercase",
+                fontStyle: "italic",
+                display: "block",
+                fontSize: `clamp(${isStackedLayout ? "2rem" : "2.2rem"}, ${isStackedLayout ? "9vw" : "4vw"}, 5rem)`,
                 letterSpacing: "-0.02em",
                 lineHeight: 0.95,
                 background: `linear-gradient(135deg, ${service.accent}, ${service.accentAlt})`,
@@ -722,53 +748,90 @@ function ServiceSection({ service, index }: ServiceSectionProps) {
             </h2>
           </div>
 
-          {/* SVG Icon */}
-          <div
-            style={{
-              width: 64,
-              height: 64,
-              flexShrink: 0,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              borderRadius: 14,
-              border: `1px solid ${service.accent}30`,
-              background: `${service.accent}08`,
-              boxShadow: `0 0 24px ${service.accent}18`,
-              overflow: "hidden",
-            }}
-          >
-            <div style={{ width: 40, height: 40, flexShrink: 0 }}>
-              {service.svg}
+          {/* SVG Icon + Description row on mobile */}
+          <div style={{ display: "flex", alignItems: "flex-start", gap: "1rem" }}>
+            <div
+              style={{
+                width: isStackedLayout ? 52 : 64,
+                height: isStackedLayout ? 52 : 64,
+                flexShrink: 0,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                borderRadius: 14,
+                border: `1px solid ${service.accent}30`,
+                background: `${service.accent}08`,
+                boxShadow: `0 0 24px ${service.accent}18`,
+                overflow: "hidden",
+              }}
+            >
+              <div style={{ width: isStackedLayout ? 32 : 40, height: isStackedLayout ? 32 : 40, flexShrink: 0 }}>
+                {service.svg}
+              </div>
             </div>
+
+            {/* Description beside icon on mobile to save space */}
+            {isStackedLayout && (
+              <p
+                style={{
+                  fontFamily: "'DM Sans', sans-serif",
+                  fontSize: "0.85rem",
+                  lineHeight: 1.6,
+                  color: "rgba(255,255,255,0.6)",
+                  flex: 1,
+                }}
+              >
+                {service.description}
+              </p>
+            )}
           </div>
 
-          {/* Description */}
-          <p
-            className="text-white/60 leading-relaxed"
+          {/* Description on desktop/tablet */}
+          {!isStackedLayout && (
+            <p
+              style={{
+                fontFamily: "'DM Sans', sans-serif",
+                fontSize: isTablet ? "0.9rem" : "1rem",
+                lineHeight: 1.7,
+                color: "rgba(255,255,255,0.6)",
+              }}
+            >
+              {service.description}
+            </p>
+          )}
+
+          {/* Bullets — 2-column grid on mobile */}
+          <ul
             style={{
-              fontFamily: "'DM Sans', sans-serif",
-              fontSize: "1rem",
+              display: "grid",
+              gridTemplateColumns: isStackedLayout ? "1fr 1fr" : "1fr",
+              gap: isStackedLayout ? "0.5rem 1rem" : "0.75rem",
+              listStyle: "none",
+              padding: 0,
+              margin: 0,
             }}
           >
-            {service.description}
-          </p>
-
-          {/* Bullets */}
-          <ul className="flex flex-col gap-3">
             {service.bullets.map((b: string, i: number) => (
               <li
                 key={i}
-                className="flex items-center gap-3 text-white/75 text-sm tracking-wide"
-                style={{ fontFamily: "'DM Sans', sans-serif" }}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "0.5rem",
+                  fontFamily: "'DM Sans', sans-serif",
+                  color: "rgba(255,255,255,0.75)",
+                  fontSize: isStackedLayout ? "0.72rem" : "0.85rem",
+                  letterSpacing: "0.03em",
+                }}
               >
                 <span
-                  className="rounded-full flex-shrink-0"
                   style={{
-                    width: 6,
-                    height: 6,
+                    width: isStackedLayout ? 5 : 6,
+                    height: isStackedLayout ? 5 : 6,
+                    borderRadius: "50%",
                     background: service.accent,
                     boxShadow: `0 0 8px ${service.accent}`,
+                    flexShrink: 0,
                   }}
                 />
                 {b}
@@ -777,29 +840,37 @@ function ServiceSection({ service, index }: ServiceSectionProps) {
           </ul>
 
           {/* CTA */}
-          <div className="pt-1">
+          <div>
             <button
               onMouseEnter={() => setHovered(true)}
               onMouseLeave={() => setHovered(false)}
-              className="group inline-flex items-center gap-3 rounded-full font-semibold tracking-wide transition-all duration-300"
               style={{
-                padding: "12px 28px",
-                fontSize: "0.8rem",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "0.75rem",
+                borderRadius: 100,
+                padding: isStackedLayout ? "10px 22px" : "12px 28px",
+                fontSize: isStackedLayout ? "0.72rem" : "0.8rem",
+                fontFamily: "'DM Sans', sans-serif",
+                fontWeight: 600,
                 textTransform: "uppercase",
+                letterSpacing: "0.1em",
+                cursor: "pointer",
+                transition: "all 0.3s",
                 background: hovered ? service.accent : "transparent",
                 color: hovered ? "#0a0a12" : service.accent,
                 border: `1.5px solid ${service.accent}`,
                 boxShadow: hovered ? `0 0 36px ${service.accent}50` : "none",
-                fontFamily: "'DM Sans', sans-serif",
               }}
             >
               <span>Explore Service</span>
               <svg
                 style={{
-                  width: 14,
-                  height: 14,
+                  width: 13,
+                  height: 13,
                   transition: "transform 0.3s",
                   transform: hovered ? "translateX(4px)" : "translateX(0)",
+                  flexShrink: 0,
                 }}
                 fill="none"
                 viewBox="0 0 24 24"
@@ -812,18 +883,34 @@ function ServiceSection({ service, index }: ServiceSectionProps) {
           </div>
         </div>
 
-        {/* PARTICLE SYMBOL SIDE */}
+        {/* PARTICLE SYMBOL */}
         <div
-          className={`relative flex items-center justify-center ${isEven ? "lg:order-2" : "lg:order-1"}`}
-          style={{ height: 460 }}
+          style={{
+            position: "relative",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            order: isStackedLayout ? 1 : (isEven ? 2 : 1),
+            height: particleHeight,
+          }}
         >
-          {/* Subtle radial glow behind symbol */}
           <div
-            className="absolute rounded-full blur-3xl pointer-events-none"
-            style={{ inset: "20%", background: service.accent, opacity: 0.10 }}
+            style={{
+              position: "absolute",
+              inset: "20%",
+              borderRadius: "50%",
+              background: service.accent,
+              opacity: 0.08,
+              filter: "blur(40px)",
+              pointerEvents: "none",
+            }}
           />
-          <div style={{ width: "100%", height: "100%", maxWidth: 420 }}>
-            <ParticleSymbol color={service.accent} symbol={service.symbol} />
+          <div style={{ width: "100%", height: "100%", maxWidth: isMobileLandscape ? 280 : 420 }}>
+            <ParticleSymbol
+              color={service.accent}
+              symbol={service.symbol}
+              compact={isMobile}
+            />
           </div>
         </div>
       </div>
@@ -832,15 +919,37 @@ function ServiceSection({ service, index }: ServiceSectionProps) {
 }
 
 /* ─────────────────────────────────────────────
-   HERO HEADER
+   HERO
 ───────────────────────────────────────────── */
 function ServicesHero() {
+  const { isMobile, isLandscape } = useViewport();
+  const isCompact = isMobile && isLandscape;
+
   return (
-    <section className="relative z-10 w-full pt-56 pb-24 flex flex-col items-center text-center px-6 overflow-hidden">
+    <section
+      style={{
+        position: "relative",
+        zIndex: 10,
+        width: "100%",
+        paddingTop: isCompact ? "2rem" : "3rem",
+        paddingBottom: isCompact ? "1.5rem" : "2rem",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        textAlign: "center",
+        padding: `${isCompact ? "2rem" : "3rem"} clamp(1rem, 5vw, 3rem) ${isCompact ? "1.5rem" : "2rem"}`,
+        overflow: "hidden",
+      }}
+    >
       <h1
-        className="font-black uppercase text-white leading-none mb-6"
         style={{
-          fontSize: "clamp(3.5rem, 9vw, 8rem)",
+          fontFamily: "'Bebas Neue', sans-serif",
+          fontWeight: 900,
+          textTransform: "uppercase",
+          color: "#fff",
+          lineHeight: 1,
+          marginBottom: "1rem",
+          fontSize: "clamp(3rem, 13vw, 8rem)",
           letterSpacing: "-0.03em",
         }}
       >
@@ -856,14 +965,63 @@ function ServicesHero() {
         </span>
       </h1>
 
-      {/* Decorative line */}
-      <div className="flex items-center gap-4 mt-12">
+      <p
+        style={{
+          fontFamily: "'DM Sans', sans-serif",
+          fontSize: "clamp(0.85rem, 2.5vw, 1.1rem)",
+          color: "rgba(255,255,255,0.45)",
+          maxWidth: 480,
+          lineHeight: 1.6,
+          marginBottom: "2rem",
+        }}
+      >
+        Everything your digital presence needs — built by people who care about every pixel.
+      </p>
+
+      {/* Service pill indicators */}
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: "0.5rem",
+          marginTop: "0.5rem",
+        }}
+      >
         {SERVICES.map((s) => (
           <div
             key={s.id}
-            className="h-1 w-12 rounded-full transition-all duration-500"
-            style={{ background: s.accent }}
-          />
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "0.4rem",
+              padding: "5px 14px",
+              borderRadius: 100,
+              border: `1px solid ${s.accent}30`,
+              background: `${s.accent}08`,
+            }}
+          >
+            <div
+              style={{
+                width: 6,
+                height: 6,
+                borderRadius: "50%",
+                background: s.accent,
+              }}
+            />
+            <span
+              style={{
+                fontFamily: "'DM Sans', sans-serif",
+                fontSize: "0.7rem",
+                letterSpacing: "0.1em",
+                textTransform: "uppercase",
+                color: s.accent,
+              }}
+            >
+              {s.title} {s.subtitle}
+            </span>
+          </div>
         ))}
       </div>
     </section>
@@ -874,74 +1032,158 @@ function ServicesHero() {
    MAIN PAGE
 ───────────────────────────────────────────── */
 export default function Services() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const { isMobile } = useViewport();
+
   return (
     <>
-      {/* Google Fonts */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,600;1,400&family=Bebas+Neue&display=swap');
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        html { scroll-behavior: smooth; }
-        body { background: #060610; }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+        body { background: #060610; overflow-x: hidden; }
         h1, h2, h3, button { font-family: 'Bebas Neue', sans-serif; }
-        p, li, span { font-family: 'DM Sans', sans-serif; }
+        p, li, span, a { font-family: 'DM Sans', sans-serif; }
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #060610; }
+        ::-webkit-scrollbar-thumb { background: #7C6FFF44; border-radius: 2px; }
       `}</style>
 
       <div
-        className="relative min-h-screen"
-        style={{ background: "linear-gradient(180deg, #060610 0%, #080818 100%)" }}
+        style={{
+          position: "relative",
+          minHeight: "100svh",
+          background: "linear-gradient(180deg, #060610 0%, #080818 100%)",
+          overflowX: "hidden",
+        }}
       >
-        {/* Starfield BG */}
         <StarField />
+        <MobileMenu open={menuOpen} onClose={() => setMenuOpen(false)} accent="#7C6FFF" />
 
-        {/* Nav */}
+        {/* NAV */}
         <nav
-          className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 py-5"
           style={{
-            background: "rgba(6,6,16,0.85)",
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            zIndex: 100,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            padding: "0 clamp(1rem, 4vw, 2rem)",
+            height: "clamp(56px, 9vw, 72px)",
+            background: "rgba(6,6,16,0.88)",
             backdropFilter: "blur(20px)",
+            WebkitBackdropFilter: "blur(20px)",
             borderBottom: "1px solid rgba(255,255,255,0.05)",
           }}
         >
-          <div className="flex items-center gap-2">
+          {/* Logo */}
+          <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
             <div
-              className="w-7 h-7 rounded flex items-center justify-center"
-              style={{ background: "#7C6FFF", color: "#fff", fontFamily: "serif", fontWeight: 900, fontSize: 14 }}
+              style={{
+                width: 28,
+                height: 28,
+                borderRadius: 7,
+                background: "#7C6FFF",
+                color: "#fff",
+                fontFamily: "serif",
+                fontWeight: 900,
+                fontSize: 14,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                flexShrink: 0,
+              }}
             >
               I
             </div>
             <span
-              className="text-white font-black tracking-[0.2em] text-sm"
-              style={{ fontFamily: "'Bebas Neue', sans-serif", letterSpacing: "0.3em" }}
+              style={{
+                fontFamily: "'Bebas Neue', sans-serif",
+                letterSpacing: "0.3em",
+                color: "#fff",
+                fontSize: "clamp(0.85rem, 2.5vw, 1rem)",
+              }}
             >
               IRAH
             </span>
           </div>
-          <div className="hidden lg:flex items-center gap-8">
-            {["Services", "Work", "About Us", "Process", "Tech", "Contact"].map((item) => (
-              <a
-                key={item}
-                href="#"
-                className="text-white/60 hover:text-white text-xs tracking-widest uppercase transition-colors"
-                style={{ fontFamily: "'DM Sans', sans-serif" }}
+
+          {/* Desktop nav links */}
+          {!isMobile && (
+            <div style={{ display: "flex", alignItems: "center", gap: "clamp(1rem, 2.5vw, 2rem)" }}>
+              {["Services", "Work", "About Us", "Process", "Tech", "Contact"].map((item) => (
+                <a
+                  key={item}
+                  href="#"
+                  style={{
+                    fontFamily: "'DM Sans', sans-serif",
+                    color: "rgba(255,255,255,0.6)",
+                    fontSize: "0.72rem",
+                    letterSpacing: "0.15em",
+                    textTransform: "uppercase",
+                    textDecoration: "none",
+                    transition: "color 0.2s",
+                  }}
+                >
+                  {item}
+                </a>
+              ))}
+            </div>
+          )}
+
+          {/* Right side: CTA + hamburger */}
+          <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+            <button
+              style={{
+                padding: isMobile ? "8px 16px" : "10px 22px",
+                borderRadius: 100,
+                fontSize: isMobile ? "0.65rem" : "0.72rem",
+                fontFamily: "'DM Sans', sans-serif",
+                fontWeight: 600,
+                letterSpacing: "0.1em",
+                textTransform: "uppercase",
+                background: "linear-gradient(135deg, #7C6FFF, #22D3EE)",
+                color: "#fff",
+                border: "none",
+                cursor: "pointer",
+                whiteSpace: "nowrap",
+              }}
+            >
+              {isMobile ? "Start" : "• Start a Project"}
+            </button>
+
+            {/* Hamburger — mobile only */}
+            {isMobile && (
+              <button
+                onClick={() => setMenuOpen(true)}
+                style={{
+                  width: 38,
+                  height: 38,
+                  background: "rgba(255,255,255,0.06)",
+                  border: "1px solid rgba(255,255,255,0.1)",
+                  borderRadius: 8,
+                  cursor: "pointer",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: 5,
+                  flexShrink: 0,
+                }}
               >
-                {item}
-              </a>
-            ))}
+                {[0, 1, 2].map((i) => (
+                  <span key={i} style={{ display: "block", width: 16, height: 1.5, background: "#fff", borderRadius: 1 }} />
+                ))}
+              </button>
+            )}
           </div>
-          <button
-            className="px-5 py-2 rounded-full text-xs font-semibold tracking-wider uppercase transition-all duration-300 hover:opacity-90"
-            style={{
-              background: "linear-gradient(135deg, #7C6FFF, #22D3EE)",
-              color: "#fff",
-              fontFamily: "'DM Sans', sans-serif",
-            }}
-          >
-            • Start a Project
-          </button>
         </nav>
 
-        {/* Spacer for fixed nav */}
-        <div style={{ height: 88 }} />
+        {/* Nav height spacer */}
+        <div style={{ height: "clamp(56px, 9vw, 72px)" }} />
 
         {/* Hero */}
         <ServicesHero />
@@ -950,6 +1192,29 @@ export default function Services() {
         {SERVICES.map((service, i) => (
           <ServiceSection key={service.id} service={service} index={i} />
         ))}
+
+        {/* Footer strip */}
+        <div
+          style={{
+            position: "relative",
+            zIndex: 10,
+            width: "100%",
+            padding: "2rem clamp(1rem, 5vw, 5rem)",
+            display: "flex",
+            flexWrap: "wrap",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: "1rem",
+            borderTop: "1px solid rgba(255,255,255,0.05)",
+          }}
+        >
+          <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.75rem", color: "rgba(255,255,255,0.3)" }}>
+            © 2025 IRAH. All rights reserved.
+          </span>
+          <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.75rem", color: "rgba(255,255,255,0.2)" }}>
+            Crafted with precision.
+          </span>
+        </div>
       </div>
     </>
   );
