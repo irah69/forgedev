@@ -55,10 +55,19 @@ export const metadata: Metadata = {
     title: "IRAH Web Development | Websites, E-Commerce & SEO",
     description:
       "Freelance web development studio building fast websites, scalable web apps, e-commerce platforms, and SEO-optimized digital products.",
-    url: "https://irah.dev",
+    url: "https://irahtech.in",
     siteName: "IRAH Web Development",
     type: "website",
     locale: "en_US",
+    images: [
+      {
+        url: "/logo.svg",
+        width: 400,
+        height: 400,
+        alt: "IRAH Logo",
+        type: "image/svg+xml",
+      },
+    ],
   },
 
   twitter: {
@@ -66,6 +75,13 @@ export const metadata: Metadata = {
     title: "IRAH Web Development",
     description:
       "Modern websites, scalable web apps, e-commerce solutions, SEO optimization, and website maintenance services.",
+    images: [
+      {
+        url: "/logo.svg",
+        alt: "IRAH Logo",
+        type: "image/svg+xml",
+      },
+    ],
   },
 };
 

@@ -38,7 +38,7 @@ const VALUES: Value[] = [
 
 const TEAM: TeamMember[] = [
   { name: "Ram",       role: "Founder & CEO",             accent: "#7B6EF6" },
-  { name: "Harika",    role: "ML Engineer",               accent: "#4FC3F7" },
+  
   { name: "Jashwanth", role: "Frontend Developer",        accent: "#7B6EF6" },
   { name: "Surya",     role: "Engineering Lead",          accent: "#8B5CF6" },
   { name: "Anil",      role: "Frontend Developer",        accent: "#4FC3F7" },
@@ -339,7 +339,7 @@ export default function AboutPage() {
           <div className="ap-divider"/>
 
           {/* ════ STORY ════ */}
-          <section className="ap-sec">
+{/*           <section className="ap-sec">
             <div className="ap-wrap">
               <div className="ap-story-grid">
                 {/* timeline */}
@@ -365,7 +365,7 @@ export default function AboutPage() {
                 </div>
               </div>
             </div>
-          </section>
+          </section> */}
 
           <div className="ap-divider"/>
 
