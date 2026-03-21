@@ -15,27 +15,44 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://irah.dev"), // change to your real domain
+  metadataBase: new URL("https://irahtech.in"),
 
   title: {
-    default: "IRAH Web Development | Modern Websites & Digital Solutions",
+    default:
+      "IRAH Web Development | Web Developer in Beeramguda, Hyderabad",
     template: "%s | IRAH Web Development",
   },
 
   description:
-    "IRAH is a freelance web development studio creating high-performance websites, scalable web applications, e-commerce stores, and SEO-optimized platforms using modern technologies like Next.js and React.",
+    "IRAH is a freelance web development studio based in Beeramguda, Hyderabad offering modern websites, digital wedding invitations, e-commerce stores, SEO optimization, and scalable web applications using Next.js and React.",
 
   keywords: [
+    // Core Services
     "web development services",
     "freelance web developer",
     "Next.js developer",
     "React developer",
+    "custom web applications",
+
+    // Local SEO (VERY IMPORTANT)
+    "web developer in Beeramguda",
+    "web developer in Hyderabad",
+    "website development in Hyderabad",
+    "freelance web developer Hyderabad",
+    "web design Beeramguda",
+
+    // Business Services
     "ecommerce website development",
     "Shopify development",
     "SEO optimization services",
     "technical SEO",
     "website maintenance",
-    "custom web applications",
+
+    // Niche Keywords (HIGH CONVERSION)
+    "digital wedding cards",
+    "online wedding invitations India",
+    "animated wedding invitations",
+    "custom digital invites",
   ],
 
   authors: [{ name: "IRAH Web Development" }],
@@ -45,6 +62,21 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+
+  // 🔥 GEO SEO (Helps local ranking)
+  other: {
+    "geo.region": "IN-TG",
+    "geo.placename": "Hyderabad",
+    "geo.position": "17.4948;78.3996",
+    "ICBM": "17.4948, 78.3996",
   },
 
   icons: {
@@ -52,36 +84,35 @@ export const metadata: Metadata = {
   },
 
   openGraph: {
-    title: "IRAH Web Development | Websites, E-Commerce & SEO",
+    title:
+      "Web Developer in Beeramguda, Hyderabad | IRAH Web Development",
     description:
-      "Freelance web development studio building fast websites, scalable web apps, e-commerce platforms, and SEO-optimized digital products.",
+      "Get modern websites, digital wedding cards, e-commerce solutions, and SEO services from a freelance web developer in Hyderabad.",
     url: "https://irahtech.in",
     siteName: "IRAH Web Development",
     type: "website",
-    locale: "en_US",
+    locale: "en_IN",
     images: [
       {
         url: "/logo.svg",
-        width: 400,
-        height: 400,
-        alt: "IRAH Logo",
-        type: "image/svg+xml",
+        width: 1200,
+        height: 630,
+        alt: "IRAH Web Development Hyderabad",
       },
     ],
   },
 
   twitter: {
     card: "summary_large_image",
-    title: "IRAH Web Development",
+    title: "IRAH Web Development | Hyderabad Web Developer",
     description:
-      "Modern websites, scalable web apps, e-commerce solutions, SEO optimization, and website maintenance services.",
-    images: [
-      {
-        url: "/logo.svg",
-        alt: "IRAH Logo",
-        type: "image/svg+xml",
-      },
-    ],
+      "Web development, digital wedding cards, SEO & e-commerce solutions in Hyderabad.",
+    images: ["/logo.svg"],
+  },
+
+  // 🔥 Canonical (VERY IMPORTANT)
+  alternates: {
+    canonical: "https://irahtech.in",
   },
 };
 
@@ -91,7 +122,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en-IN">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >

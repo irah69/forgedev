@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Optional: block non-public routes
+Disallow: /api
+Disallow: /admin
+
+Sitemap: https://irahtech.in/sitemap.xml
