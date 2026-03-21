@@ -23,8 +23,8 @@ const STARS: Star[] = Array.from({ length: 50 }, (_, i) => ({
 
 /* ─── DATA ────────────────────────────────────────────────────────────────── */
 const STATS: Stat[] = [
-  { val: "8+", label: "Years Exp." }, { val: "200+", label: "Projects" },
-  { val: "50+", label: "Clients" },  { val: "15",   label: "Team" },
+  { val: "2+", label: "Years Exp." }, { val: "10+", label: "Projects" },
+  { val: "10+", label: "Clients" },  { val: "5",   label: "Team" },
 ];
 
 const VALUES: Value[] = [
@@ -45,12 +45,7 @@ const TEAM: TeamMember[] = [
   { name: "Gayathri",  role: "Frontend Developer",        accent: "#7B6EF6" },
 ];
 
-const TIMELINE: TimelineItem[] = [
-  { year: "2016", label: "Founded" },
-  { year: "2018", label: "First 50 Clients" },
-  { year: "2021", label: "Team of 15" },
-  { year: "2024", label: "200+ Projects" },
-];
+
 
 const STORY: string[] = [
   "It started with a simple belief: that great digital work should be accessible to every kind of organisation — not just the ones with enterprise budgets and Fortune 500 retainers.",
