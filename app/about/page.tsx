@@ -38,9 +38,9 @@ const VALUES: Value[] = [
 
 const TEAM: TeamMember[] = [
   { name: "Ram",       role: "Founder & CEO",             accent: "#7B6EF6" },
-  
+  { name: "Harika", role: "ML Engineer",        accent: "#7B6EF6" },
+  { name: "Surya",     role: "Co-Founder",          accent: "#8B5CF6" },
   { name: "Jashwanth", role: "Frontend Developer",        accent: "#7B6EF6" },
-  { name: "Surya",     role: "Engineering Lead",          accent: "#8B5CF6" },
   { name: "Anil",      role: "Frontend Developer",        accent: "#4FC3F7" },
   { name: "Gayathri",  role: "Frontend Developer",        accent: "#7B6EF6" },
 ];
