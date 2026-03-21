@@ -674,7 +674,7 @@ export default function Footer() {
         {/* BOTTOM BAR */}
         <div className="ft-bottom">
           <p className="ft-bottom-left">
-            © {new Date().getFullYear()} <strong>NexusLabs</strong>. All rights reserved. Built with precision, shipped with care.
+            © {new Date().getFullYear()} <strong>Irah Tech</strong>. All rights reserved. Built with precision, shipped with care.
           </p>
 
           <ul className="ft-bottom-links">
