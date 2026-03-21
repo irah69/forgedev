@@ -338,34 +338,7 @@ export default function AboutPage() {
 
           <div className="ap-divider"/>
 
-          {/* ════ STORY ════ */}
-{/*           <section className="ap-sec">
-            <div className="ap-wrap">
-              <div className="ap-story-grid">
-                {/* timeline */}
-                <div style={{ animation:"fadeUp .7s ease both .1s" }}>
-                  <p style={{ fontSize:"9px",letterSpacing:".3em",color:"#4FC3F7",textTransform:"uppercase",fontFamily:"monospace",marginBottom:"10px" }}>Our Story</p>
-                  <h2 className="ap-h2-md"><span style={{ color:"#fff" }}>How It</span><br/><span className="ap-grad">All Began</span></h2>
-                  <div style={{ height:"2px",width:"60px",background:"linear-gradient(90deg,#7B6EF6,transparent)",borderRadius:"2px" }}/>
-                  <div style={{ marginTop:"32px" }}>
-                    {TIMELINE.map((item,i) => (
-                      <div key={item.year} style={{ display:"flex",alignItems:"center",gap:"14px",padding:"12px 0",borderBottom:"1px solid rgba(123,110,246,.1)" }}>
-                        <span style={{ fontSize:"11px",fontFamily:"monospace",color:"#7B6EF6",letterSpacing:".1em",minWidth:"34px" }}>{item.year}</span>
-                        <div style={{ width:"6px",height:"6px",borderRadius:"50%",background:i%2===0?"#7B6EF6":"#4FC3F7",flexShrink:0 }}/>
-                        <span style={{ fontSize:"12px",color:"#8892B0",letterSpacing:".05em" }}>{item.label}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                {/* paragraphs */}
-                <div style={{ animation:"fadeUp .8s ease both .25s" }}>
-                  {STORY.map((para,i) => (
-                    <p key={i} style={{ marginBottom:"18px",fontSize:"clamp(12px,3.2vw,15px)",color:i===0?"#c8cfe0":"#8892B0",lineHeight:1.8,fontWeight:i===0?500:400,borderLeft:i===0?"2px solid #7B6EF6":"none",paddingLeft:i===0?"16px":"0" }}>{para}</p>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </section> */}
+          // ...existing code...
 
           <div className="ap-divider"/>
 
