@@ -46,6 +46,9 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Close menu when clicking a mobile link
+  const closeMobile = () => setMobileOpen(false);
+
   return (
     <>
       <style>{`
@@ -128,36 +131,97 @@ export default function Navbar() {
           text-decoration: none;
         }
 
+        /* ── HAMBURGER ── */
         .nb-hamburger {
           display: none;
           flex-direction: column;
           gap: 5px;
+          background: none;
+          border: none;
+          cursor: pointer;
+          padding: 6px;
         }
 
         .nb-hamburger span {
+          display: block;
           width: 22px;
           height: 2px;
           background: white;
+          border-radius: 2px;
+          transition: transform 0.3s ease, opacity 0.3s ease;
         }
 
+        /* Animate hamburger → X when open */
+        .nb-hamburger.open span:nth-child(1) {
+          transform: translateY(7px) rotate(45deg);
+        }
+        .nb-hamburger.open span:nth-child(2) {
+          opacity: 0;
+          transform: scaleX(0);
+        }
+        .nb-hamburger.open span:nth-child(3) {
+          transform: translateY(-7px) rotate(-45deg);
+        }
+
+        /* ── MOBILE MENU ── */
         .nb-mobile {
           display: none;
           flex-direction: column;
-          padding: 16px;
-          background: #050720;
+          background: rgba(5, 7, 32, 0.98);
+          backdrop-filter: blur(24px);
+          border-bottom: 1px solid rgba(124, 111, 255, 0.15);
+          overflow: hidden;
+          max-height: 0;
+          transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                      opacity 0.3s ease;
+          opacity: 0;
         }
 
-        .nb-mobile.open { display: flex; }
+        .nb-mobile.open {
+          max-height: 500px;
+          opacity: 1;
+        }
 
         .nb-mobile-link {
-          padding: 12px;
-          color: white;
+          padding: 15px 24px;
+          color: rgba(220, 230, 255, 0.75);
           text-decoration: none;
+          font-size: 15px;
+          font-weight: 600;
+          font-family: 'Syne', sans-serif;
+          border-bottom: 1px solid rgba(124, 111, 255, 0.07);
+          transition: color 0.2s, background 0.2s;
+          display: block;
+        }
+
+        .nb-mobile-link:last-child {
+          border-bottom: none;
+        }
+
+        .nb-mobile-link:hover,
+        .nb-mobile-link:active {
+          color: #fff;
+          background: rgba(124, 111, 255, 0.1);
+        }
+
+        .nb-mobile-cta {
+          margin: 14px 24px 18px;
+          padding: 13px 20px;
+          background: linear-gradient(135deg, #7c6fff, #60c8ff);
+          border-radius: 10px;
+          color: #fff;
+          font-weight: 700;
+          font-size: 14px;
+          font-family: 'Syne', sans-serif;
+          text-decoration: none;
+          text-align: center;
+          display: block;
         }
 
         @media (max-width: 960px) {
           .nb-links, .nb-divider, .nb-cta { display: none; }
           .nb-hamburger { display: flex; }
+          .nb-mobile { display: flex; }
         }
       `}</style>
 
@@ -165,29 +229,22 @@ export default function Navbar() {
         <div className={`nb-bar ${scrolled ? "scrolled" : ""}`}>
 
           {/* LOGO */}
-          <Link href="/" className="nb-logo">
+          <Link href="/" className="nb-logo" onClick={closeMobile}>
             <img src="/logo.svg" alt="Logo" width={32} height={32} />
             <span className="nb-logo-text">IRAH</span>
           </Link>
 
-          {/* NAV LINKS */}
+          {/* DESKTOP NAV LINKS */}
           <ul className="nb-links">
             <li><Link href="/services" className="nb-link">Services</Link></li>
-
-            {/* ✅ UPDATED WORK LINK */}
-            <li>
-              <Link href="/work" className="nb-link">
-                Work
-              </Link>
-            </li>
-
+            <li><Link href="/work" className="nb-link">Work</Link></li>
             <li><Link href="/about" className="nb-link">About Us</Link></li>
             <li><Link href="/process" className="nb-link">Process</Link></li>
             <li><Link href="/tech" className="nb-link">Tech</Link></li>
             <li><Link href="/contact" className="nb-link">Contact</Link></li>
           </ul>
 
-          {/* CTA */}
+          {/* DESKTOP CTA */}
           <div style={{ display: "flex", gap: "16px" }}>
             <div className="nb-divider" />
             <Link href="/contact" className="nb-cta">
@@ -195,23 +252,25 @@ export default function Navbar() {
             </Link>
           </div>
 
-          {/* MOBILE */}
+          {/* HAMBURGER */}
           <button
-            className="nb-hamburger"
+            className={`nb-hamburger ${mobileOpen ? "open" : ""}`}
             onClick={() => setMobileOpen(!mobileOpen)}
+            aria-label="Toggle menu"
           >
             <span /><span /><span />
           </button>
         </div>
 
-        {/* MOBILE MENU */}
+        {/* MOBILE MENU — closes on every link click */}
         <div className={`nb-mobile ${mobileOpen ? "open" : ""}`}>
-          <Link href="/services" className="nb-mobile-link">Services</Link>
-          <Link href="/work?category=All" className="nb-mobile-link">Work</Link>
-          <Link href="/about" className="nb-mobile-link">About Us</Link>
-          <Link href="/process" className="nb-mobile-link">Process</Link>
-          <Link href="/tech" className="nb-mobile-link">Tech</Link>
-          <Link href="/contact" className="nb-mobile-link">Contact</Link>
+          <Link href="/services" className="nb-mobile-link" onClick={closeMobile}>Services</Link>
+          <Link href="/work" className="nb-mobile-link" onClick={closeMobile}>Work</Link>
+          <Link href="/about" className="nb-mobile-link" onClick={closeMobile}>About Us</Link>
+          <Link href="/process" className="nb-mobile-link" onClick={closeMobile}>Process</Link>
+          <Link href="/tech" className="nb-mobile-link" onClick={closeMobile}>Tech</Link>
+          <Link href="/contact" className="nb-mobile-link" onClick={closeMobile}>Contact</Link>
+          <Link href="/contact" className="nb-mobile-cta" onClick={closeMobile}>✦ Start a Project</Link>
         </div>
       </nav>
     </>

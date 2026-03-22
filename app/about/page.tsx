@@ -43,6 +43,8 @@ const TEAM: TeamMember[] = [
   { name: "Jashwanth", role: "Frontend Developer",        accent: "#7B6EF6" },
   { name: "Anil",      role: "Frontend Developer",        accent: "#4FC3F7" },
   { name: "Gayathri",  role: "Frontend Developer",        accent: "#7B6EF6" },
+  { name: "Pranith kumar",  role: "Marketing",        accent: "#7B6EF6" },
+  { name: "Harika",  role: "Marketing",        accent: "#7B6EF6" },
 ];
 
 
