@@ -67,17 +67,17 @@ const products = [
   },
 {
   id: 2,
-  name: "SL Grano",
-  tag: "Home Automation       ",
-  description: "A smart home automation company catalog website showcasing lighting, security, and IoT automation products.",
-  price: "Product Catalog",
-  category: "Smart Home Solutions",
-  technology: "React, Tailwind CSS, Node.js",
-  badge: "Automation",
+  name: "Little Berries",
+  tag: "Playschool & Daycare                .",
+  description: "A joyful early learning playschool website featuring programs for Play Group to Senior KG, activity classes like Chess, Dance & Taekwondo, admissions info, photo gallery, and a parent portal.",
+  price: "Informational Website",
+  category: "Education & Childcare",
+  technology: "Next.js, Tailwind CSS",
+  badge: "Education",
   rating: 5,
-  gradient: "linear-gradient(135deg,#1a1440 0%,#0D1128 100%)",
-  image: "/slgrano.jpg",
-  url: "https://slgrano-lights.example.com",
+  gradient: "linear-gradient(135deg,#fff7ed 0%,#fde68a 100%)",
+  image: "/littleberries.png",
+  url: "https://little-berries.vercel.app/",
 }
 ];
 

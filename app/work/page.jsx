@@ -19,16 +19,21 @@ const projects = [
   },
   {
     id: "02",
-    title: "AURA FINANCE",
-    category: "Web App · UI/UX",
-    tags: ["React", "Node.js", "Stripe"],
-    desc: "Next-gen personal finance dashboard with real-time portfolio tracking and AI-driven insights.",
+    title: "Little Berries",
+    category: "Education & Childcare",
+    tags: ["Next.js", "Tailwind CSS"],
+    desc: "A joyful early learning playschool website featuring programs for Play Group to Senior KG, activity classes like Chess, Dance & Taekwondo, admissions info, photo gallery, and a parent portal.",
     year: "2026",
-    color: "#7B6EF6",
-    accent: "#4FC3F7",
+    color: "#fde68a",
+    accent: "#fff7ed",
     size: "small",
-    link: null,
-    image: null,
+    link: "https://little-berries.vercel.app/",
+    image: "/littleberries.png",
+    badge: "Education",
+    rating: 5,
+    gradient: "linear-gradient(135deg,#fff7ed 0%,#fde68a 100%)",
+    price: "Informational Website",
+    tag: "Playschool & Daycare                .",
   },
   {
     id: "03",
@@ -147,6 +152,7 @@ function ProjectCard({ project, index }) {
   const [hovered, setHovered] = useState(false);
   const isLarge = project.size === "large";
   const isMurgan = project.id === "01";
+  const isLittleBerries = project.id === "02";
   const delay = (index % 3) * 110;
 
   const cardContent = (
@@ -203,12 +209,12 @@ function ProjectCard({ project, index }) {
             : `linear-gradient(135deg, ${project.color}16 0%, #080B1A 100%)`,
         }}>
 
-          {/* Murgan: real screenshot image */}
-          {isMurgan && project.image ? (
+          {/* Murgan & Little Berries: real screenshot image */}
+          {(isMurgan || isLittleBerries) && project.image ? (
             <>
               <img
                 src={project.image}
-                alt="Murgan Collections"
+                alt={project.title}
                 style={{
                   position: "absolute", inset: 0,
                   width: "100%", height: "100%",
@@ -218,12 +224,16 @@ function ProjectCard({ project, index }) {
                   transform: hovered ? "scale(1.04)" : "scale(1)",
                 }}
               />
-              {/* golden overlay tint */}
+              {/* overlay tint */}
               <div style={{
                 position: "absolute", inset: 0,
-                background: hovered
-                  ? "linear-gradient(to bottom, rgba(201,168,76,0.08) 0%, rgba(0,0,0,0.5) 100%)"
-                  : "linear-gradient(to bottom, rgba(201,168,76,0.12) 0%, rgba(0,0,0,0.65) 100%)",
+                background: isMurgan
+                  ? (hovered
+                      ? "linear-gradient(to bottom, rgba(201,168,76,0.08) 0%, rgba(0,0,0,0.5) 100%)"
+                      : "linear-gradient(to bottom, rgba(201,168,76,0.12) 0%, rgba(0,0,0,0.65) 100%)")
+                  : (hovered
+                      ? "linear-gradient(to bottom, rgba(253,230,138,0.08) 0%, rgba(0,0,0,0.5) 100%)"
+                      : "linear-gradient(to bottom, rgba(253,230,138,0.12) 0%, rgba(0,0,0,0.65) 100%)"),
                 transition: "background 0.4s",
               }} />
             </>
@@ -776,13 +786,13 @@ export default function OurWork() {
         <Marquee />
 
         {/* ── STATS ── */}
-        <div className="ow-stats-grid">
+{/*         <div className="ow-stats-grid">
           {stats.map((s, i) => (
             <div key={s.label} style={i > 0 ? { borderLeft: "1px solid rgba(123,110,246,0.1)" } : {}}>
               <Stat stat={s} index={i} />
             </div>
           ))}
-        </div>
+        </div> */}
 
         {/* ── CTA ── */}
         <div style={{
