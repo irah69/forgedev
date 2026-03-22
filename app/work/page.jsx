@@ -381,7 +381,6 @@ function ProjectCard({ project, index }) {
     </div>
   );
 
-  // Wrap with anchor tag if project has a link
   if (project.link) {
     return (
       <a
@@ -471,84 +470,202 @@ export default function OurWork() {
     <>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800;900&family=Space+Mono:wght@400;700&display=swap');
-        .ow-wrap *, .ow-wrap *::before, .ow-wrap *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        .ow-wrap *, .ow-wrap *::before, .ow-wrap *::after {
+          box-sizing: border-box;
+          margin: 0;
+          padding: 0;
+        }
 
         @keyframes owMarquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-        @keyframes owFadeUp  { from { opacity: 0; transform: translateY(32px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes owPulse   { 0%,100%{opacity:1} 50%{opacity:.3} }
 
+        /* ── DESKTOP ── */
         .ow-grid {
           display: grid;
           grid-template-columns: repeat(12, 1fr);
           gap: 20px;
+          width: 100%;
           max-width: 1400px;
           margin: 0 auto 80px;
-          position: relative; z-index: 1;
+          padding: 0;
         }
-        @media (max-width: 1024px) { .ow-grid { grid-template-columns: repeat(6, 1fr); } }
-        @media (max-width: 768px)  { .ow-grid { grid-template-columns: 1fr; gap: 14px; } }
 
+        /* ── TABLET ── */
         @media (max-width: 1024px) {
+          .ow-grid {
+            grid-template-columns: repeat(6, 1fr);
+          }
           .ow-card-large { grid-column: span 6 !important; }
           .ow-card-small { grid-column: span 3 !important; }
         }
+
+        /* ── MOBILE — ASYMMETRIC EDITORIAL LAYOUT ──
+           Pattern per 6 cards:
+             #1  → full width  (16:9)  — hero banner
+             #2  → left col   (3:4)
+             #3  → right col  (3:4)  + nudge down
+             #4  → left col   (4:5)  + nudge up
+             #5  → right col  (4:5)
+             #6  → full width  (21:9) — cinematic
+        */
         @media (max-width: 768px) {
-          .ow-card-large, .ow-card-small { grid-column: span 1 !important; }
+          .ow-section {
+            padding: 70px 0 100px !important;
+          }
+
+          .ow-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            width: 100%;
+            max-width: 100%;
+            padding: 0 14px;
+            margin: 0 0 60px;
+          }
+
+          /* hard reset everything first */
+          .ow-grid > *,
+          .ow-card-large,
+          .ow-card-small {
+            grid-column: span 1 !important;
+          }
+
+          /* 1st of every 6 → full-width hero */
+          .ow-grid > *:nth-child(6n + 1) {
+            grid-column: 1 / -1 !important;
+          }
+          .ow-grid > *:nth-child(6n + 1) > *,
+          .ow-grid > *:nth-child(6n + 1) > a > * {
+            min-height: 200px;
+          }
+
+          /* 2nd → left half */
+          .ow-grid > *:nth-child(6n + 2) {
+            grid-column: span 1 !important;
+            margin-top: 0;
+          }
+
+          /* 3rd → right half, stagger down */
+          .ow-grid > *:nth-child(6n + 3) {
+            grid-column: span 1 !important;
+            margin-top: 18px;
+          }
+
+          /* 4th → left half, pull up */
+          .ow-grid > *:nth-child(6n + 4) {
+            grid-column: span 1 !important;
+            margin-top: -10px;
+          }
+
+          /* 5th → right half */
+          .ow-grid > *:nth-child(6n + 5) {
+            grid-column: span 1 !important;
+            margin-top: 0;
+          }
+
+          /* 6th → full-width cinematic */
+          .ow-grid > *:nth-child(6n + 0) {
+            grid-column: 1 / -1 !important;
+          }
+          .ow-grid > *:nth-child(6n + 0) > *,
+          .ow-grid > *:nth-child(6n + 0) > a > * {
+            min-height: 160px;
+          }
+
+          /* all cards: overflow safe */
+          .ow-grid > * {
+            overflow: hidden;
+            min-width: 0;
+          }
         }
 
+        /* ── STATS ── */
         .ow-stats-grid {
-          display: grid; grid-template-columns: repeat(4, 1fr);
-          gap: 0; max-width: 1400px; margin: 0 auto 80px;
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          max-width: 1400px;
+          margin: 0 auto 80px;
           background: rgba(8,11,26,0.7);
-          border: 1px solid rgba(123,110,246,0.12);
-          border-radius: 16px; overflow: hidden;
-          backdrop-filter: blur(16px); position: relative; z-index: 1;
-        }
-        .ow-stat-divider { border-left: 1px solid rgba(123,110,246,0.1); }
-        @media (max-width: 768px) {
-          .ow-stats-grid { grid-template-columns: repeat(2, 1fr); }
-          .ow-stat-divider:nth-child(3) { border-left: none; }
+          border-radius: 16px;
+          overflow: hidden;
         }
 
-        .ow-filter-btn {
-          padding: 8px 20px; border-radius: 100px;
-          font-size: 11px; font-weight: 700;
-          font-family: 'Space Mono', monospace; letter-spacing: 0.1em;
-          cursor: pointer; border: 1px solid rgba(123,110,246,0.22);
-          background: transparent; color: rgba(180,200,240,0.55);
-          transition: all 0.22s ease;
+        @media (max-width: 768px) {
+          .ow-stats-grid {
+            grid-template-columns: repeat(2, 1fr);
+            margin: 0 14px 60px;
+          }
         }
-        .ow-filter-btn:hover { border-color: rgba(123,110,246,0.5); color: #fff; background: rgba(123,110,246,0.08); }
+
+        /* ── FILTER BUTTONS ── */
+        .ow-filter-btn {
+          padding: 8px 20px;
+          border-radius: 100px;
+          font-size: 11px;
+          cursor: pointer;
+          border: 1px solid rgba(123,110,246,0.22);
+          background: transparent;
+          color: rgba(180,200,240,0.55);
+          font-family: 'Space Mono', monospace;
+          transition: all 0.2s ease;
+        }
+        .ow-filter-btn:hover {
+          border-color: rgba(123,110,246,0.5);
+          color: rgba(180,200,240,0.85);
+        }
         .ow-filter-btn--on {
           background: linear-gradient(135deg, #7B6EF6, #4FC3F7);
-          border-color: transparent; color: #fff;
-          box-shadow: 0 0 22px rgba(123,110,246,0.38);
+          color: #fff;
+          border-color: transparent;
         }
 
+        /* ── CTA BUTTONS ── */
         .ow-cta-primary {
-          display: inline-flex; align-items: center; gap: 10px;
-          padding: 13px 30px; border-radius: 10px;
-          font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700;
+          padding: 13px 30px;
+          border-radius: 10px;
           background: linear-gradient(135deg, #7B6EF6, #4FC3F7);
-          color: #fff; border: none; cursor: pointer; text-decoration: none;
-          box-shadow: 0 0 30px rgba(123,110,246,0.38);
-          transition: transform 0.2s, box-shadow 0.2s;
+          color: #fff;
+          text-decoration: none;
+          font-family: 'Syne', sans-serif;
+          font-weight: 700;
+          font-size: 14px;
+          letter-spacing: 0.04em;
+          transition: opacity 0.2s;
         }
-        .ow-cta-primary:hover { transform: translateY(-2px); box-shadow: 0 0 44px rgba(123,110,246,0.55), 0 12px 28px rgba(0,0,0,0.4); }
+        .ow-cta-primary:hover { opacity: 0.88; }
 
         .ow-cta-secondary {
-          display: inline-flex; align-items: center; gap: 10px;
-          padding: 13px 28px; border-radius: 10px;
-          font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 600;
-          background: transparent; color: rgba(200,210,255,0.75);
-          border: 1px solid rgba(123,110,246,0.28); cursor: pointer; text-decoration: none;
-          transition: all 0.22s ease;
+          padding: 13px 28px;
+          border-radius: 10px;
+          border: 1px solid rgba(123,110,246,0.28);
+          color: rgba(200,210,255,0.75);
+          text-decoration: none;
+          font-family: 'Syne', sans-serif;
+          font-weight: 600;
+          font-size: 14px;
+          transition: border-color 0.2s, color 0.2s;
         }
-        .ow-cta-secondary:hover { border-color: rgba(123,110,246,0.55); color: #fff; background: rgba(123,110,246,0.07); transform: translateY(-2px); }
+        .ow-cta-secondary:hover {
+          border-color: rgba(123,110,246,0.6);
+          color: #fff;
+        }
 
-        /* responsive padding */
-        @media (max-width: 768px) { .ow-section { padding: 80px 20px 100px !important; } }
-        @media (max-width: 480px) { .ow-section { padding: 60px 16px 80px !important; } }
+        /* ── HEADER RESPONSIVE ── */
+        @media (max-width: 768px) {
+          .ow-header-inner {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 16px !important;
+          }
+          .ow-header-desc {
+            max-width: 100% !important;
+            padding-bottom: 0 !important;
+          }
+          .ow-filters-row {
+            flex-wrap: wrap;
+          }
+        }
       `}</style>
 
       <section
@@ -575,13 +692,13 @@ export default function OurWork() {
         {/* ambient glows */}
         <div style={{ position: "absolute", width: "700px", height: "700px", borderRadius: "50%", background: "radial-gradient(circle, rgba(123,110,246,0.07) 0%, transparent 70%)", top: "-100px", left: "-200px", pointerEvents: "none" }} />
         <div style={{ position: "absolute", width: "500px", height: "500px", borderRadius: "50%", background: "radial-gradient(circle, rgba(79,195,247,0.05) 0%, transparent 70%)", bottom: "80px", right: "-80px", pointerEvents: "none" }} />
-        {/* golden glow for Murgan */}
         <div style={{ position: "absolute", width: "400px", height: "400px", borderRadius: "50%", background: "radial-gradient(circle, rgba(201,168,76,0.04) 0%, transparent 70%)", top: "60px", right: "10%", pointerEvents: "none" }} />
 
         {/* ── HEADER ── */}
         <div ref={headerRef} style={{
           position: "relative", zIndex: 1,
           maxWidth: "1400px", margin: "0 auto 56px",
+          padding: "0 0",
           opacity: headerInView ? 1 : 0,
           transform: headerInView ? "translateY(0)" : "translateY(40px)",
           transition: "opacity 0.8s ease, transform 0.8s cubic-bezier(0.23,1,0.32,1)",
@@ -598,11 +715,14 @@ export default function OurWork() {
             <span style={{ flex: "0 0 28px", height: "1px", background: "rgba(79,195,247,0.4)" }} />
           </p>
 
-          <div style={{
-            display: "flex", alignItems: "flex-end",
-            justifyContent: "space-between", gap: "24px",
-            flexWrap: "wrap", marginBottom: "36px",
-          }}>
+          <div
+            className="ow-header-inner"
+            style={{
+              display: "flex", alignItems: "flex-end",
+              justifyContent: "space-between", gap: "24px",
+              flexWrap: "wrap", marginBottom: "36px",
+            }}
+          >
             <div>
               <h2 style={{
                 fontSize: "clamp(52px, 7.5vw, 100px)",
@@ -619,14 +739,23 @@ export default function OurWork() {
               </h2>
               <div style={{ marginTop: "14px", height: "2px", width: "90px", background: "linear-gradient(90deg, #7B6EF6, #4FC3F7, transparent)", borderRadius: "2px" }} />
             </div>
-            <p style={{ maxWidth: "320px", fontSize: "13.5px", color: "rgba(180,195,230,0.5)", lineHeight: 1.72, fontWeight: 400, paddingBottom: "8px", flexShrink: 0 }}>
+            <p
+              className="ow-header-desc"
+              style={{ maxWidth: "320px", fontSize: "13.5px", color: "rgba(180,195,230,0.5)", lineHeight: 1.72, fontWeight: 400, paddingBottom: "8px", flexShrink: 0 }}
+            >
               A curated selection of projects where strategy, design, and engineering collide to create real-world impact.
             </p>
           </div>
 
-          <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+          <div className="ow-filters-row" style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
             {filters.map(f => (
-              <button key={f} className={`ow-filter-btn ${activeFilter === f ? "ow-filter-btn--on" : ""}`} onClick={() => setActiveFilter(f)}>{f}</button>
+              <button
+                key={f}
+                className={`ow-filter-btn ${activeFilter === f ? "ow-filter-btn--on" : ""}`}
+                onClick={() => setActiveFilter(f)}
+              >
+                {f}
+              </button>
             ))}
           </div>
         </div>
@@ -649,14 +778,17 @@ export default function OurWork() {
         {/* ── STATS ── */}
         <div className="ow-stats-grid">
           {stats.map((s, i) => (
-            <div key={s.label} className={i > 0 ? "ow-stat-divider" : ""}>
+            <div key={s.label} style={i > 0 ? { borderLeft: "1px solid rgba(123,110,246,0.1)" } : {}}>
               <Stat stat={s} index={i} />
             </div>
           ))}
         </div>
 
         {/* ── CTA ── */}
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "16px", flexWrap: "wrap", position: "relative", zIndex: 1 }}>
+        <div style={{
+          display: "flex", alignItems: "center", justifyContent: "center",
+          gap: "16px", flexWrap: "wrap", position: "relative", zIndex: 1,
+        }}>
           <a href="/work" className="ow-cta-primary">✦ View All Projects</a>
           <a href="/contact" className="ow-cta-secondary">Start a Project →</a>
         </div>
