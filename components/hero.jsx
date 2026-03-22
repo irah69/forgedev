@@ -1,360 +1,13 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Globe from "./globe";
+import HeroText from "./text";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Lenis from "@studio-freight/lenis";
 
-function useGlobe(canvasRef) {
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-
-    const COUNT         = 2800;
-    const BASE_DOT      = 1.5;
-    const INFLUENCE_R   = 0.32;
-    const PUSH_STRENGTH = 0.38;
-    const SPRING_K      = 0.12;
-    const DAMPING       = 0.72;
-    const BASE_SPIN     = 0.0018;
-
-    const pts = [];
-    for (let i = 0; i < COUNT; i++) {
-      const phi   = Math.acos(1 - (2 * (i + 0.5)) / COUNT);
-      const theta = Math.PI * (1 + Math.sqrt(5)) * i;
-      pts.push({
-        ox: Math.sin(phi) * Math.cos(theta),
-        oy: Math.cos(phi),
-        oz: Math.sin(phi) * Math.sin(theta),
-        dx: 0, dy: 0, dz: 0,
-        vx: 0, vy: 0, vz: 0,
-        sx: 0, sy: 0, sz: 0,
-      });
-    }
-
-    let rotX = 0.25, rotY = 0;
-    let velX = 0,    velY = BASE_SPIN;
-    let dragging = false;
-    let prevMX = 0,  prevMY = 0;
-    let cursorX = -9999, cursorY = -9999;
-    let onGlobe = false;
-
-    function resize() {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      canvas.width  = canvas.offsetWidth  * dpr;
-      canvas.height = canvas.offsetHeight * dpr;
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    }
-    resize();
-    const ro = new ResizeObserver(resize);
-    ro.observe(canvas);
-
-    function rotY3(p, a) {
-      const c = Math.cos(a), s = Math.sin(a);
-      return { x: p.x * c + p.z * s, y: p.y, z: -p.x * s + p.z * c };
-    }
-    function rotX3(p, a) {
-      const c = Math.cos(a), s = Math.sin(a);
-      return { x: p.x, y: p.y * c - p.z * s, z: p.y * s + p.z * c };
-    }
-
-    /* ── helper: is a canvas-pixel coordinate on the globe disc? ── */
-    function isOnGlobe(cx_px, cy_px, R) {
-      const w  = canvas.offsetWidth;
-      const h  = canvas.offsetHeight;
-      const cx = w / 2;
-      const cy = h / 2;
-      const nx = (cx_px - cx) / R;
-      const ny = -(cy_px - cy) / R;
-      return nx * nx + ny * ny <= 1.0;
-    }
-
-    function getGlobeRadius() {
-      return Math.min(canvas.offsetWidth, canvas.offsetHeight) * 0.33;
-    }
-
-    function getCursorInCanvas(clientX, clientY) {
-      const rect = canvas.getBoundingClientRect();
-      cursorX = clientX - rect.left;
-      cursorY = clientY - rect.top;
-    }
-
-    let raf;
-    function draw() {
-      raf = requestAnimationFrame(draw);
-      const w  = canvas.offsetWidth;
-      const h  = canvas.offsetHeight;
-      const cx = w / 2;
-      const cy = h / 2;
-      const R  = Math.min(w, h) * 0.33;
-
-      ctx.clearRect(0, 0, w, h);
-
-      if (!dragging) {
-        rotY += velY;
-        rotX += velX;
-        velX *= 0.96;
-        velY  = velY * 0.97 + BASE_SPIN * 0.03;
-        rotX  = Math.max(-0.55, Math.min(0.55, rotX));
-      }
-
-      const csxN   = (cursorX - cx) / R;
-      const csyN   = -(cursorY - cy) / R;
-      const csLen2 = csxN * csxN + csyN * csyN;
-      onGlobe = csLen2 <= 1.0;
-
-      let hitX = 0, hitY = 0, hitZ = 0;
-      if (onGlobe) {
-        const csZ = Math.sqrt(1 - csLen2);
-        let h3 = rotX3({ x: csxN, y: csyN, z: csZ }, -rotX);
-        h3 = rotY3(h3, -rotY);
-        hitX = h3.x; hitY = h3.y; hitZ = h3.z;
-      }
-
-      for (const p of pts) {
-        if (onGlobe) {
-          const ddx  = p.ox - hitX;
-          const ddy  = p.oy - hitY;
-          const ddz  = p.oz - hitZ;
-          const dist = Math.sqrt(ddx * ddx + ddy * ddy + ddz * ddz);
-          if (dist < INFLUENCE_R) {
-            const falloff  = 1 - dist / INFLUENCE_R;
-            const pushMag  = PUSH_STRENGTH * falloff * falloff;
-            p.vx += (p.ox * pushMag - p.dx) * SPRING_K;
-            p.vy += (p.oy * pushMag - p.dy) * SPRING_K;
-            p.vz += (p.oz * pushMag - p.dz) * SPRING_K;
-          } else {
-            p.vx += (0 - p.dx) * SPRING_K;
-            p.vy += (0 - p.dy) * SPRING_K;
-            p.vz += (0 - p.dz) * SPRING_K;
-          }
-        } else {
-          p.vx += (0 - p.dx) * SPRING_K;
-          p.vy += (0 - p.dy) * SPRING_K;
-          p.vz += (0 - p.dz) * SPRING_K;
-        }
-        p.vx *= DAMPING; p.vy *= DAMPING; p.vz *= DAMPING;
-        p.dx += p.vx;    p.dy += p.vy;    p.dz += p.vz;
-      }
-
-      for (const p of pts) {
-        const nx = p.ox + p.dx;
-        const ny = p.oy + p.dy;
-        const nz = p.oz + p.dz;
-        let r  = rotY3({ x: nx, y: ny, z: nz }, rotY);
-        r      = rotX3(r, rotX);
-        p.sx   = cx + r.x * R;
-        p.sy   = cy - r.y * R;
-        p.sz   = r.z;
-      }
-
-      pts.sort((a, b) => a.sz - b.sz);
-
-      for (const p of pts) {
-        const depth   = (p.sz + 1) / 2;
-        const dispMag = Math.sqrt(p.dx*p.dx + p.dy*p.dy + p.dz*p.dz);
-        const excited = Math.min(dispMag / PUSH_STRENGTH, 1);
-        const size    = BASE_DOT * (0.35 + 0.65 * depth) * (1 + excited * 1.8);
-        const hue     = 210 + depth * 60 - excited * 20;
-        const sat     = 75  + excited * 25;
-        const lit     = 40  + depth * 30 + excited * 35;
-        const alpha   = 0.2  + depth * 0.6 + excited * 0.2;
-
-        if (excited > 0.05) {
-          const g = ctx.createRadialGradient(p.sx, p.sy, 0, p.sx, p.sy, size * 5);
-          g.addColorStop(0,   `hsla(${hue},${sat}%,${lit+25}%,${alpha})`);
-          g.addColorStop(0.3, `hsla(${hue},${sat}%,${lit}%,${alpha * 0.5})`);
-          g.addColorStop(1,   `hsla(${hue},${sat}%,${lit}%,0)`);
-          ctx.beginPath();
-          ctx.arc(p.sx, p.sy, size * 5, 0, Math.PI * 2);
-          ctx.fillStyle = g;
-          ctx.fill();
-        }
-
-        ctx.beginPath();
-        ctx.arc(p.sx, p.sy, size, 0, Math.PI * 2);
-        ctx.fillStyle = `hsla(${hue},${sat}%,${lit}%,${alpha})`;
-        ctx.fill();
-      }
-    }
-    draw();
-
-    /* ══ MOUSE events (desktop) ══════════════════════════════════ */
-    function onMouseMove(e) {
-      getCursorInCanvas(e.clientX, e.clientY);
-      if (!dragging) return;
-      const dx = e.clientX - prevMX;
-      const dy = e.clientY - prevMY;
-      velY = dx * 0.006;
-      velX = dy * 0.006;
-      rotY += velY;
-      rotX += velX;
-      prevMX = e.clientX;
-      prevMY = e.clientY;
-    }
-    function onMouseDown(e) {
-      dragging = true;
-      prevMX = e.clientX; prevMY = e.clientY;
-    }
-    function onMouseUp()    { dragging = false; }
-    function onMouseLeave() {
-      dragging = false;
-      cursorX = -9999; cursorY = -9999;
-    }
-
-    /* ══ TOUCH events ════════════════════════════════════════════
-       KEY FIX:
-       • touchstart checks if the finger lands ON the globe disc.
-       • If YES  → capture the touch, prevent scroll, rotate globe.
-       • If NO   → do nothing; the browser handles scroll normally.
-       • The canvas CSS uses `touchAction: "auto"` so the browser
-         is free to scroll unless we explicitly call preventDefault.
-    ═══════════════════════════════════════════════════════════════ */
-    let touchOnGlobe = false;
-
-    function onTouchStart(e) {
-      const touch = e.touches[0];
-      getCursorInCanvas(touch.clientX, touch.clientY);
-      const R = getGlobeRadius();
-      touchOnGlobe = isOnGlobe(cursorX, cursorY, R);
-
-      if (touchOnGlobe) {
-        // Only block scroll when touching the globe
-        e.preventDefault();
-        dragging = true;
-        prevMX = touch.clientX;
-        prevMY = touch.clientY;
-      } else {
-        // Not on globe — let the browser scroll freely
-        dragging = false;
-        cursorX = -9999;
-        cursorY = -9999;
-      }
-    }
-
-    function onTouchMove(e) {
-      if (!touchOnGlobe) return; // not on globe → let page scroll
-      const touch = e.touches[0];
-      getCursorInCanvas(touch.clientX, touch.clientY);
-      if (!dragging) return;
-      e.preventDefault();
-      const dx = touch.clientX - prevMX;
-      const dy = touch.clientY - prevMY;
-      velY = dx * 0.006;
-      velX = dy * 0.006;
-      rotY += velY;
-      rotX += velX;
-      prevMX = touch.clientX;
-      prevMY = touch.clientY;
-    }
-
-    function onTouchEnd() {
-      dragging = false;
-      touchOnGlobe = false;
-      cursorX = -9999;
-      cursorY = -9999;
-    }
-
-    canvas.addEventListener("mousedown",  onMouseDown);
-    canvas.addEventListener("mouseleave", onMouseLeave);
-    // passive:false ONLY so we can call preventDefault when touch is on globe
-    canvas.addEventListener("touchstart", onTouchStart, { passive: false });
-    canvas.addEventListener("touchmove",  onTouchMove,  { passive: false });
-    canvas.addEventListener("touchend",   onTouchEnd,   { passive: true  });
-    window.addEventListener("mousemove",  onMouseMove);
-    window.addEventListener("mouseup",    onMouseUp);
-
-    return () => {
-      cancelAnimationFrame(raf);
-      ro.disconnect();
-      canvas.removeEventListener("mousedown",  onMouseDown);
-      canvas.removeEventListener("mouseleave", onMouseLeave);
-      canvas.removeEventListener("touchstart", onTouchStart);
-      canvas.removeEventListener("touchmove",  onTouchMove);
-      canvas.removeEventListener("touchend",   onTouchEnd);
-      window.removeEventListener("mousemove",  onMouseMove);
-      window.removeEventListener("mouseup",    onMouseUp);
-    };
-  }, []);
-}
-
-export default function VideoHero() {
-  const canvasRef = useRef(null);
-  const [visible, setVisible] = useState(false);
-  useGlobe(canvasRef);
-
-  useEffect(() => {
-    const t = setTimeout(() => setVisible(true), 200);
-    return () => clearTimeout(t);
-  }, []);
-
-  return (
-    <section
-      className="relative w-full h-screen overflow-hidden"
-      style={{ background: "#03040f" }}
-    >
-      <StarField />
-
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(ellipse 58% 58% at 50% 50%, rgba(40,80,255,0.13) 0%, transparent 70%)",
-        }}
-      />
-
-      {/*
-        KEY: touchAction "auto" lets the browser scroll normally.
-        We only call preventDefault() in the touch handler when
-        the finger is confirmed to be on the globe disc.
-      */}
-      <canvas
-        ref={canvasRef}
-        className="absolute inset-0 w-full h-full cursor-grab active:cursor-grabbing"
-        style={{ touchAction: "auto" }}
-      />
-
-      <div
-        className="absolute inset-0 flex flex-col items-center justify-center text-center px-6 pointer-events-none"
-        style={{ opacity: visible ? 1 : 0, transition: "opacity 1.2s ease" }}
-      >
-        <h1
-          className="leading-tight mb-5 text-white"
-          style={{
-            fontFamily:    "'Syne', sans-serif",
-            fontSize:      "clamp(2.4rem, 7vw, 6.5rem)",
-            fontWeight:    800,
-            letterSpacing: "-0.02em",
-            textShadow:    "0 0 80px rgba(80,130,255,0.35)",
-          }}
-        >
-          Building{" "}
-          <em
-            style={{
-              fontStyle:            "italic",
-              background:           "linear-gradient(120deg,#60a5fa,#a78bfa 55%,#60efff)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor:  "transparent",
-            }}
-          >
-            Digital
-            <br />
-            Solutions
-          </em>{" "}
-          That&nbsp;Matter
-        </h1>
-
-        <div
-          className="flex flex-wrap gap-4 justify-center pointer-events-auto"
-          style={{ fontFamily: "'DM Mono', monospace" }}
-        />
-      </div>
-
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500&display=swap');
-      `}</style>
-    </section>
-  );
-}
-
+/* ── StarField ─────────────────────────────────────────────── */
 function StarField() {
   const ref = useRef(null);
   useEffect(() => {
@@ -382,5 +35,134 @@ function StarField() {
       ref={ref}
       className="absolute inset-0 w-full h-full pointer-events-none"
     />
+  );
+}
+
+/* ── Hero ──────────────────────────────────────────────────── */
+export default function Hero() {
+  const [visible, setVisible]   = useState(false);
+  const sectionRef               = useRef(null);
+  const globeLayerRef            = useRef(null);
+  const textLayerRef             = useRef(null);
+  const starsLayerRef            = useRef(null);
+  const glowLayerRef             = useRef(null);
+  const lenisRef                 = useRef(null);
+
+  /* fade-in on mount */
+  useEffect(() => {
+    const t = setTimeout(() => setVisible(true), 200);
+    return () => clearTimeout(t);
+  }, []);
+
+  /* parallax scroll setup */
+  useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
+
+    /* smooth scroll */
+    const lenis = new Lenis();
+    lenisRef.current = lenis;
+    lenis.on("scroll", ScrollTrigger.update);
+    gsap.ticker.add((time) => { lenis.raf(time * 1000); });
+    gsap.ticker.lagSmoothing(0);
+
+    const section = sectionRef.current;
+    if (!section) return;
+
+    /*
+      Parallax layers — each moves at a different rate as hero scrolls out.
+      Stars move slowest (subtle depth), globe moves mid, text moves fastest
+      (feels closest to the viewer), glow moves with globe.
+    */
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: section,
+        start:   "top top",
+        end:     "bottom top",
+        scrub:   true,
+      },
+    });
+
+    // stars — barely drift
+    tl.to(starsLayerRef.current, { yPercent: 15,  ease: "none" }, 0);
+
+    // glow blob — mid-drift with globe
+    tl.to(glowLayerRef.current,  { yPercent: 30,  ease: "none" }, 0);
+
+    // globe canvas — moves moderately
+    tl.to(globeLayerRef.current, { yPercent: 40,  ease: "none" }, 0);
+
+    // text — moves fastest (foreground feel)
+    tl.to(textLayerRef.current,  { yPercent: 60,  ease: "none" }, 0);
+
+    return () => {
+      ScrollTrigger.getAll().forEach((st) => st.kill());
+      lenis.destroy();
+    };
+  }, []);
+
+  return (
+    <>
+      {/* sticky wrapper — 200vh gives scroll room inside the section */}
+      <div
+        ref={sectionRef}
+        style={{ height: "200vh", background: "#03040f" }}
+      >
+        {/* sticky viewport */}
+        <div
+          className="sticky top-0 w-full h-screen overflow-hidden"
+          style={{ background: "#03040f" }}
+        >
+          {/* ── layer 0: stars (slowest) */}
+          <div
+            ref={starsLayerRef}
+            className="absolute inset-0 will-change-transform"
+          >
+            <StarField />
+          </div>
+
+          {/* ── layer 1: radial glow */}
+          <div
+            ref={glowLayerRef}
+            className="absolute inset-0 pointer-events-none will-change-transform"
+            style={{
+              background:
+                "radial-gradient(ellipse 58% 58% at 50% 50%, rgba(40,80,255,0.13) 0%, transparent 70%)",
+            }}
+          />
+
+          {/* ── layer 2: interactive globe (mid) */}
+          <div
+            ref={globeLayerRef}
+            className="absolute inset-0 will-change-transform"
+          >
+            <Globe />
+          </div>
+
+          {/* ── layer 3: headline text (fastest / foreground) */}
+          <div
+            ref={textLayerRef}
+            className="absolute inset-0 will-change-transform"
+          >
+            <HeroText visible={visible} />
+          </div>
+
+          {/* ── bottom fade into rest of page */}
+          <div
+            aria-hidden="true"
+            className="absolute bottom-0 left-0 right-0 pointer-events-none"
+            style={{
+              height: "220px",
+              background:
+                "linear-gradient(to bottom, transparent 0%, rgba(3,4,15,0.6) 55%, #03040f 100%)",
+              zIndex: 20,
+            }}
+          />
+        </div>
+      </div>
+
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500&display=swap');
+      `}</style>
+    </>
   );
 }
