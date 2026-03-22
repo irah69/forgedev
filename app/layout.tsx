@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import { keywords } from "../components/Keywords";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -43,70 +44,7 @@ export const metadata: Metadata = {
   // ──────────────────────────────────────────────
   // KEYWORDS (still read by Bing, Yandex, etc.)
   // ──────────────────────────────────────────────
-  keywords: [
-    // ── Local SEO ──
-    "web developer Hyderabad",
-    "web developer Beeramguda",
-    "freelance web developer Hyderabad",
-    "website development Hyderabad",
-    "web design Hyderabad",
-    "web design Beeramguda",
-    "web developer near me Hyderabad",
-    "affordable web developer Hyderabad",
-    "best web developer Hyderabad",
-    "website designer Hyderabad",
-
-    // ── Core Tech ──
-    "Next.js developer India",
-    "React developer Hyderabad",
-    "React developer India",
-    "full stack developer Hyderabad",
-    "Node.js developer Hyderabad",
-    "TypeScript developer India",
-    "JavaScript developer Hyderabad",
-    "custom web application development",
-    "web app development India",
-    "progressive web app development",
-
-    // ── Business Websites ──
-    "business website development Hyderabad",
-    "startup website development India",
-    "landing page design Hyderabad",
-    "portfolio website development",
-    "portfolio website Hyderabad",
-    "blog website development India",
-    "restaurant website design Hyderabad",
-    "small business website Hyderabad",
-
-    // ── E-commerce ──
-    "ecommerce website development Hyderabad",
-    "online store development India",
-    "Shopify developer Hyderabad",
-    "WooCommerce developer India",
-    "ecommerce SEO Hyderabad",
-    "product catalogue website India",
-
-    // ── Digital Invitations ──
-    "digital wedding invitations India",
-    "animated wedding cards online",
-    "online wedding invitation Hyderabad",
-    "digital wedding card maker India",
-    "e-invite for wedding India",
-    "WhatsApp wedding invitation India",
-
-    // ── SEO ──
-    "SEO services Hyderabad",
-    "local SEO Hyderabad",
-    "technical SEO India",
-    "on-page SEO services",
-    "Google ranking services Hyderabad",
-    "website speed optimisation India",
-
-    // ── Maintenance & Support ──
-    "website maintenance Hyderabad",
-    "website redesign Hyderabad",
-    "website revamp India",
-  ],
+  keywords: [...keywords],
 
   // ──────────────────────────────────────────────
   // AUTHORSHIP
