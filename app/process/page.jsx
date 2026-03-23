@@ -340,29 +340,7 @@ export default function Process() {
           </div>
 
           {/* Footer CTA */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-            className="mt-8 flex flex-col sm:flex-row items-center gap-4"
-          >
-            <motion.button
-              whileHover={{ scale: 1.04 }}
-              whileTap={{ scale: 0.97 }}
-              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-sm font-bold text-white"
-              style={{
-                background: "linear-gradient(135deg, #7C3AED, #0EA5E9)",
-                boxShadow: "0 0 30px rgba(124,58,237,0.35)",
-                fontFamily: "'Syne', sans-serif",
-              }}
-            >
-              • Start Your Project
-            </motion.button>
-            <span className="text-xs text-white/25 font-mono">
-              First discovery call is free
-            </span>
-          </motion.div>
+
         </div>
       </section>
     </>
