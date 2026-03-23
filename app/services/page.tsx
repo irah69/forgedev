@@ -733,28 +733,26 @@ export default function ServicesSlider() {
     startAutoPlay();
 
     /* Events */
-    const onWheel = throttle((...args: unknown[]) => {
-      const e = args[0] as WheelEvent;
-      if (!state.current.animating && goRef.current) goRef.current(e.deltaY > 0 ? "next" : "prev");
+    const onWheel = throttle((e: WheelEvent) => {
+      if (!state.current.animating) goRef.current((e as WheelEvent).deltaY > 0 ? "next" : "prev");
     }, 1800);
     window.addEventListener("wheel", onWheel as EventListener, { passive: true });
 
     let touchStartY = 0;
     const onTouchStart = (e: TouchEvent) => { touchStartY = e.touches[0].clientY; };
-    const onTouchEnd = throttle((...args: unknown[]) => {
-      const e = args[0] as TouchEvent;
+    const onTouchEnd = throttle((e: TouchEvent) => {
       if (state.current.animating) return;
       const diff = touchStartY - e.changedTouches[0].clientY;
       if (Math.abs(diff) < 40) return;
-      if (goRef.current) goRef.current(diff > 0 ? "next" : "prev");
+      goRef.current(diff > 0 ? "next" : "prev");
     }, 1800);
     window.addEventListener("touchstart", onTouchStart as EventListener, { passive: true });
     window.addEventListener("touchend",   onTouchEnd as EventListener,   { passive: true });
 
     const onKeyDown = (e: KeyboardEvent) => {
       if (state.current.animating) return;
-      if ((e.key === "ArrowDown"  || e.key === "ArrowRight") && goRef.current) goRef.current("next");
-      if ((e.key === "ArrowUp"    || e.key === "ArrowLeft")  && goRef.current) goRef.current("prev");
+      if (e.key === "ArrowDown"  || e.key === "ArrowRight") goRef.current("next");
+      if (e.key === "ArrowUp"    || e.key === "ArrowLeft")  goRef.current("prev");
     };
     window.addEventListener("keydown", onKeyDown);
 
