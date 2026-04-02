@@ -88,7 +88,7 @@ export const metadata: Metadata = {
       "Modern websites, digital wedding invitations, e-commerce & SEO from a freelance web developer in Beeramguda, Hyderabad.",
     images: [
       {
-        url: "/og-image.png", // ⚠️ Replace with a 1200×630 PNG — SVGs don't render in OG previews
+        url: "/logo.png",
         width: 1200,
         height: 630,
         alt: "IRAH Web Development — Hyderabad",
@@ -107,7 +107,7 @@ export const metadata: Metadata = {
     title: "IRAH Web Development — Hyderabad Web Developer",
     description:
       "Websites, digital wedding cards, SEO & e-commerce solutions. Based in Beeramguda, Hyderabad.",
-    images: ["/og-image.png"],
+    images: ["/logo.png"],
   },
 
   // ──────────────────────────────────────────────
@@ -115,10 +115,11 @@ export const metadata: Metadata = {
   // ──────────────────────────────────────────────
   icons: {
     icon: [
+      { url: "/logo.png", sizes: "any" },
       { url: "/favicon-32x32.png", sizes: "32x32" },
       { url: "/favicon-512.png", sizes: "512x512" },
     ],
-    apple: "/apple-touch-icon.png", // 180×180 PNG
+    apple: "/logo.png", // Logo for Apple devices
     shortcut: "/favicon.ico",
   },
 
@@ -172,8 +173,8 @@ export default function RootLayout({
               "@type": "ProfessionalService",
               name: "IRAH Web Development",
               url: "https://irahtech.in",
-              logo: "https://irahtech.in/logo.svg",
-              image: "https://irahtech.in/og-image.png",
+              logo: "https://irahtech.in/logo.png",
+              image: "https://irahtech.in/logo.png",
               description:
                 "Freelance web development studio in Beeramguda, Hyderabad offering websites, digital wedding invitations, e-commerce, and SEO services.",
               address: {

@@ -230,7 +230,7 @@ export default function Navbar() {
 
           {/* LOGO */}
           <Link href="/" className="nb-logo" onClick={closeMobile}>
-            <img src="/logo.svg" alt="Logo" width={32} height={32} />
+            <img src="/logo.png" alt="IRAH Logo" width={36} height={36} />
             <span className="nb-logo-text">IRAH</span>
           </Link>
 
