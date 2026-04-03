@@ -77,7 +77,7 @@ const products = [
   rating: 5,
   gradient: "linear-gradient(135deg,#fff7ed 0%,#fde68a 100%)",
   image: "/littleberries.png",
-  url: "https://little-berries.vercel.app/",
+  url: "https://littleberries.co.in/",
 }
 ];
 
