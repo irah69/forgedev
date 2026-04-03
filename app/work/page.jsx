@@ -27,7 +27,7 @@ const projects = [
     color: "#fde68a",
     accent: "#fff7ed",
     size: "small",
-    link: "https://little-berries.vercel.app/",
+    link: "https://littleberries.co.in/",
     image: "/littleberries.png",
     badge: "Education",
     rating: 5,
