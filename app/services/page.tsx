@@ -192,7 +192,6 @@ function ServiceCard({ service, index }: { service: (typeof services)[0]; index:
           <p
             className="text-sm font-semibold tracking-widest uppercase"
             style={{
-              background: `linear-gradient(90deg, ${service.accent.replace("from-", "").replace(/ to-.*/, "").replace(/-\d+/, "")}, #fff)`,
               background: `linear-gradient(90deg, var(--tw-gradient-from), var(--tw-gradient-to))`,
             }}
           >
