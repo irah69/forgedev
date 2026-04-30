@@ -35,20 +35,20 @@ const projects = [
     price: "Informational Website",
     tag: "Playschool & Daycare                .",
   },
-  {
-    id: "03",
-    title: "VELO COMMERCE",
-    category: "E-Commerce · SEO",
-    tags: ["Next.js", "Shopify", "Tailwind"],
-    desc: "High-conversion storefront scaling from 0 to 2M ARR in eight months.",
-    year: "2024",
-    color: "#4FC3F7",
-    accent: "#7B6EF6",
-    size: "small",
-    link: null,
-    image: null,
-  },
-  {
+{
+  id: "03",
+  title: "SLV Banquet Halls",
+  category: "Website · Hospitality",
+  tags: ["Next.js", "Tailwind", "SEO", "UI/UX"],
+  desc: "A premium banquet hall website designed to showcase wedding venues, event spaces, and catering services with a focus on conversions, local SEO, and elegant user experience.",
+  year: "2024",
+  color: "#4FC3F7",
+  accent: "#7B6EF6",
+  size: "small",
+  link: "https://slvbanquethalls.com/",
+  image: "/slv.png",
+},
+  /* {
     id: "04",
     title: "NEXUS API",
     category: "API · Backend",
@@ -99,7 +99,7 @@ const projects = [
     size: "small",
     link: null,
     image: null,
-  },
+  }, */
 ];
 
 const stats = [
@@ -153,6 +153,7 @@ function ProjectCard({ project, index }) {
   const isLarge = project.size === "large";
   const isMurgan = project.id === "01";
   const isLittleBerries = project.id === "02";
+  const isSLV = project.id === "03";
   const delay = (index % 3) * 110;
 
   const cardContent = (
@@ -210,7 +211,7 @@ function ProjectCard({ project, index }) {
         }}>
 
           {/* Murgan & Little Berries: real screenshot image */}
-          {(isMurgan || isLittleBerries) && project.image ? (
+          {(isMurgan || isLittleBerries || isSLV) && project.image ? (
             <>
               <img
                 src={project.image}

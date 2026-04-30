@@ -67,17 +67,17 @@ const products = [
   },
 {
   id: 2,
-  name: "Little Berries",
-  tag: "Playschool & Daycare                .",
-  description: "A joyful early learning playschool website featuring programs for Play Group to Senior KG, activity classes like Chess, Dance & Taekwondo, admissions info, photo gallery, and a parent portal.",
+  name: "SLV Banquet Halls",
+  tag: "Weddings & Events Venue",
+  description: "A modern banquet hall website showcasing premium wedding venues, event spaces, catering services, and custom event experiences with a strong focus on local SEO and lead generation.",
   price: "Informational Website",
-  category: "Education & Childcare",
+  category: "Hospitality & Events",
   technology: "Next.js, Tailwind CSS",
-  badge: "Education",
+  badge: "Hospitality",
   rating: 5,
-  gradient: "linear-gradient(135deg,#fff7ed 0%,#fde68a 100%)",
-  image: "/littleberries.png",
-  url: "https://little-berries.vercel.app/",
+  gradient: "linear-gradient(135deg,#f0f9ff 0%,#e0e7ff 100%)",
+  image: "/slv.png",
+  url: "https://slvbanquethalls.com/",
 }
 ];
 

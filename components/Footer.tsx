@@ -604,7 +604,7 @@ export default function Footer() {
           <div>
             <a href="/" className="ft-brand-logo">
               <div className="ft-brand-mark" style={{ background: 'none', boxShadow: 'none' }}>
-                <img src="/logo.svg" alt="Irah Logo" style={{ width: 28, height: 28, display: 'block' }} />
+                <img src="/logo.png" alt="Irah Logo" style={{ width: 28, height: 28, display: 'block' }} />
               </div>
               <span className="ft-brand-name" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 IRAH
