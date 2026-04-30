@@ -1,478 +1,408 @@
-"use client";
+'use client';
 
 import { useEffect, useRef, useState } from "react";
-import * as THREE from "three";
-import ShoppingBagSymbol from "@/components/ShoppingBagSymbol";
-import CodeBracketsSymbol from "@/components/CodeBracketsSymbol";
-import MagnifierSymbol from "@/components/MagnifierSymbol";
-import Globe from "@/components/globe";
 
-/* ─────────────────────────────────────────────
-   SERVICES DATA
-───────────────────────────────────────────── */
+// ─── CONFIG ──────────────────────────────────────────────────────────────────
+const BIG_TEXTS = ["EXPLORE", "WEBSITES", "UI/UX", "SEO", "PERFORMANCE", "GROWTH"];
+
 const SERVICES = [
   {
-    id: "webdev",
-    index: "01",
-    title: "Web",
-    subtitle: "Development",
-    symbol: "webdev" as const,
-    accent: "#22D3EE",
-    accentAlt: "#67E8F9",
-    description:
-      "We build blazing-fast, scalable web applications using cutting-edge stacks. Next.js, React, TypeScript — fused into experiences that perform and endure.",
-    bullets: ["Full-Stack Next.js Applications", "API Design & Microservices", "Performance & Core Web Vitals", "Scalable Cloud Deployment"],
-    svg: (
-      <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: "100%", height: "100%" }}>
-        <polygon points="60,10 110,85 10,85" stroke="#22D3EE" strokeWidth="1.5" fill="none" opacity="0.3" />
-        <rect x="30" y="35" width="60" height="45" rx="3" stroke="#22D3EE" strokeWidth="1.5" fill="none" />
-        <path d="M30 45h60" stroke="#22D3EE" strokeWidth="1" />
-        <circle cx="37" cy="40" r="2" fill="#22D3EE" opacity="0.8" />
-        <circle cx="44" cy="40" r="2" fill="#67E8F9" opacity="0.6" />
-        <circle cx="51" cy="40" r="2" fill="#22D3EE" opacity="0.4" />
-        <path d="M40 58 L46 64 L40 70" stroke="#22D3EE" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M80 58 L74 64 L80 70" stroke="#22D3EE" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M62 55 L58 73" stroke="#67E8F9" strokeWidth="1.5" strokeLinecap="round" opacity="0.8" />
-        <circle cx="60" cy="100" r="6" stroke="#22D3EE" strokeWidth="1.5" fill="none" />
-        <path d="M55 106 L65 106" stroke="#22D3EE" strokeWidth="1.5" strokeLinecap="round" />
-      </svg>
-    ),
+    title: "WEB DEV",    tag: "FULL STACK",
+    desc:  "End-to-end web development with modern frameworks. React, Next.js, Node.js.",
+    stat1: "STACK: NEXT.JS",    stat2: "DEPLOY: VERCEL",
   },
   {
-    id: "seo",
-    index: "02",
-    title: "SEO",
-    subtitle: "Strategy",
-    symbol: "seo" as const,
-    accent: "#34D399",
-    accentAlt: "#6EE7B7",
-    description:
-      "Data-driven SEO that compounds. We engineer topical authority, technical health, and link equity to place your brand at the top of every search that matters.",
-    bullets: ["Technical SEO Audits & Fixes", "Content & Topical Authority", "Keyword Mapping & Architecture", "Backlink Acquisition Campaigns"],
-    svg: (
-      <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: "100%", height: "100%" }}>
-        <circle cx="52" cy="52" r="28" stroke="#34D399" strokeWidth="1.5" fill="none" opacity="0.4" />
-        <circle cx="52" cy="52" r="18" stroke="#34D399" strokeWidth="1" fill="none" opacity="0.3" />
-        <path d="M72 72 L95 95" stroke="#34D399" strokeWidth="2.5" strokeLinecap="round" />
-        <path d="M38 52 Q52 34 66 52 Q52 70 38 52Z" stroke="#6EE7B7" strokeWidth="1" fill="#34D399" fillOpacity="0.1" />
-        <path d="M30 90 L50 75 L65 82 L90 62" stroke="#6EE7B7" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-        <circle cx="30" cy="90" r="2.5" fill="#34D399" />
-        <circle cx="50" cy="75" r="2.5" fill="#34D399" />
-        <circle cx="65" cy="82" r="2.5" fill="#34D399" />
-        <circle cx="90" cy="62" r="2.5" fill="#6EE7B7" />
-      </svg>
-    ),
+    title: "SEO",        tag: "SEARCH OPT",
+    desc:  "Data-driven SEO strategies. Technical audits, on-page and off-page optimization.",
+    stat1: "RANK: TOP 3",       stat2: "TRAFFIC: +200%",
   },
   {
-    id: "maintenance",
-    index: "03",
-    title: "Web",
-    subtitle: "Maintenance",
-    symbol: "maintenance" as const,
-    accent: "#F472B6",
-    accentAlt: "#F9A8D4",
-    description:
-      "Your digital presence never sleeps — neither do we. Proactive monitoring, security patches, and iterative improvements to keep your platform running at peak.",
-    bullets: ["24/7 Uptime Monitoring", "Security & Dependency Updates", "Performance Optimization Sprints", "Monthly Reporting & Insights"],
-    svg: (
-      <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: "100%", height: "100%" }}>
-        <circle cx="60" cy="60" r="30" stroke="#F472B6" strokeWidth="1.5" fill="none" opacity="0.3" />
-        <path d="M60 30 L60 60 L78 60" stroke="#F472B6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-        <circle cx="60" cy="60" r="4" fill="#F472B6" />
-        <path d="M60 18 L60 24" stroke="#F472B6" strokeWidth="1.5" strokeLinecap="round" opacity="0.5" />
-        <path d="M60 96 L60 102" stroke="#F472B6" strokeWidth="1.5" strokeLinecap="round" opacity="0.5" />
-        <path d="M18 60 L24 60" stroke="#F472B6" strokeWidth="1.5" strokeLinecap="round" opacity="0.5" />
-        <path d="M96 60 L102 60" stroke="#F472B6" strokeWidth="1.5" strokeLinecap="round" opacity="0.5" />
-        <path d="M82 20 L85 32 L73 28 Z" fill="#F9A8D4" opacity="0.6" />
-        <rect x="26" y="85" width="68" height="16" rx="3" stroke="#F472B6" strokeWidth="1" fill="none" opacity="0.4" />
-        <rect x="30" y="89" width="20" height="8" rx="1.5" fill="#F472B6" fillOpacity="0.3" />
-        <rect x="54" y="89" width="12" height="8" rx="1.5" fill="#F9A8D4" fillOpacity="0.2" />
-        <rect x="70" y="89" width="20" height="8" rx="1.5" fill="#F472B6" fillOpacity="0.15" />
-      </svg>
-    ),
+    title: "E-COMMERCE", tag: "ONLINE STORE",
+    desc:  "High-converting stores on Shopify, WooCommerce or custom-built platforms.",
+    stat1: "PLATFORM: SHOPIFY", stat2: "CVR: +35%",
   },
   {
-    id: "ecommerce",
-    index: "04",
-    title: "E-Commerce",
-    subtitle: "Solutions",
-    symbol: "ecommerce" as const,
-    accent: "#7C6FFF",
-    accentAlt: "#A78BFA",
-    description:
-      "We architect high-converting storefronts that turn browsers into buyers. From headless commerce to checkout optimization — every pixel is revenue-engineered.",
-    bullets: ["Custom Storefront Architecture", "Headless Commerce (Next.js + Shopify)", "Payment & Checkout Optimization", "Inventory & CMS Integration"],
-    svg: (
-      <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: "100%", height: "100%" }}>
-        <rect x="28" y="42" width="64" height="44" rx="4" stroke="#7C6FFF" strokeWidth="1.5" fill="none" strokeDasharray="4 3" opacity="0.4" />
-        <path d="M28 54h64" stroke="#7C6FFF" strokeWidth="1.5" />
-        <circle cx="40" cy="48" r="3" fill="#7C6FFF" opacity="0.7" />
-        <circle cx="52" cy="48" r="3" fill="#A78BFA" opacity="0.7" />
-        <rect x="36" y="62" width="20" height="14" rx="2" fill="#7C6FFF" opacity="0.2" stroke="#7C6FFF" strokeWidth="1" />
-        <rect x="64" y="62" width="20" height="14" rx="2" fill="#A78BFA" opacity="0.1" stroke="#A78BFA" strokeWidth="1" />
-        <path d="M46 34 L46 44M52 30 L52 44" stroke="#7C6FFF" strokeWidth="1.5" strokeLinecap="round" />
-        <path d="M60 34 L64 30 L68 34" stroke="#A78BFA" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-        <circle cx="88" cy="36" r="8" fill="#7C6FFF" opacity="0.15" stroke="#7C6FFF" strokeWidth="1" />
-        <path d="M85 36 L87 38 L92 33" stroke="#7C6FFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-    ),
+    title: "WEB MAINT",  tag: "UPTIME GUARD",
+    desc:  "24/7 monitoring, updates, backups, security patches and performance tuning.",
+    stat1: "UPTIME: 99.9%",     stat2: "SLA: ASSURED",
   },
 ];
 
-/* ─────────────────────────────────────────────
-   SYMBOL COMPONENT SELECTOR
-───────────────────────────────────────────── */
-type SymbolType = "ecommerce" | "webdev" | "seo" | "maintenance";
+// Sequence: [text, card, card, card] × 5 + text  →  21 items total
+// item[0]  = EXPLORE  (baseZ = 0)
+// item[20] = GROWTH   (baseZ = -20 × Z_GAP)
+const Z_GAP      = 800;   // same as original
+const CAM_SPEED  = 2.5;   // same as original
+const STAR_COUNT = 150;
+const LERP       = 0.08;  // ← ORIGINAL lerp value restored
 
-interface SymbolProps {
-  color: string;
-  symbol: SymbolType;
+interface Item {
+  el:    HTMLElement;
+  type:  "card" | "text" | "star";
+  x:     number;
+  y:     number;
+  rot:   number;
+  baseZ: number;
 }
 
-function ParticleSymbol({ color, symbol }: SymbolProps) {
-  switch (symbol) {
-    case "ecommerce":
-      return <ShoppingBagSymbol color={color} />;
-    case "webdev":
-      return <CodeBracketsSymbol color={color} />;
-    case "seo":
-      return <MagnifierSymbol color={color} />;
-    case "maintenance":
-      return <Globe />;
-    default:
-      return null;
-  }
-}
+// ─── COMPONENT ───────────────────────────────────────────────────────────────
+export default function HyperScroll() {
+  const worldRef    = useRef<HTMLDivElement>(null);
+  const viewportRef = useRef<HTMLDivElement>(null);
 
-/* ─────────────────────────────────────────────
-   BACKGROUND STAR FIELD
-───────────────────────────────────────────── */
-function StarField() {
-  const mountRef = useRef<HTMLDivElement | null>(null);
+  // scroll state (no Lenis — direct clamped wheel)
+  const rawScroll    = useRef(0);   // clamped target
+  const smoothScroll = useRef(0);   // lerped value  ← drives rendering
+  const velocity     = useRef(0);   // for chromatic / warp fx
 
+  const mouseX = useRef(0);
+  const mouseY = useRef(0);
+  const items  = useRef<Item[]>([]);
+  const rafId  = useRef<number>(0);
+  const lastT  = useRef(0);
+  const maxScroll = useRef(0);
+
+  const [fps,   setFps]   = useState(60);
+  const [vel,   setVel]   = useState("0.00");
+  const [coord, setCoord] = useState("000.000");
+
+  // ── build scene ─────────────────────────────────────────────────────────
   useEffect(() => {
-    const el = mountRef.current;
-    if (!el) return;
-    const w = window.innerWidth;
-    const h = window.innerHeight;
+    const world    = worldRef.current!;
+    const viewport = viewportRef.current!;
 
-    const renderer = new THREE.WebGLRenderer({ antialias: false, alpha: true });
-    renderer.setPixelRatio(1);
-    renderer.setSize(w, h);
-    renderer.setClearColor(0x000000, 0);
-    (el as HTMLDivElement).appendChild(renderer.domElement);
+    const list: Item[] = [];
 
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, w / h, 0.1, 1000);
-    camera.position.z = 1;
+    // ── sequence ──
+    const seq: Array<{ kind: "text"; ti: number } | { kind: "card"; si: number }> = [];
+    for (let g = 0; g < BIG_TEXTS.length; g++) {
+      seq.push({ kind: "text", ti: g });
+      if (g < BIG_TEXTS.length - 1)
+        for (let c = 0; c < 3; c++)
+          seq.push({ kind: "card", si: (g * 3 + c) % SERVICES.length });
+    }
+    const total = seq.length; // 21
 
-    const count = 2000;
-    const pos = new Float32Array(count * 3);
-    for (let i = 0; i < count * 3; i++) pos[i] = (Math.random() - 0.5) * 80;
-    const geo = new THREE.BufferGeometry();
-    geo.setAttribute("position", new THREE.BufferAttribute(pos, 3));
-    const mat = new THREE.PointsMaterial({ color: 0xffffff, size: 0.07, transparent: true, opacity: 0.5 });
-    scene.add(new THREE.Points(geo, mat));
+    // clamped scroll bounds
+    maxScroll.current = ((total - 1) * Z_GAP) / CAM_SPEED;
 
-    let animId: number = 0;
-    const animate = () => {
-      animId = requestAnimationFrame(animate);
-      scene.rotation.y += 0.0001;
-      renderer.render(scene, camera);
+    seq.forEach((s, i) => {
+      const wrapper = document.createElement("div");
+      wrapper.style.cssText =
+        "position:absolute;left:0;top:0;backface-visibility:hidden;" +
+        "transform-origin:center center;display:flex;align-items:center;justify-content:center;";
+
+      const baseZ = -i * Z_GAP;
+
+      if (s.kind === "text") {
+        const txt = document.createElement("div");
+        txt.style.cssText = [
+          "font-size:15vw",
+          "font-weight:800",
+          "color:transparent",
+          "-webkit-text-stroke:2px rgba(255,255,255,0.15)",
+          "text-transform:uppercase",
+          "white-space:nowrap",
+          "transform:translate(-50%,-50%)",
+          "pointer-events:none",
+          "letter-spacing:-0.5rem",
+          "mix-blend-mode:overlay",
+          "font-family:'Syncopate',sans-serif",
+        ].join(";");
+        txt.innerText = BIG_TEXTS[s.ti];
+        wrapper.appendChild(txt);
+        list.push({ el: wrapper, type: "text", x: 0, y: 0, rot: 0, baseZ });
+
+      } else {
+        const svc    = SERVICES[s.si];
+        const randId = Math.floor(Math.random() * 9999);
+        const card   = document.createElement("div");
+
+        const angle = (i / total) * Math.PI * 6;
+        const x     = Math.cos(angle) * (window.innerWidth  * 0.3);
+        const y     = Math.sin(angle) * (window.innerHeight * 0.3);
+        const rot   = (Math.random() - 0.5) * 30;
+
+        // ── CARD STYLES: same geometry as original, more opaque bg ──
+        card.style.cssText = [
+          "width:320px",
+          "height:460px",
+          "background:rgba(14,14,14,0.88)",          // ← more opaque
+          "border:1px solid rgba(255,255,255,0.12)",
+          "position:relative",
+          "padding:2rem",
+          "display:flex",
+          "flex-direction:column",
+          "justify-content:space-between",
+          "backdrop-filter:blur(12px)",
+          "-webkit-backdrop-filter:blur(12px)",
+          "box-shadow:0 0 0 1px rgba(0,0,0,0.6),0 24px 60px rgba(0,0,0,0.75),inset 0 1px 0 rgba(255,255,255,0.05)",
+          "transition:all 0.3s cubic-bezier(0.25,0.46,0.45,0.94)",
+          "transform:translate(-50%,-50%)",
+          "font-family:'Syncopate',sans-serif",
+          "cursor:crosshair",
+        ].join(";");
+
+        card.innerHTML = `
+          <div style="border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:1rem;margin-bottom:1rem;
+                      display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-family:'JetBrains Mono',monospace;color:#ff003c;font-size:.8rem;letter-spacing:.1em;">
+              ID-${randId}
+            </span>
+            <div style="width:10px;height:10px;background:#ff003c;box-shadow:0 0 8px rgba(255,0,60,.7);"></div>
+          </div>
+
+          <div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:.6rem;color:#00f3ff;
+                        text-transform:uppercase;letter-spacing:.25em;margin-bottom:.5rem;">
+              ${svc.tag}
+            </div>
+            <h2 style="font-size:2.5rem;line-height:.9;margin:0;text-transform:uppercase;
+                       font-weight:700;color:#fff;mix-blend-mode:hard-light;">
+              ${svc.title}
+            </h2>
+            <p style="font-family:'JetBrains Mono',monospace;font-size:.65rem;
+                      color:rgba(255,255,255,0.58);margin-top:1rem;line-height:1.7;">
+              ${svc.desc}
+            </p>
+          </div>
+
+          <div style="margin-top:auto;font-family:'JetBrains Mono',monospace;font-size:.7rem;
+                      color:rgba(255,255,255,0.42);display:flex;justify-content:space-between;">
+            <span>${svc.stat1}</span>
+            <span>${svc.stat2}</span>
+          </div>
+
+          <div style="position:absolute;bottom:2rem;right:2rem;font-size:4rem;
+                      opacity:.08;font-weight:900;font-family:'Syncopate',sans-serif;">
+            0${i}
+          </div>`;
+
+        // corner-bracket hover (CSS cannot do this in inline, use JS events)
+        card.addEventListener("mouseenter", () => {
+          card.style.borderColor = "#ff003c";
+          card.style.boxShadow   = "0 0 35px rgba(255,0,60,.25),0 24px 60px rgba(0,0,0,.75),inset 0 1px 0 rgba(255,255,255,.05)";
+          card.style.background  = "rgba(26,8,8,.94)";
+          card.style.zIndex      = "100";
+        });
+        card.addEventListener("mouseleave", () => {
+          card.style.borderColor = "rgba(255,255,255,0.12)";
+          card.style.boxShadow   = "0 0 0 1px rgba(0,0,0,.6),0 24px 60px rgba(0,0,0,.75),inset 0 1px 0 rgba(255,255,255,.05)";
+          card.style.background  = "rgba(14,14,14,0.88)";
+          card.style.zIndex      = "";
+        });
+
+        wrapper.appendChild(card);
+        list.push({ el: wrapper, type: "card", x, y, rot, baseZ });
+      }
+
+      world.appendChild(wrapper);
+    });
+
+    // ── stars ──
+    for (let i = 0; i < STAR_COUNT; i++) {
+      const el = document.createElement("div");
+      el.style.cssText = "position:absolute;width:2px;height:2px;background:#fff;transform:translate(-50%,-50%);";
+      world.appendChild(el);
+      list.push({
+        el, type: "star",
+        x: (Math.random() - 0.5) * 3000,
+        y: (Math.random() - 0.5) * 3000,
+        rot: 0,
+        baseZ: -Math.random() * total * Z_GAP,
+      });
+    }
+
+    items.current = list;
+
+    // ── events ──
+    const onMouse = (e: MouseEvent) => {
+      mouseX.current = (e.clientX / window.innerWidth  - 0.5) * 2;
+      mouseY.current = (e.clientY / window.innerHeight - 0.5) * 2;
     };
-    animate();
 
-    const onResize = () => {
-      renderer.setSize(window.innerWidth, window.innerHeight);
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
+    const onWheel = (e: WheelEvent) => {
+      e.preventDefault();
+      const prev = rawScroll.current;
+      rawScroll.current = Math.max(0, Math.min(maxScroll.current, rawScroll.current + e.deltaY * 0.65));
+      velocity.current  = (rawScroll.current - prev) * 0.05;
     };
-    window.addEventListener("resize", onResize);
+
+    let ty = 0;
+    const onTouchStart = (e: TouchEvent) => { ty = e.touches[0].clientY; };
+    const onTouchMove  = (e: TouchEvent) => {
+      e.preventDefault();
+      const dy = ty - e.touches[0].clientY;
+      ty = e.touches[0].clientY;
+      const prev = rawScroll.current;
+      rawScroll.current = Math.max(0, Math.min(maxScroll.current, rawScroll.current + dy * 2));
+      velocity.current  = (rawScroll.current - prev) * 0.05;
+    };
+
+    window.addEventListener("mousemove",  onMouse);
+    window.addEventListener("wheel",      onWheel,      { passive: false });
+    window.addEventListener("touchstart", onTouchStart, { passive: false });
+    window.addEventListener("touchmove",  onTouchMove,  { passive: false });
+
+    // ── RAF loop ─────────────────────────────────────────────────────────
+    function loop(time: number) {
+      const delta = time - lastT.current;
+      lastT.current = time;
+      if (delta > 0 && time % 12 < 1) setFps(Math.round(1000 / delta));
+
+      // ORIGINAL lerp (0.08) — smooth, not sluggish
+      smoothScroll.current += (rawScroll.current - smoothScroll.current) * LERP;
+      velocity.current     *= 0.9;  // original decay
+
+      setVel(Math.abs(velocity.current).toFixed(2));
+      setCoord(smoothScroll.current.toFixed(0));
+
+      // ── camera tilt (original formula) ──
+      const tiltX = mouseY.current * 5 - velocity.current * 0.5;
+      const tiltY = mouseX.current * 5;
+      world.style.transform = `rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
+
+      // ── dynamic FOV (original formula) ──
+      const fov = 1000 - Math.min(Math.abs(velocity.current) * 10, 600);
+      viewport.style.perspective = `${fov}px`;
+
+      const cameraZ = smoothScroll.current * CAM_SPEED;
+
+      items.current.forEach((item) => {
+        const vizZ = item.baseZ + cameraZ;
+
+        // ── ORIGINAL opacity logic ──
+        let alpha = 1;
+        if (vizZ < -3000) alpha = 0;
+        else if (vizZ < -2000) alpha = (vizZ + 3000) / 1000;
+        if (vizZ > 100 && item.type !== "star") alpha = 1 - (vizZ - 100) / 400;
+        if (alpha < 0) alpha = 0;
+
+        item.el.style.opacity = String(alpha);
+
+        if (alpha > 0) {
+          let t = `translate3d(${item.x}px,${item.y}px,${vizZ}px)`;
+
+          if (item.type === "star") {
+            // ORIGINAL star warp
+            const stretch = Math.max(1, Math.min(1 + Math.abs(velocity.current) * 0.1, 10));
+            t += ` scale3d(1,1,${stretch})`;
+
+          } else if (item.type === "text") {
+            t += ` rotateZ(${item.rot}deg)`;
+            // ORIGINAL chromatic aberration
+            if (Math.abs(velocity.current) > 1) {
+              const off = velocity.current * 2;
+              (item.el.firstChild as HTMLElement).style.textShadow =
+                `${off}px 0 red, ${-off}px 0 cyan`;
+            } else {
+              (item.el.firstChild as HTMLElement).style.textShadow = "none";
+            }
+
+          } else {
+            // ORIGINAL card float
+            const sec   = time * 0.001;
+            const float = Math.sin(sec + item.x) * 10;
+            t += ` rotateZ(${item.rot}deg) rotateY(${float}deg)`;
+          }
+
+          item.el.style.transform = t;
+        }
+      });
+
+      rafId.current = requestAnimationFrame(loop);
+    }
+    rafId.current = requestAnimationFrame(loop);
 
     return () => {
-      window.removeEventListener("resize", onResize);
-      cancelAnimationFrame(animId);
-      renderer.dispose();
-      if ((el as HTMLDivElement).contains(renderer.domElement))
-        (el as HTMLDivElement).removeChild(renderer.domElement);
+      cancelAnimationFrame(rafId.current);
+      window.removeEventListener("mousemove",  onMouse);
+      window.removeEventListener("wheel",      onWheel);
+      window.removeEventListener("touchstart", onTouchStart);
+      window.removeEventListener("touchmove",  onTouchMove);
+      while (world.firstChild) world.removeChild(world.firstChild);
+      items.current = [];
     };
   }, []);
 
+  // ── JSX ─────────────────────────────────────────────────────────────────
   return (
     <div
-      ref={mountRef}
-      className="fixed inset-0 pointer-events-none"
-      style={{ zIndex: 0 }}
-    />
-  );
-}
-
-/* ─────────────────────────────────────────────
-   SERVICE SECTION  ← FIXED DESKTOP LAYOUT
-───────────────────────────────────────────── */
-interface ServiceSectionProps {
-  service: (typeof SERVICES)[number];
-  index: number;
-}
-function ServiceSection({ service, index }: ServiceSectionProps) {
-  const [hovered, setHovered] = useState(false);
-
-  return (
-    <section
-      className="relative w-full min-h-screen flex items-center overflow-hidden"
-      style={{
-        background: `radial-gradient(ellipse at 70% 50%, ${service.accent}11 0%, transparent 65%)`,
-      }}
+      className="relative w-screen h-screen overflow-hidden bg-[#030303] cursor-crosshair"
+      style={{ fontFamily: "'Syncopate', sans-serif" }}
     >
-      {/* Divider line */}
-      <div
-        className="absolute top-0 left-8 right-8 h-px"
-        style={{ background: `linear-gradient(to right, transparent, ${service.accent}40, transparent)` }}
-      />
-
-      {/*
-        ── KEY FIX ──────────────────────────────────────────────────────────────
-        Old:  px-8 md:px-16 lg:px-32  →  over-shrinks the container on desktop,
-              pushing the left column off-screen on narrower desktop viewports.
-        New:  Use a responsive clamp via inline style so padding scales smoothly
-              from 24px (mobile) up to 80px (wide desktop) without ever cutting
-              into the text column. max-w-6xl + mx-auto keeps it centred on
-              ultra-wide screens.
-        ─────────────────────────────────────────────────────────────────────── */}
-      <div
-        className="relative z-10 w-full max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"
-        style={{
-          padding: "5rem clamp(1.5rem, 5vw, 5rem)",
-        }}
-      >
-        {/* TEXT SIDE */}
-        <div
-          className="flex flex-col gap-7 w-full lg:order-1"
-          style={{
-            maxWidth: 520,
-            marginLeft: 0,
-          }}
-        >
-          {/* Index badge */}
-          <div className="flex items-center gap-4">
-            <span
-              className="font-mono text-xs tracking-[0.35em] uppercase px-3 py-1 rounded-full border"
-              style={{
-                color: service.accent,
-                borderColor: `${service.accent}40`,
-                background: `${service.accent}10`,
-              }}
-            >
-              {service.index}
-            </span>
-            <div className="h-px w-12" style={{ background: `${service.accent}40` }} />
-          </div>
-
-          {/* Heading */}
-          <div className="leading-none">
-            <h2
-              className="font-black uppercase text-white block"
-              style={{
-                fontSize: "clamp(2.4rem, 4.5vw, 5rem)",
-                letterSpacing: "-0.02em",
-                lineHeight: 0.95,
-              }}
-            >
-              {service.title}
-            </h2>
-            <h2
-              className="font-black uppercase italic block"
-              style={{
-                fontSize: "clamp(2.4rem, 4.5vw, 5rem)",
-                letterSpacing: "-0.02em",
-                lineHeight: 0.95,
-                background: `linear-gradient(135deg, ${service.accent}, ${service.accentAlt})`,
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-              }}
-            >
-              {service.subtitle}
-            </h2>
-          </div>
-
-          {/* SVG Icon */}
-
-
-          {/* Description */}
-          <p
-            className="text-white/60 leading-relaxed"
-            style={{
-              fontFamily: "'DM Sans', sans-serif",
-              fontSize: "1rem",
-            }}
-          >
-            {service.description}
-          </p>
-
-          {/* Bullets */}
-          <ul className="flex flex-col gap-3">
-            {service.bullets.map((b: string, i: number) => (
-              <li
-                key={i}
-                className="flex items-center gap-3 text-white/75 text-sm tracking-wide"
-                style={{ fontFamily: "'DM Sans', sans-serif" }}
-              >
-                <span
-                  className="rounded-full flex-shrink-0"
-                  style={{
-                    width: 6,
-                    height: 6,
-                    background: service.accent,
-                    boxShadow: `0 0 8px ${service.accent}`,
-                  }}
-                />
-                {b}
-              </li>
-            ))}
-          </ul>
-
-
-        </div>
-
-        {/* PARTICLE SYMBOL SIDE */}
-        <div
-          className="relative flex items-center justify-center lg:order-2"
-          style={{ height: 460 }}
-        >
-          {/* Subtle radial glow behind symbol */}
-          <div
-            className="absolute rounded-full blur-3xl pointer-events-none"
-            style={{ inset: "20%", background: service.accent, opacity: 0.10 }}
-          />
-          <div style={{ width: "100%", height: "100%", maxWidth: 420 }}>
-            <ParticleSymbol color={service.accent} symbol={service.symbol} />
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ─────────────────────────────────────────────
-   HERO HEADER
-───────────────────────────────────────────── */
-function ServicesHero() {
-  return (
-    <section className="relative z-10 w-full pt-56 pb-24 flex flex-col items-center text-center px-6 overflow-hidden">
-      <h1
-        className="font-black uppercase text-white leading-none mb-6"
-        style={{
-          fontSize: "clamp(3.5rem, 9vw, 8rem)",
-          letterSpacing: "-0.03em",
-        }}
-      >
-        Our{" "}
-        <span
-          style={{
-            background: "linear-gradient(135deg, #7C6FFF 0%, #22D3EE 50%, #34D399 100%)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-          }}
-        >
-          Services
-        </span>
-      </h1>
-
-      {/* Decorative line */}
-      <div className="flex items-center gap-4 mt-12">
-        {SERVICES.map((s) => (
-          <div
-            key={s.id}
-            className="h-1 w-12 rounded-full transition-all duration-500"
-            style={{ background: s.accent }}
-          />
-        ))}
-      </div>
-    </section>
-  );
-}
-
-/* ─────────────────────────────────────────────
-   MAIN PAGE
-───────────────────────────────────────────── */
-export default function Services() {
-  return (
-    <>
-      {/* Google Fonts */}
+      {/* Fonts */}
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,600;1,400&family=Bebas+Neue&display=swap');
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        html { scroll-behavior: smooth; }
-        body { background: #060610; }
-        h1, h2, h3, button { font-family: 'Bebas Neue', sans-serif; }
-        p, li, span { font-family: 'DM Sans', sans-serif; }
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;800&family=Syncopate:wght@400;700&display=swap');
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
       `}</style>
 
+      {/* ── Post-processing overlays ── */}
+      {/* Scanlines */}
       <div
-        className="relative min-h-screen"
-        style={{ background: "linear-gradient(180deg, #060610 0%, #080818 100%)" }}
+        className="fixed inset-0 pointer-events-none z-10"
+        style={{
+          background:     "linear-gradient(to bottom,rgba(255,255,255,0),rgba(255,255,255,0) 50%,rgba(0,0,0,0.2) 50%,rgba(0,0,0,0.2))",
+          backgroundSize: "100% 4px",
+        }}
+      />
+      {/* Vignette */}
+      <div
+        className="fixed inset-0 pointer-events-none z-[11]"
+        style={{ background: "radial-gradient(circle,transparent 40%,#000 120%)" }}
+      />
+      {/* Noise */}
+      <div
+        className="fixed inset-0 pointer-events-none z-[12] opacity-[0.07]"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
+        }}
+      />
+
+      {/* ── HUD ── */}
+      <div
+        className="fixed inset-8 z-20 pointer-events-none flex flex-col justify-between uppercase"
+        style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "10px", color: "rgba(255,255,255,0.5)" }}
       >
-        {/* Starfield BG */}
-        <StarField />
+        {/* top row */}
+        <div className="flex justify-between items-center">
+          <span>SYS.READY</span>
+          <div className="flex-1 mx-4 relative" style={{ height: "1px", background: "rgba(255,255,255,0.2)" }}>
+            <div className="absolute right-0 -top-[2px]" style={{ width: 5, height: 5, background: "#ff003c" }} />
+          </div>
+          <span>FPS:&nbsp;<strong style={{ color: "#00f3ff" }}>{fps}</strong></span>
+        </div>
 
-        {/* Nav */}
-        <nav
-          className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 py-5"
-          style={{
-            background: "rgba(6,6,16,0.85)",
-            backdropFilter: "blur(20px)",
-            borderBottom: "1px solid rgba(255,255,255,0.05)",
-          }}
+        {/* side velocity */}
+        <div
+          className="self-start mt-auto mb-auto"
+          style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}
         >
-          <div className="flex items-center gap-2">
-            <div
-              className="w-7 h-7 rounded flex items-center justify-center"
-              style={{ background: "#7C6FFF", color: "#fff", fontFamily: "serif", fontWeight: 900, fontSize: 14 }}
-            >
-              I
-            </div>
-            <span
-              className="text-white font-black tracking-[0.2em] text-sm"
-              style={{ fontFamily: "'Bebas Neue', sans-serif", letterSpacing: "0.3em" }}
-            >
-              IRAH
-            </span>
+          SCROLL VELOCITY //&nbsp;<strong style={{ color: "#00f3ff" }}>{vel}</strong>
+        </div>
+
+        {/* bottom row */}
+        <div className="flex justify-between items-center">
+          <span>COORD:&nbsp;<strong style={{ color: "#00f3ff" }}>{coord}</strong></span>
+          <div className="flex-1 mx-4 relative" style={{ height: "1px", background: "rgba(255,255,255,0.2)" }}>
+            <div className="absolute right-0 -top-[2px]" style={{ width: 5, height: 5, background: "#ff003c" }} />
           </div>
-          <div className="hidden lg:flex items-center gap-8">
-            {["Services", "Work", "About Us", "Process", "Tech", "Contact"].map((item) => (
-              <a
-                key={item}
-                href="#"
-                className="text-white/60 hover:text-white text-xs tracking-widest uppercase transition-colors"
-                style={{ fontFamily: "'DM Sans', sans-serif" }}
-              >
-                {item}
-              </a>
-            ))}
-          </div>
-          <button
-            className="px-5 py-2 rounded-full text-xs font-semibold tracking-wider uppercase transition-all duration-300 hover:opacity-90"
-            style={{
-              background: "linear-gradient(135deg, #7C6FFF, #22D3EE)",
-              color: "#fff",
-              fontFamily: "'DM Sans', sans-serif",
-            }}
-          >
-            • Start a Project
-          </button>
-        </nav>
-
-        {/* Spacer for fixed nav */}
-        <div style={{ height: 88 }} />
-
-        {/* Hero */}
-        <ServicesHero />
-
-        {/* Service Sections */}
-        {SERVICES.map((service, i) => (
-          <ServiceSection key={service.id} service={service} index={i} />
-        ))}
+          <span>VER 2.0.4 [BETA]</span>
+        </div>
       </div>
-    </>
+
+      {/* ── 3-D viewport ── */}
+      <div
+        ref={viewportRef}
+        className="fixed inset-0 overflow-hidden z-[1]"
+        style={{ perspective: "1000px" }}
+      >
+        <div
+          ref={worldRef}
+          className="absolute top-1/2 left-1/2"
+          style={{ transformStyle: "preserve-3d", willChange: "transform" }}
+        />
+      </div>
+    </div>
   );
 }
