@@ -410,7 +410,7 @@ function ProjectCard({ project, index }) {
 
 /* ─── MARQUEE ─────────────────────────────────────────────────────────────── */
 function Marquee() {
-  const items = ["Web Development","UI/UX Design","E-Commerce","SEO","API Integration","Branding","SaaS Products","Mobile Apps"];
+  const items = ["Web Development","UI/UX Design","E-Commerce","SEO","WEB MAINTENANCE"];
   const doubled = [...items, ...items];
   return (
     <div style={{

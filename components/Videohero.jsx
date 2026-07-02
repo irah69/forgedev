@@ -370,75 +370,9 @@ export default function VideoHero() {
         </div>
 
         {/* ── VIDEO CONTROLS (bottom-right) ───────────────────────────── */}
-        <div style={{
-          position: "absolute", bottom: "32px", right: "40px",
-          zIndex: 20,
-          display: "flex", alignItems: "center", gap: "10px",
-          animation: "heroFadeIn 1s ease both 1.2s",
-        }}>
-          <button className="vh-ctrl-btn" onClick={togglePlay} title={playing ? "Pause" : "Play"}>
-            {playing ? (
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
-                <rect x="1" y="1" width="3.5" height="10" rx="1"/>
-                <rect x="7.5" y="1" width="3.5" height="10" rx="1"/>
-              </svg>
-            ) : (
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
-                <path d="M2 1.5l9 4.5-9 4.5V1.5z"/>
-              </svg>
-            )}
-          </button>
 
-          <button className="vh-ctrl-btn" onClick={toggleMute} title={muted ? "Unmute" : "Mute"}>
-            {muted ? (
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round">
-                <path d="M1 4.5h2l4-3v11l-4-3H1V4.5z"/>
-                <path d="M10.5 4.5l-3 5M7.5 4.5l3 5"/>
-              </svg>
-            ) : (
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round">
-                <path d="M1 4.5h2l4-3v11l-4-3H1V4.5z"/>
-                <path d="M9.5 4.5a3 3 0 010 5"/>
-                <path d="M11.5 2.5a6 6 0 010 9"/>
-              </svg>
-            )}
-          </button>
-
-          {/* Loop badge */}
-          <div style={{
-            display: "flex", alignItems: "center", gap: "5px",
-            fontSize: "9px", letterSpacing: "0.18em",
-            color: "rgba(136,146,176,0.5)", fontFamily: "monospace",
-          }}>
-            <svg width="10" height="10" viewBox="0 0 10 10" fill="none"
-              stroke="rgba(123,110,246,0.5)" strokeWidth="1.2" strokeLinecap="round">
-              <path d="M1 3a4 4 0 017 0"/>
-              <path d="M9 7a4 4 0 01-7 0"/>
-              <path d="M7.5 1.5L8.5 3l-1.5.5"/>
-              <path d="M2.5 8.5L1.5 7l1.5-.5"/>
-            </svg>
-            LOOP
-          </div>
-        </div>
 
         {/* ── SCROLL INDICATOR (bottom-center) ────────────────────────── */}
-        <div style={{
-          position: "absolute", bottom: "28px", left: "50%",
-          transform: "translateX(-50%)",
-          zIndex: 20,
-          display: "flex", flexDirection: "column", alignItems: "center", gap: "8px",
-          animation: "heroFadeIn 1.2s ease both 1.4s",
-        }}>
-          <span style={{
-            fontSize: "8px", letterSpacing: "0.3em",
-            color: "rgba(136,146,176,0.4)", textTransform: "uppercase", fontFamily: "monospace",
-          }}>Scroll</span>
-          <div className="vh-scroll-dot" />
-          <div style={{
-            width: "1px", height: "32px",
-            background: "linear-gradient(to bottom, rgba(123,110,246,0.5), transparent)",
-          }} />
-        </div>
 
         {/* ── TOP-RIGHT HINT ───────────────────────────────────────────── */}
 {/*         <div style={{

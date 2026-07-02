@@ -39,7 +39,7 @@ const services: Service[] = [
     glowColor: "rgba(139,92,246,0.15)",
     borderGlow: "rgba(139,92,246,0.4)",
   },
-  {
+{
     id: "02",
     title: "SEO Optimization",
     tagline: "Rank. Dominate. Convert.",
