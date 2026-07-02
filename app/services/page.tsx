@@ -2,7 +2,24 @@
 
 import { useEffect, useRef, useState } from "react";
 
-const services = [
+type Service = {
+  id: string;
+  title: string;
+  tagline: string;
+  description: string;
+  features: string[];
+  icon: React.ReactNode;
+  accent: string;
+  glowColor: string;
+  borderGlow: string;
+};
+
+type ServiceCardProps = {
+  service: Service;
+  index: number;
+};
+
+const services: Service[] = [
   {
     id: "01",
     title: "Web Development",
@@ -81,7 +98,7 @@ const services = [
 ];
 
 function StarField() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -89,7 +106,7 @@ function StarField() {
     if (!ctx) return;
     canvas.width = canvas.offsetWidth;
     canvas.height = canvas.offsetHeight;
-    const stars: { x: number; y: number; r: number; o: number; speed: number }[] = [];
+    const stars: Array<{ x: number; y: number; r: number; o: number; speed: number }> = [];
     for (let i = 0; i < 120; i++) {
       stars.push({
         x: Math.random() * canvas.width,
@@ -118,12 +135,14 @@ function StarField() {
   return <canvas ref={canvasRef} className="absolute inset-0 w-full h-full pointer-events-none" />;
 }
 
-function ServiceCard({ service, index }: { service: (typeof services)[0]; index: number }) {
+function ServiceCard({ service, index }: ServiceCardProps) {
   const [hovered, setHovered] = useState(false);
 
   return (
+    // FIX 1: h-full added here so this wrapper actually fills the
+    // grid row's stretched height instead of shrink-wrapping content.
     <div
-      className="relative group cursor-default"
+      className="relative group cursor-default h-full"
       style={{ animationDelay: `${index * 120}ms` }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
@@ -182,19 +201,19 @@ function ServiceCard({ service, index }: { service: (typeof services)[0]; index:
         </div>
 
         {/* Title + Tagline */}
-        <div>
+        {/* FIX 2: fixed min-heights on title/tagline so a two-line
+            title (e.g. "Web Development") and a one-line title
+            (e.g. "E-Commerce") both reserve the same vertical space,
+            keeping the description below them starting at the same y
+            in every card. */}
+        <div className="min-h-[76px]">
           <h3
-            className="text-2xl font-extrabold mb-1 tracking-tight"
+            className="text-2xl font-extrabold mb-1 tracking-tight leading-snug min-h-[32px]"
             style={{ fontFamily: "'Syne', sans-serif", color: "#fff" }}
           >
             {service.title}
           </h3>
-          <p
-            className="text-sm font-semibold tracking-widest uppercase"
-            style={{
-              background: `linear-gradient(90deg, var(--tw-gradient-from), var(--tw-gradient-to))`,
-            }}
-          >
+          <p className="text-sm font-semibold tracking-widest uppercase leading-tight">
             <span
               style={{
                 background: `linear-gradient(90deg, rgba(139,92,246,1), rgba(34,211,238,1))`,
@@ -208,12 +227,18 @@ function ServiceCard({ service, index }: { service: (typeof services)[0]; index:
         </div>
 
         {/* Description */}
-        <p className="text-sm leading-relaxed" style={{ color: "rgba(180,185,210,0.85)" }}>
+        {/* FIX 3: flex-1 so this block grows/shrinks to absorb the
+            leftover space, pushing the features grid to the same
+            bottom edge in every card regardless of description length. */}
+        <p
+          className="text-sm leading-relaxed flex-1"
+          style={{ color: "rgba(180,185,210,0.85)" }}
+        >
           {service.description}
         </p>
 
         {/* Features */}
-        <ul className="mt-auto grid grid-cols-2 gap-2">
+        <ul className="grid grid-cols-2 gap-2">
           {service.features.map((f) => (
             <li key={f} className="flex items-center gap-2 text-xs" style={{ color: "rgba(200,205,230,0.7)" }}>
               <span
@@ -224,9 +249,6 @@ function ServiceCard({ service, index }: { service: (typeof services)[0]; index:
             </li>
           ))}
         </ul>
-
-        {/* CTA */}
-
       </div>
     </div>
   );
@@ -257,23 +279,6 @@ export default function ServicesPage() {
         <div className="absolute inset-0 pointer-events-none">
           <StarField />
         </div>
-
-        {/* Background orbs */}
-        <div
-          className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[500px] pointer-events-none"
-          style={{
-            background:
-              "radial-gradient(ellipse at center, rgba(99,60,180,0.18) 0%, transparent 70%)",
-            animation: "orb-drift 12s ease-in-out infinite",
-          }}
-        />
-        <div
-          className="absolute bottom-0 right-0 w-[500px] h-[400px] pointer-events-none"
-          style={{
-            background:
-              "radial-gradient(ellipse at center, rgba(34,211,238,0.07) 0%, transparent 70%)",
-          }}
-        />
 
         {/* Nav placeholder (matches IRAH nav style) */}
         <nav className="relative z-10 flex items-center justify-between px-8 py-5 border-b border-white/5">
@@ -313,19 +318,6 @@ export default function ServicesPage() {
 
         {/* Hero section */}
         <section className="relative z-10 text-center pt-24 pb-16 px-6">
-          <div className="fade-up" style={{ animationDelay: "0ms" }}>
-            <span
-              className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold tracking-widest uppercase mb-6"
-              style={{
-                background: "rgba(139,92,246,0.12)",
-                border: "1px solid rgba(139,92,246,0.3)",
-                color: "rgba(167,139,250,1)",
-              }}
-            >
-              What We Do
-            </span>
-          </div>
-
           <h1
             className="fade-up text-5xl md:text-7xl font-black leading-[1.05] tracking-tight mb-6"
             style={{
@@ -341,7 +333,7 @@ export default function ServicesPage() {
                 WebkitTextFillColor: "transparent",
               }}
             >
-              Digital
+              WEB
             </span>
             <br />
             <span className="text-white">Services</span>
@@ -361,45 +353,17 @@ export default function ServicesPage() {
 
         {/* Services grid */}
         <section className="relative z-10 px-6 pb-24 max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
+          {/* FIX 4: items-stretch made explicit so every grid cell in a
+              row is forced to the same height as the tallest card. */}
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5 items-stretch">
             {services.map((service, i) => (
-              <div key={service.id} className="fade-up" style={{ animationDelay: `${200 + i * 100}ms` }}>
+              // FIX 1 (cont.): h-full added on this wrapper too — it's
+              // the actual grid item, so it needs to pass the stretched
+              // row height down to ServiceCard.
+              <div key={service.id} className="fade-up h-full" style={{ animationDelay: `${200 + i * 100}ms` }}>
                 <ServiceCard service={service} index={i} />
               </div>
             ))}
-          </div>
-
-          {/* Bottom CTA strip */}
-          <div
-            className="fade-up mt-16 rounded-2xl p-10 flex flex-col md:flex-row items-center justify-between gap-6"
-            style={{
-              background:
-                "linear-gradient(135deg, rgba(99,60,180,0.2) 0%, rgba(34,211,238,0.08) 100%)",
-              border: "1px solid rgba(139,92,246,0.2)",
-              backdropFilter: "blur(16px)",
-              animationDelay: "600ms",
-            }}
-          >
-            <div>
-              <h2
-                className="text-2xl md:text-3xl font-extrabold text-white mb-2"
-                style={{ fontFamily: "'Syne', sans-serif" }}
-              >
-                Ready to build something that matters?
-              </h2>
-              <p className="text-sm" style={{ color: "rgba(180,185,210,0.65)" }}>
-                Let's talk about your next project and make it extraordinary.
-              </p>
-            </div>
-            <button
-              className="flex-shrink-0 px-8 py-4 rounded-xl font-semibold text-white text-sm tracking-wide transition-all duration-300 hover:scale-105 hover:shadow-2xl"
-              style={{
-                background: "linear-gradient(135deg, #7c3aed, #6366f1)",
-                boxShadow: "0 0 32px rgba(124,58,237,0.4)",
-              }}
-            >
-              Start a Project →
-            </button>
           </div>
         </section>
       </main>

@@ -561,7 +561,7 @@ export default function Footer() {
       `}</style>
 
       <footer className="ft-root">
-        <div className="ft-grid" />
+      {/*   <div className="ft-grid" /> */}
         <div className="ft-glow-left" />
         <div className="ft-glow-right" />
         <div className="ft-glow-bottom" />

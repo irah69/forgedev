@@ -38,7 +38,7 @@ const projects = [
 {
   id: "03",
   title: "SLV Banquet Halls",
-  category: "Website · Hospitality",
+  category: "Branding · Web Dev",
   tags: ["Next.js", "Tailwind", "SEO", "UI/UX"],
   desc: "A premium banquet hall website designed to showcase wedding venues, event spaces, and catering services with a focus on conversions, local SEO, and elegant user experience.",
   year: "2024",
@@ -109,7 +109,7 @@ const stats = [
   { value: "6yr",  label: "In Business" },
 ];
 
-const filters = ["All", "Web App", "E-Commerce", "Branding", "API"];
+const filters = ["All" /* "Web App" */, "E-Commerce", "Branding"/* , "API" */];
 
 /* ─── HOOKS ───────────────────────────────────────────────────────────────── */
 function useInView(threshold = 0.15) {
@@ -690,7 +690,7 @@ export default function OurWork() {
         }}
       >
         {/* bg grid */}
-        <div style={{
+{/*         <div style={{
           position: "absolute", inset: 0,
           backgroundImage: "linear-gradient(rgba(123,110,246,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(123,110,246,0.04) 1px, transparent 1px)",
           backgroundSize: "72px 72px",
@@ -698,7 +698,7 @@ export default function OurWork() {
           pointerEvents: "none",
           maskImage: "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.4) 10%, rgba(0,0,0,0.4) 90%, transparent 100%)",
           WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.4) 10%, rgba(0,0,0,0.4) 90%, transparent 100%)",
-        }} />
+        }} /> */}
 
         {/* ambient glows */}
         <div style={{ position: "absolute", width: "700px", height: "700px", borderRadius: "50%", background: "radial-gradient(circle, rgba(123,110,246,0.07) 0%, transparent 70%)", top: "-100px", left: "-200px", pointerEvents: "none" }} />
@@ -714,7 +714,7 @@ export default function OurWork() {
           transform: headerInView ? "translateY(0)" : "translateY(40px)",
           transition: "opacity 0.8s ease, transform 0.8s cubic-bezier(0.23,1,0.32,1)",
         }}>
-          <p style={{
+{/*           <p style={{
             fontFamily: "'Space Mono', monospace",
             fontSize: "10.5px", letterSpacing: "0.42em",
             color: "rgba(79,195,247,0.75)", textTransform: "uppercase",
@@ -724,7 +724,7 @@ export default function OurWork() {
             <span style={{ flex: "0 0 28px", height: "1px", background: "rgba(79,195,247,0.4)" }} />
             Selected Work
             <span style={{ flex: "0 0 28px", height: "1px", background: "rgba(79,195,247,0.4)" }} />
-          </p>
+          </p> */}
 
           <div
             className="ow-header-inner"

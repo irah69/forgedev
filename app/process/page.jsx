@@ -263,20 +263,13 @@ export default function Process() {
         }}
       >
         {/* Background grid */}
-        <div
-          className="absolute inset-0 opacity-[0.03] pointer-events-none"
-          style={{
-            backgroundImage:
-              "linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)",
-            backgroundSize: "60px 60px",
-          }}
-        />
+
 
         {/* Ambient orbs */}
-        <div className="absolute top-20 right-10 w-80 h-80 rounded-full blur-[140px] opacity-10 pointer-events-none"
+{/*         <div className="absolute top-20 right-10 w-80 h-80 rounded-full blur-[140px] opacity-10 pointer-events-none"
           style={{ background: "#7C3AED" }} />
         <div className="absolute bottom-40 left-5 w-64 h-64 rounded-full blur-[120px] opacity-8 pointer-events-none"
-          style={{ background: "#0EA5E9" }} />
+          style={{ background: "#0EA5E9" }} /> */}
 
         <div className="relative z-10 max-w-2xl mx-auto">
           {/* Header */}
