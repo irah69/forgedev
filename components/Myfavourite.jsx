@@ -20,7 +20,7 @@ const STARS = Array.from({ length: 80 }, (_, i) => ({
   opacity: rand() * 0.5 + 0.1,
   duration: 3 + rand() * 4,
   delay: rand() * 4,
-  color: i % 4 === 0 ? "#7B6EF6" : i % 4 === 1 ? "#4FC3F7" : "#ffffff",
+  color: i % 4 === 0 ? "#C9A227" : i % 4 === 1 ? "#E8C766" : "#ffffff",
 }));
 
 const orbRand = seededRand(99);
@@ -31,29 +31,43 @@ const ORB_DOTS = Array.from({ length: 200 }, (_, i) => {
     cx: 300 + Math.cos(angle) * r,
     cy: 300 + Math.sin(angle) * r,
     opacity: 0.2 + orbRand() * 0.5,
-    color: i % 3 === 0 ? "#7B6EF6" : i % 3 === 1 ? "#4FC3F7" : "#8B5CF6",
+    color: i % 3 === 0 ? "#C9A227" : i % 3 === 1 ? "#E8C766" : "#8A6D3B",
   };
 });
 
 /* ─── THEME ───────────────────────────────────────────────────────────────── */
 const T = {
-  bg: "#03040F",
-  bgCard: "#080B1A",
-  bgCardHover: "#0D1128",
-  accent1: "#7B6EF6",
-  accent2: "#4FC3F7",
-  accent3: "#8B5CF6",
-  text: "#FFFFFF",
-  textMuted: "#8892B0",
-  border: "rgba(123,110,246,0.18)",
-  borderHover: "rgba(79,195,247,0.45)",
-};
+  // Backgrounds
+  bg: "rgb(255, 255, 255)",          // Platinum
+  bgCard: "#ffffff",
+  bgCardHover: "#f7fafa", // Platinum 800
 
+  // Primary Accent
+  accent1: "#2b2d42",     // Space Indigo
+  accent2: "#8d99ae",     // Lavender Grey
+  accent3: "#ef233c",     // Punch Red
+
+  // Typography
+  text: "#2b2d42",
+  textMuted: "#8d99ae",
+
+  // Borders
+  border: "#d2d6df",
+  borderHover: "#2b2d42",
+
+  // Shadows
+  shadow: "rgba(43,45,66,0.08)",
+  shadowHover: "rgba(43,45,66,0.15)",
+
+  // Buttons
+  button: "#2b2d42",
+  buttonHover: "#ef233c",
+};
 /* ─── DATA ────────────────────────────────────────────────────────────────── */
 const products = [
   {
     id: 1,
-    name: "Murgan Collections",
+    name: "AABHARNAM JWELLS",
     tag: "E-Commerce Website",
     description: "A modern online clothing store with product browsing, cart, and secure checkout features.",
     price: "Starting from €19,99",
@@ -62,7 +76,7 @@ const products = [
     badge: "Featured Project",
     rating: 5,
     gradient: "linear-gradient(135deg,#1a1440 0%,#0D1128 100%)",
-    image: "/murgan.png",
+    image: "/aabharnam.png",
     url: "https://murgan-ui.vercel.app/",
   },
 {
@@ -96,7 +110,7 @@ function StarRating({ count, max = 5 }) {
           <polygon
             points="6,1 7.5,4.5 11,4.8 8.5,7 9.2,10.5 6,8.8 2.8,10.5 3.5,7 1,4.8 4.5,4.5"
             fill={i < count ? `url(#sg${i})` : "none"}
-            stroke={i < count ? T.accent1 : "#2a2a4a"}
+            stroke={i < count ? T.accent1 : "#3a3428"}
             strokeWidth="1"
           />
         </svg>
@@ -106,52 +120,7 @@ function StarRating({ count, max = 5 }) {
 }
 
 /* ─── COSMIC ORB ──────────────────────────────────────────────────────────── */
-function CosmicOrb({ size = 600 }) {
-  const half = size / 2;
-  const scaledDots = ORB_DOTS.map((dot) => ({
-    ...dot,
-    cx: (dot.cx / 600) * size,
-    cy: (dot.cy / 600) * size,
-  }));
 
-  return (
-    <div style={{
-      position: "absolute",
-      top: "50%",
-      left: "50%",
-      transform: "translate(-50%, -50%)",
-      width: `${size}px`,
-      height: `${size}px`,
-      pointerEvents: "none",
-      zIndex: 0,
-    }}>
-      <div style={{
-        position: "absolute", inset: 0,
-        borderRadius: "50%",
-        background: `radial-gradient(ellipse, rgba(123,110,246,0.12) 0%, rgba(79,195,247,0.06) 40%, transparent 70%)`,
-        animation: "cosmicPulse 6s ease-in-out infinite",
-      }} />
-      <div style={{
-        position: "absolute", inset: `${size * 0.1}px`,
-        borderRadius: "50%",
-        background: `radial-gradient(ellipse, rgba(139,92,246,0.08) 0%, transparent 70%)`,
-        animation: "cosmicPulse 6s ease-in-out infinite 1s",
-      }} />
-      <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} style={{ position: "absolute", inset: 0 }}>
-        {scaledDots.map((dot, i) => (
-          <circle
-            key={i}
-            cx={dot.cx.toFixed(2)}
-            cy={dot.cy.toFixed(2)}
-            r="1.5"
-            fill={dot.color}
-            opacity={dot.opacity.toFixed(3)}
-          />
-        ))}
-      </svg>
-    </div>
-  );
-}
 
 /* ─── PRODUCT CARD ────────────────────────────────────────────────────────── */
 function ProductCard({ product, isMobile, bp = "desktop" }) {
@@ -178,8 +147,8 @@ function ProductCard({ product, isMobile, bp = "desktop" }) {
         transition: "all 0.4s cubic-bezier(0.23,1,0.32,1)",
         transform: hovered ? "translateY(-8px) scale(1.01)" : "translateY(0) scale(1)",
         boxShadow: hovered
-          ? `0 30px 70px rgba(3,4,15,0.8), 0 0 40px rgba(123,110,246,0.15), inset 0 1px 0 rgba(79,195,247,0.1)`
-          : `0 4px 24px rgba(3,4,15,0.6)`,
+          ? `0 30px 70px rgba(0,0,0,0.55), 0 0 40px rgba(201,162,39,0.18), inset 0 1px 0 rgba(232,199,102,0.12)`
+          : `0 4px 24px rgba(0,0,0,0.4)`,
         position: "relative",
         height: "100%",
         display: "flex",
@@ -189,183 +158,82 @@ function ProductCard({ product, isMobile, bp = "desktop" }) {
       role={product.url ? "link" : undefined}
       aria-label={product.name}
     >
-      {/* Top glow line */}
-      <div style={{
-        position: "absolute", top: 0, left: "10%", right: "10%", height: "1px",
-        background: hovered
-          ? `linear-gradient(90deg, transparent, ${T.accent2}, ${T.accent1}, transparent)`
-          : `linear-gradient(90deg, transparent, ${T.accent1}44, transparent)`,
-        transition: "all 0.4s ease",
-      }} />
 
-      {/* Meta bar */}
-      <div style={{ padding: bp === "xs" ? "10px 10px 6px" : "14px 16px 10px", display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-        <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
-          {product.lumen && (
-            <span style={{ fontSize: bp === "xs" ? "7.5px" : "9px", color: T.textMuted, letterSpacing: "0.08em", fontFamily: "monospace" }}>
-              ✦ {bp === "xs" ? product.lumen : `LUMEN: ${product.lumen}`}
-            </span>
-          )}
-          {product.distance && (
-            <span style={{ fontSize: bp === "xs" ? "7.5px" : "9px", color: T.textMuted, letterSpacing: "0.08em", fontFamily: "monospace" }}>
-              ▼ {bp === "xs" ? product.distance : `DISTANCE: ${product.distance}`}
-            </span>
-          )}
-          {product.tag && (
-            <span style={{ fontSize: bp === "xs" ? "7.5px" : "9px", color: T.textMuted, letterSpacing: "0.08em", fontFamily: "monospace" }}>
-              ◈ {bp === "xs" ? "STVZO" : "STVZO APPROVAL"}
-            </span>
-          )}
-        </div>
-        <div style={{
-          background: product.badge === "CREE+" ? "rgba(79,195,247,0.12)" : "rgba(123,110,246,0.15)",
-          border: `1px solid ${product.badge === "CREE+" ? T.accent2 + "55" : T.accent1 + "55"}`,
-          padding: bp === "xs" ? "2px 5px" : "3px 9px",
-          borderRadius: "4px",
-          fontSize: bp === "xs" ? "7.5px" : "9px",
-          fontWeight: "700",
-          letterSpacing: "0.08em",
-          color: product.badge === "CREE+" ? T.accent2 : T.accent1,
-          flexShrink: 0,
-        }}>
-          {product.badge}
-        </div>
-      </div>
 
       {/* Image area */}
-      <div style={{
-        height: bp === "xs" ? "82px" : bp === "mobile" ? "105px" : "180px",
-        background: product.gradient,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        position: "relative",
-        overflow: "hidden",
-        flexShrink: 0,
-      }}>
-        <div style={{
-          position: "absolute", inset: 0,
-          background: `radial-gradient(ellipse at center, ${T.accent1}12 0%, transparent 65%)`,
-          opacity: hovered ? 1 : 0.4,
-          transition: "opacity 0.4s",
-        }} />
-        <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: 0.07 }}>
-          {Array.from({ length: 8 }).map((_, i) => (
-            <line key={`h${i}`} x1="0" y1={`${(i + 1) * 12.5}%`} x2="100%" y2={`${(i + 1) * 12.5}%`} stroke={T.accent1} strokeWidth="0.5" />
-          ))}
-          {Array.from({ length: 8 }).map((_, i) => (
-            <line key={`v${i}`} x1={`${(i + 1) * 12.5}%`} y1="0" x2={`${(i + 1) * 12.5}%`} y2="100%" stroke={T.accent1} strokeWidth="0.5" />
-          ))}
-        </svg>
-        {product.image ? (
-          <img
-            src={product.image}
-            alt={product.name}
-            style={{
-              position: "absolute",
-              inset: 0,
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              borderRadius: "8px",
-              border: `1px solid ${T.accent1}22`,
-              background: "rgba(123,110,246,0.03)",
-              zIndex: 1,
-            }}
-            loading="lazy"
-          />
-        ) : (
-          <div style={{
-            width: isMobile ? "80px" : "140px",
-            height: isMobile ? "52px" : "100px",
-            border: `1px solid ${T.accent1}22`,
-            borderRadius: "8px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            color: T.accent1 + "40",
-            fontSize: isMobile ? "7px" : "10px",
-            letterSpacing: "0.15em",
-            fontFamily: "monospace",
-            background: "rgba(123,110,246,0.03)",
-          }}>
-            {isMobile ? "IMG" : "PRODUCT IMAGE"}
-          </div>
-        )}
-      </div>
+{/* Image */}
+<div
+  style={{
+    width: "100%",
+    aspectRatio: "3 / 4",
+    overflow: "hidden",
+    position: "relative",
+    background: "#111",
+    flexShrink: 0,
+  }}
+>
+  <img
+    src={product.image}
+    alt={product.name}
+    loading="lazy"
+    style={{
+      width: "100%",
+      height: "100%",
+      objectFit: "cover",
+      display: "block",
+      transition: "transform .7s cubic-bezier(.22,.61,.36,1)",
+      transform: hovered ? "scale(1.04)" : "scale(1)",
+    }}
+  />
 
-      {/* Info */}
-      <div style={{ padding: bp === "xs" ? "10px 10px 14px" : "14px 16px 18px", flex: 1, display: "flex", flexDirection: "column" }}>
-        <StarRating count={product.rating} />
-        <div style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: "10px", flexWrap: "wrap" }}>
-          <h3 style={{
-            margin: 0,
-            fontSize: "clamp(11px, 2.5vw, 16px)",
-            fontWeight: "900",
-            letterSpacing: "0.05em",
-            textTransform: "uppercase",
-            fontFamily: "'Syne', sans-serif",
-            background: hovered
-              ? `linear-gradient(90deg, ${T.accent1}, ${T.accent2})`
-              : "none",
-            WebkitBackgroundClip: hovered ? "text" : "unset",
-            WebkitTextFillColor: hovered ? "transparent" : T.text,
-            transition: "all 0.3s",
-          }}>
-            {product.name}
-          </h3>
-          {product.tag && (
-            <span style={{
-              background: `linear-gradient(135deg, ${T.accent1}22, ${T.accent2}22)`,
-              border: `1px solid ${T.accent1}44`,
-              color: T.accent1,
-              fontSize: "8px",
-              fontWeight: "800",
-              padding: "2px 7px",
-              borderRadius: "3px",
-              letterSpacing: "0.14em",
-              flexShrink: 0,
-            }}>
-              {product.tag}
-            </span>
-          )}
-        </div>
+  {/* Dark gradient for readability */}
+  <div
+    style={{
+      position: "absolute",
+      left: 0,
+      right: 0,
+      bottom: 0,
+      height: "35%",
+      background:
+        "linear-gradient(to top, rgba(0,0,0,0.85), rgba(0,0,0,0.45), transparent)",
+    }}
+  />
 
-        <p style={{ fontSize: "12px", color: T.textMuted, margin: "5px 0 0", fontStyle: "italic", flex: 1 }}>
-          {product.description}
-        </p>
+  {/* Bottom Text */}
+  <div
+    style={{
+      position: "absolute",
+      left: "20px",
+      right: "20px",
+      bottom: "20px",
+      color: "#fff",
+      zIndex: 2,
+    }}
+  >
+    <h3
+      style={{
+        margin: 0,
+        fontSize: "28px",
+        fontWeight: 700,
+        lineHeight: 1.1,
+      }}
+    >
+      {product.name}
+    </h3>
 
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "14px" }}>
+    <p
+      style={{
+        marginTop: "6px",
+        fontSize: "16px",
+        opacity: 0.85,
+      }}
+    >
+      {product.tag}
+    </p>
+  </div>
+</div>
 
-          <button style={{
-            background: hovered
-              ? `linear-gradient(135deg, ${T.accent1}, ${T.accent3})`
-              : "transparent",
-            border: `1px solid ${hovered ? "transparent" : T.accent1 + "55"}`,
-            color: hovered ? "#fff" : T.accent1,
-            padding: "7px 16px",
-            fontSize: "9px",
-            letterSpacing: "0.2em",
-            textTransform: "uppercase",
-            cursor: "pointer",
-            transition: "all 0.3s",
-            borderRadius: "4px",
-            fontWeight: "700",
-            boxShadow: hovered ? `0 0 20px ${T.accent1}44` : "none",
-            flexShrink: 0,
-          }}>
-            View
-          </button>
-        </div>
-      </div>
 
-      {/* Bottom glow */}
-      <div style={{
-        position: "absolute", bottom: 0, left: 0, right: 0, height: "2px",
-        background: `linear-gradient(90deg, transparent, ${T.accent1}, ${T.accent2}, transparent)`,
-        opacity: hovered ? 1 : 0,
-        transition: "opacity 0.4s",
-      }} />
     </div>
   );
 }
@@ -481,9 +349,9 @@ export default function Favourites() {
 
         .fav-nav-btn {
           width: 40px; height: 40px;
-          background: rgba(123,110,246,0.08);
-          border: 1px solid rgba(123,110,246,0.25);
-          color: #7B6EF6;
+          background: rgba(201,162,39,0.08);
+          border: 1px solid rgba(201,162,39,0.3);
+          color: #C9A227;
           font-size: 20px;
           cursor: pointer;
           display: flex; align-items: center; justify-content: center;
@@ -492,10 +360,10 @@ export default function Favourites() {
           flex-shrink: 0;
         }
         .fav-nav-btn:hover:not(:disabled) {
-          background: linear-gradient(135deg, rgba(123,110,246,0.25), rgba(79,195,247,0.15));
-          border-color: #4FC3F7;
-          color: #4FC3F7;
-          box-shadow: 0 0 20px rgba(123,110,246,0.25);
+          background: linear-gradient(135deg, rgba(201,162,39,0.28), rgba(232,199,102,0.16));
+          border-color: #E8C766;
+          color: #0B0B0B;
+          box-shadow: 0 0 20px rgba(201,162,39,0.3);
         }
         .fav-nav-btn:disabled { opacity: 0.25; cursor: not-allowed; }
 
@@ -528,7 +396,7 @@ export default function Favourites() {
         .fav-progress-text {
           font-family: 'Space Mono', monospace;
           font-size: 11px;
-          color: rgba(123,110,246,0.7);
+          color: rgba(201,162,39,0.8);
           letter-spacing: 0.1em;
         }
 
@@ -541,7 +409,7 @@ export default function Favourites() {
           padding: 0;
           height: 3px;
         }
-        .fav-dot-btn:focus { outline: 2px solid #7B6EF6; outline-offset: 3px; }
+        .fav-dot-btn:focus { outline: 2px solid #C9A227; outline-offset: 3px; }
       `}</style>
 
       <section
@@ -576,23 +444,12 @@ export default function Favourites() {
           ))}
         </div>
 
-        <CosmicOrb size={orbSize} />
+        
 
         {/* Content */}
         <div style={{ position: "relative", zIndex: 1, maxWidth: "1400px", margin: "0 auto", width: "100%", boxSizing: "border-box" }}>
 
-          {/* Label */}
-          <p style={{
-            textAlign: "center",
-            fontSize: bp === "xs" ? "9px" : "11px",
-            letterSpacing: "0.4em",
-            color: T.accent2,
-            marginBottom: "14px",
-            opacity: 0.8,
-            animation: "fadeSlideUp 0.6s ease both",
-          }}>
-            DIGITAL · INNOVATION · GROWTH
-          </p>
+
 
           {/* Header — title flush-left with cards, arrows absolute top-right */}
           <div style={{
@@ -625,7 +482,7 @@ export default function Favourites() {
               textTransform: "uppercase",
               letterSpacing: isMobile ? "0.01em" : "0.02em",
               lineHeight: 1,
-              background: `linear-gradient(90deg, ${T.text} 40%, ${T.accent1} 70%, ${T.accent2} 100%)`,
+              background: `linear-gradient(90deg, #0B0B0B 40%, ${T.accent1} 70%, ${T.accent2} 100%)`,
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               backgroundClip: "text",
@@ -635,14 +492,14 @@ export default function Favourites() {
               textOverflow: "ellipsis",
               maxWidth: showNavButtons ? "calc(100% - 120px)" : "100%",
             }}>
-              FAVOURITES
+              Handpicked
             </h2>
 
             <div style={{
               marginTop: "12px",
               height: "2px",
               width: bp === "xs" ? "80px" : "120px",
-              background: `linear-gradient(90deg, ${T.accent1}, ${T.accent2}, transparent)`,
+              background: `linear-gradient(90deg, ${T.accent1}, ${T.accent3}, transparent)`,
               borderRadius: "2px",
               marginLeft: 0,
             }} />
@@ -675,23 +532,6 @@ export default function Favourites() {
             </div>
           </div>
 
-          {/* Dots */}
-          <div style={{ display: "flex", gap: "8px", justifyContent: "center", marginTop: bp === "xs" ? "28px" : "44px" }}>
-            {Array.from({ length: maxIndex + 1 }).map((_, i) => (
-              <button
-                key={i}
-                className="fav-dot-btn"
-                onClick={() => setScrollIndex(i)}
-                aria-label={`Go to slide ${i + 1}`}
-                style={{
-                  width: i === scrollIndex ? "32px" : "8px",
-                  background: i === scrollIndex
-                    ? `linear-gradient(90deg, ${T.accent1}, ${T.accent2})`
-                    : "rgba(123,110,246,0.2)",
-                }}
-              />
-            ))}
-          </div>
 
           {/* Swipe hint — mobile only, shown always as subtle text */}
           {isMobile && (
@@ -699,7 +539,7 @@ export default function Favourites() {
               textAlign: "center",
               marginTop: "14px",
               fontSize: "9px",
-              color: "rgba(136,146,176,0.3)",
+              color: "rgba(138,109,59,0.4)",
               letterSpacing: "0.25em",
               fontFamily: "monospace",
             }}>

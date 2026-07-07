@@ -160,9 +160,9 @@ function ServiceCard({ service, index }: ServiceCardProps) {
       <div
         className="relative rounded-2xl p-8 h-full flex flex-col gap-6 transition-transform duration-500"
         style={{
-          background: hovered
-            ? `linear-gradient(135deg, rgba(15,15,35,0.95) 0%, ${service.glowColor} 100%)`
-            : "rgba(10,10,28,0.8)",
+          background: !hovered
+  ? "linear-gradient(135deg, rgba(118, 180, 216, 0.96) 0%, rgba(37, 155, 206, 0.12) 55%, rgba(56, 197, 141, 0.18) 100%)"
+  :  "linear-gradient(135deg, #EAF8FF 0%, #D8F1FF 55%, #E8FFF5 100%)",
           border: `1px solid ${hovered ? service.borderGlow : "rgba(255,255,255,0.06)"}`,
           transform: hovered ? "translateY(-6px)" : "translateY(0)",
           backdropFilter: "blur(12px)",
@@ -173,7 +173,7 @@ function ServiceCard({ service, index }: ServiceCardProps) {
           <span
             className="text-7xl font-black leading-none select-none"
             style={{
-              background: `linear-gradient(135deg, rgba(255,255,255,0.04), rgba(255,255,255,0.12))`,
+              background: `linear-gradient(135deg, rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.12))`,
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               letterSpacing: "-0.04em",
@@ -209,7 +209,7 @@ function ServiceCard({ service, index }: ServiceCardProps) {
         <div className="min-h-[76px]">
           <h3
             className="text-2xl font-extrabold mb-1 tracking-tight leading-snug min-h-[32px]"
-            style={{ fontFamily: "'Syne', sans-serif", color: "#fff" }}
+            style={{ fontFamily: "'Syne', sans-serif", color: "#000000" }}
           >
             {service.title}
           </h3>
@@ -232,7 +232,7 @@ function ServiceCard({ service, index }: ServiceCardProps) {
             bottom edge in every card regardless of description length. */}
         <p
           className="text-sm leading-relaxed flex-1"
-          style={{ color: "rgba(180,185,210,0.85)" }}
+          style={{ color: "rgba(0, 0, 0, 0.85)" }}
         >
           {service.description}
         </p>
@@ -240,10 +240,10 @@ function ServiceCard({ service, index }: ServiceCardProps) {
         {/* Features */}
         <ul className="grid grid-cols-2 gap-2">
           {service.features.map((f) => (
-            <li key={f} className="flex items-center gap-2 text-xs" style={{ color: "rgba(200,205,230,0.7)" }}>
+            <li key={f} className="flex items-center gap-2 text-xs" style={{ color: "rgba(0, 0, 0, 0.7)" }}>
               <span
                 className="w-1.5 h-1.5 rounded-full flex-shrink-0"
-                style={{ background: `linear-gradient(135deg, ${service.borderGlow}, rgba(255,255,255,0.5))` }}
+                style={{ background: `linear-gradient(135deg, ${service.borderGlow}, rgba(0, 0, 0, 0.5))` }}
               />
               {f}
             </li>
@@ -273,12 +273,10 @@ export default function ServicesPage() {
 
       <main
         className="relative min-h-screen overflow-hidden"
-        style={{ background: "#080818", fontFamily: "'DM Sans', sans-serif" }}
+        style={{  background: "#ffffff", fontFamily: "'DM Sans', sans-serif"  }}
       >
         {/* Starfield */}
-        <div className="absolute inset-0 pointer-events-none">
-          <StarField />
-        </div>
+       
 
         {/* Nav placeholder (matches IRAH nav style) */}
         <nav className="relative z-10 flex items-center justify-between px-8 py-5 border-b border-white/5">
@@ -325,10 +323,18 @@ export default function ServicesPage() {
               animationDelay: "80ms",
             }}
           >
-            <span className="text-white">Our </span>
+                       <span
+              style={{
+                background: "linear-gradient(90deg, #000000, #38bdf8, #6ee7b7)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+              }}
+            >
+              OUR
+            </span>
             <span
               style={{
-                background: "linear-gradient(90deg, #a78bfa, #38bdf8, #6ee7b7)",
+                background: "linear-gradient(90deg, #a78bfa, #38bdf8, #000000)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
               }}
@@ -336,13 +342,13 @@ export default function ServicesPage() {
               WEB
             </span>
             <br />
-            <span className="text-white">Services</span>
+            <span className="text-black">Services</span>
           </h1>
 
           <p
             className="fade-up max-w-xl mx-auto text-base leading-relaxed"
             style={{
-              color: "rgba(180,185,210,0.7)",
+              color: "rgba(0, 0, 0, 0.7)",
               animationDelay: "160ms",
             }}
           >

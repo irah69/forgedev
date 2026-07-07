@@ -71,14 +71,14 @@ export default function Navbar() {
           justify-content: space-between;
           padding: 0 2rem;
           height: 68px;
-          background: rgba(6, 8, 24, 0.75);
+        
           backdrop-filter: blur(20px);
           border-bottom: 1px solid rgba(124, 111, 255, 0.18);
           transition: 0.3s;
         }
 
         .nb-bar.scrolled {
-          background: rgba(4, 6, 20, 0.92);
+       
           box-shadow: 0 8px 40px rgba(0,0,0,0.5);
         }
 
@@ -92,7 +92,7 @@ export default function Navbar() {
         .nb-logo-text {
           font-size: 17px;
           font-weight: 800;
-          color: #fff;
+          color: #000000;
         }
 
         .nb-links {
@@ -103,7 +103,7 @@ export default function Navbar() {
 
         .nb-link {
           padding: 8px 14px;
-          color: rgba(220, 230, 255, 0.75);
+          color: #000000;
           text-decoration: none;
           font-size: 13.5px;
           font-weight: 600;
@@ -124,9 +124,9 @@ export default function Navbar() {
 
         .nb-cta {
           padding: 10px 20px;
-          background: linear-gradient(135deg, #7c6fff, #60c8ff);
+          
           border-radius: 10px;
-          color: #fff;
+          color: #000000;
           font-weight: 700;
           text-decoration: none;
         }
@@ -167,7 +167,7 @@ export default function Navbar() {
         .nb-mobile {
           display: none;
           flex-direction: column;
-          background: rgba(5, 7, 32, 0.98);
+          
           backdrop-filter: blur(24px);
           border-bottom: 1px solid rgba(124, 111, 255, 0.15);
           overflow: hidden;
@@ -184,7 +184,7 @@ export default function Navbar() {
 
         .nb-mobile-link {
           padding: 15px 24px;
-          color: rgba(220, 230, 255, 0.75);
+          color: rgb(255, 255, 255);
           text-decoration: none;
           font-size: 15px;
           font-weight: 600;
@@ -205,18 +205,50 @@ export default function Navbar() {
         }
 
         .nb-mobile-cta {
-          margin: 14px 24px 18px;
-          padding: 13px 20px;
-          background: linear-gradient(135deg, #7c6fff, #60c8ff);
-          border-radius: 10px;
-          color: #fff;
-          font-weight: 700;
-          font-size: 14px;
-          font-family: 'Syne', sans-serif;
-          text-decoration: none;
-          text-align: center;
-          display: block;
-        }
+  margin: 14px 24px 18px;
+  padding: 13px 20px;
+
+  /* Liquid Glass */
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.16),
+    rgba(255, 255, 255, 0.05)
+  );
+
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+
+  border: 1px solid rgba(255, 255, 255, 0.14);
+
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.08);
+
+  border-radius: 14px;
+
+  color: #000000;
+  font-weight: 700;
+  font-size: 14px;
+  font-family: "Syne", sans-serif;
+  text-decoration: none;
+  text-align: center;
+  display: block;
+
+  transition: all 0.3s ease;
+}
+
+.nb-mobile-cta:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.22),
+    rgba(255, 255, 255, 0.08)
+  );
+  box-shadow:
+    0 16px 40px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.28);
+}
 
         @media (max-width: 960px) {
           .nb-links, .nb-divider, .nb-cta { display: none; }
@@ -230,7 +262,7 @@ export default function Navbar() {
 
           {/* LOGO */}
           <Link href="/" className="nb-logo" onClick={closeMobile}>
-            <img src="/logo.png" alt="IRAH Logo" width={36} height={36} />
+            <img src="/logo1.png" alt="IRAH Logo" width={36} height={36} />
             <span className="nb-logo-text">IRAH</span>
           </Link>
 

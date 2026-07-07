@@ -415,8 +415,8 @@ function Marquee() {
   return (
     <div style={{
       overflow: "hidden",
-      borderTop: "1px solid rgba(123,110,246,0.1)",
-      borderBottom: "1px solid rgba(123,110,246,0.1)",
+      borderTop: "2px solid rgba(0, 0, 0)",
+      borderBottom: "2px solid rgba(0, 0, 0)",
       padding: "16px 0", marginBottom: "80px",
     }}>
       <div style={{ display: "flex", animation: "owMarquee 26s linear infinite", width: "max-content" }}>
@@ -425,10 +425,10 @@ function Marquee() {
             display: "flex", alignItems: "center", gap: "14px",
             fontFamily: "'Space Mono', monospace",
             fontSize: "10px", letterSpacing: "0.28em",
-            textTransform: "uppercase", color: "rgba(180,200,240,0.35)",
+            textTransform: "uppercase", color: "rgba(0, 0, 0)",
             padding: "0 28px", whiteSpace: "nowrap",
           }}>
-            <span style={{ color: "#7B6EF6", fontSize: "9px" }}>✦</span>
+            <span style={{ color: "#1900ff", fontSize: "9px" }}>✦</span>
             {item}
           </span>
         ))}
@@ -617,9 +617,10 @@ export default function OurWork() {
           cursor: pointer;
           border: 1px solid rgba(123,110,246,0.22);
           background: transparent;
-          color: rgba(180,200,240,0.55);
+          color: rgba(0, 0, 0, 0.55);
           font-family: 'Space Mono', monospace;
           transition: all 0.2s ease;
+          border: 1px solid rgba(0, 0, 0, 0.22);
         }
         .ow-filter-btn:hover {
           border-color: rgba(123,110,246,0.5);
@@ -632,35 +633,94 @@ export default function OurWork() {
         }
 
         /* ── CTA BUTTONS ── */
-        .ow-cta-primary {
-          padding: 13px 30px;
-          border-radius: 10px;
-          background: linear-gradient(135deg, #7B6EF6, #4FC3F7);
-          color: #fff;
-          text-decoration: none;
-          font-family: 'Syne', sans-serif;
-          font-weight: 700;
-          font-size: 14px;
-          letter-spacing: 0.04em;
-          transition: opacity 0.2s;
-        }
-        .ow-cta-primary:hover { opacity: 0.88; }
+.ow-cta-primary {
+  padding: 13px 30px;
+  border-radius: 14px;
 
-        .ow-cta-secondary {
-          padding: 13px 28px;
-          border-radius: 10px;
-          border: 1px solid rgba(123,110,246,0.28);
-          color: rgba(200,210,255,0.75);
-          text-decoration: none;
-          font-family: 'Syne', sans-serif;
-          font-weight: 600;
-          font-size: 14px;
-          transition: border-color 0.2s, color 0.2s;
-        }
-        .ow-cta-secondary:hover {
-          border-color: rgba(123,110,246,0.6);
-          color: #fff;
-        }
+  background: linear-gradient(
+    135deg,
+    #38bdf8 0%,
+    #0ea5e9 55%,
+    #6ee7b7 100%
+  );
+
+  color: #ffffff;
+  text-decoration: none;
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+
+  border: 1px solid rgba(255,255,255,0.25);
+
+  box-shadow:
+    0 10px 30px rgba(14,165,233,0.28),
+    0 4px 12px rgba(110,231,183,0.18),
+    inset 0 1px 0 rgba(255,255,255,0.35);
+
+  transition: all 0.35s cubic-bezier(.4,0,.2,1);
+}
+
+.ow-cta-primary:hover {
+  transform: translateY(-3px);
+
+  background: linear-gradient(
+    135deg,
+    #4cc9ff 0%,
+    #38bdf8 50%,
+    #7df3c8 100%
+  );
+
+  box-shadow:
+    0 18px 40px rgba(14,165,233,0.35),
+    0 8px 20px rgba(110,231,183,0.25),
+    0 0 30px rgba(56,189,248,0.2),
+    inset 0 1px 0 rgba(255,255,255,0.5);
+}
+
+.ow-cta-primary:active {
+  transform: translateY(-1px) scale(0.98);
+}
+
+.ow-cta-secondary {
+  padding: 13px 28px;
+  border-radius: 14px;
+
+  /* Glass background */
+  background: rgba(255, 255, 255, 0.28);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  /* Glass border */
+  border: 1px solid rgba(255, 255, 255, 0.45);
+
+  /* Text */
+  color: #0f172a;
+  text-decoration: none;
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+
+  /* Depth */
+  box-shadow:
+    0 8px 24px rgba(56, 189, 248, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.65);
+
+  transition: all 0.3s cubic-bezier(.4,0,.2,1);
+}
+
+.ow-cta-secondary:hover {
+  background: rgba(255, 255, 255, 0.42);
+  border-color: rgba(56, 189, 248, 0.35);
+  color: #000;
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 14px 36px rgba(56, 189, 248, 0.22),
+    0 0 24px rgba(110, 231, 183, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
 
         /* ── HEADER RESPONSIVE ── */
         @media (max-width: 768px) {
@@ -683,7 +743,7 @@ export default function OurWork() {
         ref={sectionRef}
         className="ow-wrap ow-section"
         style={{
-          background: "#03040F",
+          background: "#ffffff",
           fontFamily: "'Syne', sans-serif",
           position: "relative", overflow: "hidden",
           padding: "100px 60px 120px", width: "100%",
@@ -699,12 +759,32 @@ export default function OurWork() {
           maskImage: "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.4) 10%, rgba(0,0,0,0.4) 90%, transparent 100%)",
           WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.4) 10%, rgba(0,0,0,0.4) 90%, transparent 100%)",
         }} /> */}
+          <div
+  style={{
+    position: "absolute",
+    top: "-180px",
+    left: "-180px",
+    width: "500px",
+    height: "500px",
+    borderRadius: "50%",
+    background:
+      "radial-gradient(circle, rgba(56,189,248,.08), transparent 70%)",
+  }}
+/>
 
-        {/* ambient glows */}
-        <div style={{ position: "absolute", width: "700px", height: "700px", borderRadius: "50%", background: "radial-gradient(circle, rgba(123,110,246,0.07) 0%, transparent 70%)", top: "-100px", left: "-200px", pointerEvents: "none" }} />
-        <div style={{ position: "absolute", width: "500px", height: "500px", borderRadius: "50%", background: "radial-gradient(circle, rgba(79,195,247,0.05) 0%, transparent 70%)", bottom: "80px", right: "-80px", pointerEvents: "none" }} />
-        <div style={{ position: "absolute", width: "400px", height: "400px", borderRadius: "50%", background: "radial-gradient(circle, rgba(201,168,76,0.04) 0%, transparent 70%)", top: "60px", right: "10%", pointerEvents: "none" }} />
-
+<div
+  style={{
+    position: "absolute",
+    bottom: "-200px",
+    right: "-150px",
+    width: "500px",
+    height: "500px",
+    borderRadius: "50%",
+    background:
+      "radial-gradient(circle, rgba(110,231,183,.08), transparent 70%)",
+  }}
+/>
+        
         {/* ── HEADER ── */}
         <div ref={headerRef} style={{
           position: "relative", zIndex: 1,
@@ -739,9 +819,14 @@ export default function OurWork() {
                 fontSize: "clamp(52px, 7.5vw, 100px)",
                 fontWeight: 900, textTransform: "uppercase",
                 letterSpacing: "-0.02em", lineHeight: 0.88,
-                fontFamily: "'Syne', sans-serif", color: "#fff", margin: 0,
+                fontFamily: "'Syne', sans-serif", color: "linear-gradient(90deg, #000000, #4FC3F7 55%, #60efff)", margin: 0,
               }}>
-                Our{" "}
+                {" "}
+                <em style={{
+                  fontStyle: "italic",
+                  background: "linear-gradient(90deg, #000000, #4FC3F7 55%, #60efff)",
+                  WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text",
+                }}>our</em>
                 <em style={{
                   fontStyle: "italic",
                   background: "linear-gradient(90deg, #7B6EF6, #4FC3F7 55%, #60efff)",
@@ -750,12 +835,7 @@ export default function OurWork() {
               </h2>
               <div style={{ marginTop: "14px", height: "2px", width: "90px", background: "linear-gradient(90deg, #7B6EF6, #4FC3F7, transparent)", borderRadius: "2px" }} />
             </div>
-            <p
-              className="ow-header-desc"
-              style={{ maxWidth: "320px", fontSize: "13.5px", color: "rgba(180,195,230,0.5)", lineHeight: 1.72, fontWeight: 400, paddingBottom: "8px", flexShrink: 0 }}
-            >
-              A curated selection of projects where strategy, design, and engineering collide to create real-world impact.
-            </p>
+
           </div>
 
           <div className="ow-filters-row" style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>

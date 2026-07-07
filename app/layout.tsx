@@ -210,13 +210,13 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <Navbar />
-        <main>{children}</main>
-        <ConditionalFooter />
-      </body>
+<body className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}>
+  <Navbar />
+  <main className="flex-1">
+    {children}
+  </main>
+  <ConditionalFooter />
+</body>
     </html>
   );
 }

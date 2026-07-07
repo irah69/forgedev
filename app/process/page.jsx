@@ -176,18 +176,18 @@ function StepCard({ step, index, isActive, onClick }) {
               >
                 {step.phase}
               </span>
-              <span className="text-[10px] text-white/25 font-mono">{step.id}</span>
+              <span className="text-[10px] text-black font-mono">{step.id}</span>
             </div>
             <h3
-              className="text-base font-extrabold text-white leading-tight"
+              className="text-base font-extrabold text-black leading-tight"
               style={{ fontFamily: "'Syne', sans-serif" }}
             >
               {step.title}
             </h3>
-            <p className="text-xs text-white/40 mt-0.5 italic">{step.summary}</p>
+            <p className="text-xs text-black/40 mt-0.5 italic">{step.summary}</p>
           </div>
           <div className="flex-shrink-0 text-right">
-            <span className="text-[10px] text-white/30 font-mono block">duration</span>
+            <span className="text-[10px] text-black/30 font-mono block">duration</span>
             <span className="text-xs font-bold" style={{ color: step.accent }}>
               {step.duration}
             </span>
@@ -207,7 +207,7 @@ function StepCard({ step, index, isActive, onClick }) {
                 className="h-px w-full mb-3 rounded-full"
                 style={{ background: `linear-gradient(to right, ${step.accent}40, transparent)` }}
               />
-              <p className="text-sm text-white/60 leading-relaxed mb-3">{step.description}</p>
+              <p className="text-sm text-black leading-relaxed mb-3">{step.description}</p>
               <div className="flex flex-wrap gap-1.5">
                 {step.tags.map((tag) => (
                   <span
@@ -258,7 +258,7 @@ export default function Process() {
         className="relative min-h-screen py-28 px-5 overflow-hidden"
         style={{
           background:
-            "radial-gradient(ellipse 70% 50% at 30% 20%, #0d0520 0%, #07091a 50%, #040610 100%)",
+  "radial-gradient(circle at top, #ffffff 0%, #ffffff 35%, #ffffff 70%, #ffffff 100%)",
           fontFamily: "'DM Mono', monospace",
         }}
       >
@@ -290,7 +290,7 @@ export default function Process() {
             </motion.p>
 
             <h2
-              className="text-5xl md:text-6xl font-black tracking-tighter text-white leading-[0.95] mb-4"
+              className="text-5xl md:text-6xl font-black tracking-tighter text-black leading-[0.95] mb-4"
               style={{ fontFamily: "'Syne', sans-serif" }}
             >
               The{" "}
@@ -305,18 +305,13 @@ export default function Process() {
               </span>
             </h2>
 
-            <p className="text-sm text-white/40 max-w-sm leading-relaxed">
+            <p className="text-sm text-black max-w-sm leading-relaxed">
               Every project follows a battle-tested lifecycle — from the first conversation
               to the day you go live and beyond.
             </p>
 
             {/* Step counter */}
-            <div className="flex items-center gap-3 mt-6">
-              <div className="h-px flex-1 max-w-[80px] bg-white/10 rounded-full" />
-              <span className="text-xs text-white/30 font-mono">
-                {steps.length} phases · click to explore
-              </span>
-            </div>
+
           </motion.div>
 
           {/* Timeline */}
