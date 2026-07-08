@@ -371,15 +371,33 @@ export default function Favourites() {
       `}</style>
 
       {/* Header */}
-      <div className="fav-header">
-        <h2 className="fav-heading">Handpicked</h2>
-        <Link href="/work" className="fav-view-more">
-          View more
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-            <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </Link>
-      </div>
+      <div className="fav-header flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 w-full">
+  <h2 className="fav-heading">
+    Handpicked
+  </h2>
+
+  <Link
+    href="/work"
+    className="fav-view-more inline-flex items-center gap-2 whitespace-nowrap"
+  >
+    View more
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 16 16"
+      fill="none"
+      aria-hidden="true"
+    >
+      <path
+        d="M3 8h10M9 4l4 4-4 4"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  </Link>
+</div>
 
       {/* Full-bleed band */}
       <div className="fav-band">
