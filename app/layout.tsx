@@ -219,8 +219,8 @@ export default function RootLayout({
     min-h-screen
     flex
     flex-col
-    overflow-x-hidden
     w-full
+    overflow-x-hidden
   `}
 >
   <LayoutWrapper>
