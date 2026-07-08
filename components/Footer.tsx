@@ -49,7 +49,7 @@ export default function FooterSection() {
     className="flex items-center gap-3"
   >
     <img
-      src="/logo.png"
+      src="/logo1.png"
       alt="IRAH Logo"
       className="h-10 w-10 object-contain"
     />
