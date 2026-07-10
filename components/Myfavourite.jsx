@@ -307,67 +307,34 @@ export default function Favourites() {
           opacity: 0.85;
         }
 
-       /* Tablet */
-@media (max-width: 1023px) {
-  .fav-band {
-    height: auto;
-    padding: clamp(24px, 4vw, 40px) 0;
-  }
+        /* ── Tablet: stack, cards keep a fixed aspect ratio instead of a shared height ── */
+        @media (max-width: 1023px) {
+          .fav-band {
+            height: auto;
+            padding: clamp(24px, 4vw, 40px) 0;
+          }
+          .fav-band-inner { padding: 0 clamp(12px, 3vw, 20px); }
+          .fav-grid {
+            grid-template-columns: 1fr;
+            gap: clamp(14px, 2.5vw, 22px);
+            height: auto;
+          }
+          .fav-card {
+            height: auto;
+            aspect-ratio: 4 / 3;
+          }
+        }
 
-  .fav-band-inner {
-    padding: 0 clamp(12px, 3vw, 20px);
-  }
+        /* ── Mobile: taller portrait cards, tighter type/padding ── */
+        @media (max-width: 599px) {
+          .fav-card { aspect-ratio: 4 / 5; }
+          .fav-card-text { left: 14px; right: 14px; bottom: 12px; }
+          .fav-card-index { top: 10px; left: 12px; font-size: 11px; }
+        }
 
-  .fav-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-    height: auto;
-  }
-
-  /* First two cards = 50% each */
-  .fav-grid .fav-card:nth-child(1),
-  .fav-grid .fav-card:nth-child(2) {
-    grid-column: span 1;
-    aspect-ratio: 4 / 3;
-  }
-
-  /* Third card = full width */
-  .fav-grid .fav-card:nth-child(3) {
-    grid-column: 1 / -1;
-    aspect-ratio: 16 / 7;
-  }
-}
-
-/* Mobile */
-@media (max-width: 599px) {
-  .fav-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-  }
-
-  .fav-grid .fav-card:nth-child(1),
-  .fav-grid .fav-card:nth-child(2) {
-    aspect-ratio: 3 / 4;
-  }
-
-  .fav-grid .fav-card:nth-child(3) {
-    grid-column: 1 / -1;
-    aspect-ratio: 16 / 9;
-  }
-
-  .fav-card-text {
-    left: 14px;
-    right: 14px;
-    bottom: 12px;
-  }
-
-  .fav-card-index {
-    top: 10px;
-    left: 12px;
-    font-size: 11px;
-  }
-}
+        @media (prefers-reduced-motion: reduce) {
+          .fav-card-frame img { transform: none !important; }
+        }
       `}</style>
 
       {/* Header */}
