@@ -6,7 +6,7 @@ import Link from "next/link";
 /* ─── THEME ───────────────────────────────────────────────────────────────── */
 const T = {
   bg: "#ffffff",
-  bgCard: "#000000",
+  bgCard: "#ffffff",
 
   band: "#2b2d42",       // Space Indigo — reads as premium against a white theme
   bandDeep: "#181926",   // deep indigo for gradient depth
@@ -19,23 +19,23 @@ const T = {
 const products = [
   {
     id: 1,
-    name: "Business websites",
-    tag: "LITTLE BERRIES",
-    image: "/business.png",
-    url: "https://littleberries.co.in/",
+    name: "AABHARNAM JWELLS",
+    tag: "E-Commerce Website",
+    image: "/aabharnam.png",
+    url: "https://murgan-ui.vercel.app/",
   },
   {
     id: 2,
-    name: "BRANDING",
-    tag: "SLV BANQUET HALLS",
+    name: "SLV Banquet Halls",
+    tag: "Weddings & Events Venue",
     image: "/slv.png",
     url: "https://slvbanquethalls.com/",
   },
   {
     id: 3,
-    name: "E-COMMERCE",
-    tag: "AABHARNAM",
-    image: "/aabharnam.png",
+    name: "IRAH TECH",
+    tag: "Company Portfolio",
+    image: "/logo1.png",
     url: "https://irah-dev.vercel.app/",
   },
 ];

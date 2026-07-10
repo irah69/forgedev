@@ -212,16 +212,7 @@ export default function RootLayout({
       </head>
       
 <body
-  className={`
-    ${geistSans.variable}
-    ${geistMono.variable}
-    antialiased
-    min-h-screen
-    flex
-    flex-col
-    overflow-x-hidden
-    w-full
-  `}
+  className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
 >
   <LayoutWrapper>
     {children}
