@@ -12,14 +12,14 @@ export default function LayoutWrapper({
   const pathname = usePathname();
 
   return (
-    <div className="w-full overflow-x-hidden">
+    <>
       {pathname !== "/" && <Navbar />}
 
-      <main className="flex-1 w-full overflow-x-hidden">
+      <main className="flex-1">
         {children}
       </main>
 
       <ConditionalFooter />
-    </div>
+    </>
   );
 }
