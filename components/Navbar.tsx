@@ -39,30 +39,13 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const dropdownRef = useRef(null);
-   const [hidden, setHidden] = useState(false);
+
   useEffect(() => {
-  let lastScroll = 0;
+    const handleScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
-  const handleScroll = () => {
-    const currentScroll = window.scrollY;
-
-    setScrolled(currentScroll > 20);
-
-    if (currentScroll > lastScroll && currentScroll > 80) {
-      // scrolling down
-      setHidden(true);
-    } else {
-      // scrolling up
-      setHidden(false);
-    }
-
-    lastScroll = currentScroll;
-  };
-
-  window.addEventListener("scroll", handleScroll);
-
-  return () => window.removeEventListener("scroll", handleScroll);
-}, []);
   // Close menu when clicking a mobile link
   const closeMobile = () => setMobileOpen(false);
 
@@ -71,19 +54,16 @@ export default function Navbar() {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap');
 
-        .nb-root {
-  font-family: 'Syne', sans-serif;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 9999;
-  transition: transform 0.35s ease;
-}
+        .nb-root * { box-sizing: border-box; margin: 0; padding: 0; }
 
-.nb-root.hide {
-  transform: translateY(-100%);
-}
+        .nb-root {
+          font-family: 'Syne', sans-serif;
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          z-index: 9999;
+        }
 
         .nb-bar {
           display: flex;
@@ -204,7 +184,7 @@ export default function Navbar() {
 
         .nb-mobile-link {
           padding: 15px 24px;
-          color: rgb(0, 0, 0);
+          color: rgb(255, 255, 255);
           text-decoration: none;
           font-size: 15px;
           font-weight: 600;
@@ -276,10 +256,8 @@ export default function Navbar() {
           .nb-mobile { display: flex; }
         }
       `}</style>
-<nav
-  className={`nb-root ${hidden ? "hide" : ""}`}
-  ref={dropdownRef}
->
+
+      <nav className="nb-root" ref={dropdownRef}>
         <div className={`nb-bar ${scrolled ? "scrolled" : ""}`}>
 
           {/* LOGO */}

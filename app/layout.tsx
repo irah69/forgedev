@@ -4,7 +4,7 @@ import "./globals.css";
 import Navbar from "../components/Navbar";
 import ConditionalFooter from "../components/ConditionalFooter";
 import { keywords } from "../components/Keywords";
-import LayoutWrapper from "../components/LayoutWrapper";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -210,13 +210,12 @@ export default function RootLayout({
           }}
         />
       </head>
-      
-<body
-  className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
->
-  <LayoutWrapper>
+<body className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}>
+  <Navbar />
+  <main className="flex-1">
     {children}
-  </LayoutWrapper>
+  </main>
+  <ConditionalFooter />
 </body>
     </html>
   );
