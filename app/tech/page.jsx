@@ -11,7 +11,7 @@ function seededRandom(seed) {
   };
 }
 
-const DOTS = (() => {
+const STARS = (() => {
   const rand = seededRandom(42);
   return Array.from({ length: 40 }, (_, i) => ({
     id: i,
@@ -19,7 +19,7 @@ const DOTS = (() => {
     height: rand() * 2 + 1,
     top: rand() * 100,
     left: rand() * 100,
-    opacity: rand() * 0.25 + 0.06,
+    opacity: rand() * 0.5 + 0.1,
     duration: rand() * 3 + 2,
     delay: rand() * 4,
   }));
@@ -31,7 +31,7 @@ const techCategories = [
     label: "Frontend",
     glyph: "◈",
     accent: "#7C3AED",
-    glow: "rgba(124,58,237,0.18)",
+    glow: "rgba(124,58,237,0.35)",
     techs: [
       { name: "React.js", icon: "⚛", desc: "Component-driven UIs" },
       { name: "Next.js", icon: "▲", desc: "Full-stack React framework" },
@@ -44,7 +44,7 @@ const techCategories = [
     label: "Backend",
     glyph: "◉",
     accent: "#0EA5E9",
-    glow: "rgba(14,165,233,0.18)",
+    glow: "rgba(14,165,233,0.35)",
     techs: [
       { name: "Spring Boot", icon: "☘", desc: "Enterprise Java APIs" },
       { name: "Node.js", icon: "◎", desc: "Scalable JS runtime" },
@@ -55,7 +55,7 @@ const techCategories = [
     label: "Database",
     glyph: "◫",
     accent: "#10B981",
-    glow: "rgba(16,185,129,0.18)",
+    glow: "rgba(16,185,129,0.35)",
     techs: [
       { name: "MongoDB", icon: "◐", desc: "Flexible NoSQL storage" },
       { name: "PostgreSQL", icon: "◑", desc: "Relational power & reliability" },
@@ -65,8 +65,8 @@ const techCategories = [
     id: "deployment",
     label: "Deployment",
     glyph: "◆",
-    accent: "#D97706",
-    glow: "rgba(217,119,6,0.18)",
+    accent: "#F59E0B",
+    glow: "rgba(245,158,11,0.35)",
     techs: [
       { name: "Render", icon: "▶", desc: "Zero-config cloud hosting" },
       { name: "Vercel", icon: "▲", desc: "Edge-first Next.js deploys" },
@@ -110,14 +110,14 @@ function CategoryCard({ cat, index }) {
       initial="hidden"
       animate={inView ? "visible" : "hidden"}
       whileHover={{ y: -6, transition: { duration: 0.3 } }}
-      className="relative rounded-2xl overflow-hidden border border-black/[0.07] bg-white p-7 flex flex-col gap-5 group"
+      className="relative rounded-2xl overflow-hidden border border-white/10 bg-white/[0.03] backdrop-blur-sm p-7 flex flex-col gap-5 group"
       style={{
-        boxShadow: `0 0 0 1px rgba(15,23,42,0.03), 0 4px 40px ${cat.glow}, 0 2px 10px rgba(15,23,42,0.05)`,
+        boxShadow: `0 0 0 1px rgba(255,255,255,0.06), 0 4px 40px ${cat.glow}`,
       }}
     >
       {/* Glow blob */}
       <div
-        className="absolute -top-10 -right-10 w-40 h-40 rounded-full blur-3xl opacity-25 group-hover:opacity-40 transition-opacity duration-700"
+        className="absolute -top-10 -right-10 w-40 h-40 rounded-full blur-3xl opacity-20 group-hover:opacity-35 transition-opacity duration-700"
         style={{ background: cat.accent }}
       />
 
@@ -125,16 +125,16 @@ function CategoryCard({ cat, index }) {
       <div className="flex items-center gap-3 z-10">
         <span
           className="text-3xl font-black leading-none"
-          style={{ color: cat.accent }}
+          style={{ color: cat.accent, textShadow: `0 0 18px ${cat.glow}` }}
         >
           {cat.glyph}
         </span>
         <div>
-          <p className="text-xs font-semibold tracking-[0.2em] uppercase text-slate-400">
+          <p className="text-xs font-semibold tracking-[0.2em] uppercase text-white/40">
             Category {String(index + 1).padStart(2, "0")}
           </p>
           <h3
-            className="text-xl font-extrabold tracking-tight text-slate-900 leading-tight"
+            className="text-xl font-extrabold tracking-tight text-white leading-tight"
             style={{ fontFamily: "'Syne', sans-serif" }}
           >
             {cat.label}
@@ -146,7 +146,7 @@ function CategoryCard({ cat, index }) {
       <div
         className="h-px w-full rounded-full"
         style={{
-          background: `linear-gradient(to right, ${cat.accent}50, transparent)`,
+          background: `linear-gradient(to right, ${cat.accent}60, transparent)`,
         }}
       />
 
@@ -159,7 +159,7 @@ function CategoryCard({ cat, index }) {
             variants={chipVariants}
             initial="hidden"
             animate={inView ? "visible" : "hidden"}
-            className="flex items-center gap-3 rounded-xl px-4 py-3 bg-slate-50 border border-black/[0.05] hover:border-black/[0.12] hover:bg-slate-100 transition-all duration-300 cursor-default group/chip"
+            className="flex items-center gap-3 rounded-xl px-4 py-3 bg-white/[0.05] border border-white/[0.07] hover:border-white/20 hover:bg-white/[0.08] transition-all duration-300 cursor-default group/chip"
           >
             <span
               className="text-lg w-7 text-center flex-shrink-0"
@@ -168,10 +168,10 @@ function CategoryCard({ cat, index }) {
               {tech.icon}
             </span>
             <div className="min-w-0">
-              <p className="text-sm font-bold text-slate-900 leading-none mb-0.5">
+              <p className="text-sm font-bold text-white leading-none mb-0.5">
                 {tech.name}
               </p>
-              <p className="text-xs text-slate-500 truncate">{tech.desc}</p>
+              <p className="text-xs text-white/40 truncate">{tech.desc}</p>
             </div>
             <motion.div
               className="ml-auto w-1.5 h-1.5 rounded-full flex-shrink-0"
@@ -202,33 +202,33 @@ export default function TechStack() {
         className="relative min-h-screen py-28 px-5 overflow-hidden"
         style={{
           background:
-            "radial-gradient(circle at top, #ffffff 0%, #fafaf9 35%, #f4f4f5 70%, #eef0f3 100%)",
+            "radial-gradient(ellipse 80% 60% at 50% 0%, #1a0a3a 0%, #07091a 55%, #040610 100%)",
           fontFamily: "'DM Mono', monospace",
         }}
       >
-        {/* Ambient dot field — values are deterministic to avoid SSR/client mismatch */}
-        {DOTS.map((dot) => (
+        {/* Star field dots — values are deterministic to avoid SSR/client mismatch */}
+        {STARS.map((star) => (
           <motion.div
-            key={dot.id}
-            className="absolute rounded-full bg-slate-400"
+            key={star.id}
+            className="absolute rounded-full bg-white"
             style={{
-              width: dot.width,
-              height: dot.height,
-              top: `${dot.top}%`,
-              left: `${dot.left}%`,
-              opacity: dot.opacity,
+              width: star.width,
+              height: star.height,
+              top: `${star.top}%`,
+              left: `${star.left}%`,
+              opacity: star.opacity,
             }}
-            animate={{ opacity: [dot.opacity * 0.4, dot.opacity, dot.opacity * 0.4] }}
+            animate={{ opacity: [0.1, 0.6, 0.1] }}
             transition={{
-              duration: dot.duration,
+              duration: star.duration,
               repeat: Infinity,
-              delay: dot.delay,
+              delay: star.delay,
             }}
           />
         ))}
 
         {/* Decorative purple orb top-left */}
-        <div className="absolute top-0 left-1/4 w-96 h-96 rounded-full blur-[120px] opacity-[0.07] pointer-events-none"
+        <div className="absolute top-0 left-1/4 w-96 h-96 rounded-full blur-[120px] opacity-10 pointer-events-none"
           style={{ background: "#7C3AED" }} />
 
         <div className="relative z-10 max-w-5xl mx-auto">
@@ -240,10 +240,17 @@ export default function TechStack() {
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
             className="text-center mb-20"
           >
-
+            <motion.p
+              initial={{ opacity: 0, letterSpacing: "0.4em" }}
+              animate={headerInView ? { opacity: 1, letterSpacing: "0.3em" } : {}}
+              transition={{ duration: 0.9, delay: 0.1 }}
+              className="text-xs font-semibold uppercase text-purple-400 mb-4 tracking-[0.3em]"
+            >
+              ◈ Full-Stack Arsenal
+            </motion.p>
 
             <h2
-              className="text-5xl md:text-7xl font-black leading-[0.95] tracking-tighter text-slate-900 mb-6"
+              className="text-5xl md:text-7xl font-black leading-[0.95] tracking-tighter text-white mb-6"
               style={{ fontFamily: "'Syne', sans-serif" }}
             >
               Tech{" "}
@@ -259,7 +266,7 @@ export default function TechStack() {
               </span>
             </h2>
 
-            <p className="text-sm text-slate-500 max-w-md mx-auto leading-relaxed">
+            <p className="text-sm text-white/40 max-w-md mx-auto leading-relaxed">
               Every layer of the stack, handled. From pixel-perfect frontends to
               battle-tested backends and cloud deployments.
             </p>

@@ -53,7 +53,7 @@ function InteractiveGlobe() {
     // ---- Core wireframe sphere ("the planet") -------------------------
     const coreGeo = new THREE.IcosahedronGeometry(2, 2);
     const coreMat = new THREE.MeshBasicMaterial({
-      color: 0x797AFF,
+      color: 0x2a2a4a,
       wireframe: true,
       transparent: true,
       opacity: 0.35,
@@ -65,7 +65,7 @@ function InteractiveGlobe() {
     // not a flat wire cage.
     const fillGeo = new THREE.SphereGeometry(1.97, 32, 32);
     const fillMat = new THREE.MeshBasicMaterial({
-      color: 0x6A8EFF,
+      color: 0x0b0b1e,
       transparent: true,
       opacity: 0.55,
     });
@@ -75,12 +75,7 @@ function InteractiveGlobe() {
     const NODE_COUNT = 14;
     const nodeGroup = new THREE.Group();
     const spokeGroup = new THREE.Group();
-    const palette = [
-  0x797AFF, // Purple
-  0x8D87FF, // Lavender
-  0x65BAFF, // Blue
-  0x4EA3FF, // Bright blue
-];
+    const palette = [0x38bdf8, 0x8b5cf6, 0x22d3ee, 0x6366f1];
 
     const nodePositions = [];
     for (let i = 0; i < NODE_COUNT; i++) {
@@ -134,7 +129,7 @@ function InteractiveGlobe() {
     }
     crossGeo.setAttribute("position", new THREE.Float32BufferAttribute(crossPts, 3));
     const crossMat = new THREE.LineBasicMaterial({
-      color: 0x8C8EFF,
+      color: 0x4c4c7a,
       transparent: true,
       opacity: 0.15,
     });
@@ -225,7 +220,7 @@ export default function PoweredByStack() {
   return (
     <section
       className="relative overflow-hidden py-24 px-6"
-      style={{ background: "rgb(255, 255, 255)", fontFamily: "'DM Sans', sans-serif" }}
+      style={{ background: "#080818", fontFamily: "'DM Sans', sans-serif" }}
     >
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap');
@@ -239,8 +234,8 @@ export default function PoweredByStack() {
       {/* Ambient backdrop glow, consistent with the rest of the IRAH site */}
       <div
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] pointer-events-none"
-        style={{background:
-  "radial-gradient(circle, rgba(185,28,28,0.28) 0%, rgba(185,28,28,0.12) 45%, transparent 75%)",
+        style={{
+          background: "radial-gradient(ellipse at center, rgba(99,60,180,0.14) 0%, transparent 70%)",
         }}
       />
 
@@ -250,16 +245,22 @@ export default function PoweredByStack() {
           className="text-4xl md:text-6xl font-black tracking-tight"
           style={{ fontFamily: "'Syne', sans-serif" }}
         >
-          <span className="text-red-900">Powered by Precision</span>
-
-            
-        
+          <span className="text-white">Powered by </span>
+          <span
+            style={{
+              background: "linear-gradient(90deg, #a78bfa, #38bdf8)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+            }}
+          >
+            Precision
+          </span>
         </h2>
         <p
           className="mt-3 text-sm md:text-base max-w-md mx-auto"
-          style={{ color: "rgba(0, 0, 0)" }}
+          style={{ color: "rgba(180,185,210,0.65)" }}
         >
-          A modern stack chosen for speed, reliability, and clean scale — 
+          A modern stack chosen for speed, reliability, and clean scale — drag the globe to look around.
         </p>
       </div>
 

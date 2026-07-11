@@ -43,8 +43,8 @@ const TEAM: TeamMember[] = [
   { name: "Jashwanth", role: "Frontend Developer",        accent: "#4FC3F7" },
   { name: "Anil",      role: "Jr Developer",        accent: "#7B6EF6" },
   { name: "Gayathri",  role: "Frontend Developer",        accent: "#4FC3F7" },
-/*   { name: "Praneeth kumar",  role: "Marketing",        accent: "#7B6EF6" },
-  { name: "Bijju Harika",  role: "Marketing",        accent: "#4FC3F7" }, */
+  { name: "Praneeth kumar",  role: "Marketing",        accent: "#7B6EF6" },
+  { name: "Bijju Harika",  role: "Marketing",        accent: "#4FC3F7" },
 ];
 
 
@@ -115,12 +115,16 @@ export default function AboutPage() {
         @keyframes badgePulse { 0%,100%{opacity:1} 50%{opacity:.5} }
         @keyframes countUp    { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
 
-       .ap-root{
-    background:#fff;
-    width:100%;
-    overflow-x:hidden;
-    position:relative;
-}
+        .ap-root {
+          background: #03040F;
+          min-height: 100vh;
+          width: 100%;
+          max-width: 100vw;
+          overflow-x: hidden;
+          font-family: 'Syne', sans-serif;
+          color: #fff;
+          position: relative;
+        }
 
         .ap-wrap {
           width: 100%;
@@ -130,18 +134,13 @@ export default function AboutPage() {
         }
 
         .ap-grad {
-  background: linear-gradient(
-    90deg,
-    #000 0%,
-    #38bdf8 45%,
-    #6ee7b7 100%
-  );
-  background-size: 200% 200%;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  animation: gradShift 5s ease infinite;
-}
+          background: linear-gradient(90deg,#7B6EF6 0%,#4FC3F7 50%,#8B5CF6 100%);
+          background-size: 200% 200%;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          animation: gradShift 5s ease infinite;
+        }
 
         .ap-divider {
           height: 1px;
@@ -253,26 +252,39 @@ export default function AboutPage() {
       <main className="ap-root">
 
         {/* STARS */}
-
+        <div style={{ position:"fixed",inset:0,pointerEvents:"none",zIndex:0 }}>
+          {STARS.map((s,i) => (
+            <div key={i} style={{ position:"absolute", left:`${s.left}%`, top:`${s.top}%`, width:`${s.size}px`, height:`${s.size}px`, borderRadius:"50%", background:s.color, opacity:s.opacity, animation:`floatStar ${s.duration}s ease-in-out ${s.delay}s infinite` }} />
+          ))}
+        </div>
 
         {/* ORBS */}
+        <div style={{ position:"fixed",top:"20%",right:"-15%",width:"min(700px,80vw)",height:"min(700px,80vw)",borderRadius:"50%",background:"radial-gradient(ellipse,rgba(123,110,246,.1) 0%,rgba(79,195,247,.04) 45%,transparent 70%)",animation:"orbPulse 8s ease-in-out infinite",pointerEvents:"none",zIndex:0 }} />
+        <div style={{ position:"fixed",bottom:"10%",left:"-15%",width:"min(500px,70vw)",height:"min(500px,70vw)",borderRadius:"50%",background:"radial-gradient(ellipse,rgba(139,92,246,.08) 0%,transparent 70%)",animation:"orbPulse 10s ease-in-out infinite 2s",pointerEvents:"none",zIndex:0 }} />
+
+        {/* SCAN LINE */}
+        <div style={{ position:"fixed",inset:0,overflow:"hidden",pointerEvents:"none",zIndex:0 }}>
+          <div style={{ position:"absolute",left:0,right:0,height:"1px",background:"linear-gradient(90deg,transparent,rgba(79,195,247,.04),transparent)",animation:"scanLine 10s linear infinite" }} />
+        </div>
 
         <div style={{ position:"relative",zIndex:1 }}>
 
           {/* ════ HERO ════ */}
           <section className="ap-sec-hero">
             <div className="ap-wrap">
-
+              <div style={{ marginBottom:"22px",animation:"fadeUp .7s ease both .1s" }}>
+                <span className="ap-badge"><span className="ap-badge-dot"/>About Us</span>
+              </div>
               <div className="ap-hero-grid">
                 {/* headline */}
                 <div style={{ animation:"fadeUp .8s ease both .2s" }}>
                   <h1 className="ap-h1">
-                    <span style={{ color:"#000000" }}>We Build</span><br/>
+                    <span style={{ color:"#fff" }}>We Build</span><br/>
                     <span className="ap-grad">Digital</span><br/>
                     <span className="ap-grad">Futures</span>
                   </h1>
                   <div style={{ height:"2px",width:"80px",background:"linear-gradient(90deg,#7B6EF6,#4FC3F7,transparent)",borderRadius:"2px",marginBottom:"18px" }} />
-                  <p style={{ fontSize:"clamp(13px,3.5vw,16px)",color:"#000000",lineHeight:1.8 }}>
+                  <p style={{ fontSize:"clamp(13px,3.5vw,16px)",color:"#8892B0",lineHeight:1.8 }}>
                     We are a freelancing collective of designers, engineers and strategists who care deeply about the work we put into the world. No fluff — just craft, clarity and real results.
                   </p>
                 </div>
@@ -281,7 +293,7 @@ export default function AboutPage() {
                   <div style={{ position:"absolute",top:0,right:0,width:"160px",height:"160px",background:"radial-gradient(ellipse at top right,rgba(79,195,247,.1) 0%,transparent 70%)",pointerEvents:"none" }} />
                   <p style={{ fontSize:"9px",letterSpacing:".3em",textTransform:"uppercase",color:"#4FC3F7",fontFamily:"monospace",marginBottom:"8px" }}>Our Mission</p>
                   <h2 className="ap-h2-mission">Empower organisations through first-rate creative &amp; digital solutions.</h2>
-                  <p style={{ fontSize:"13px",color:"#ffffff",lineHeight:1.75 }}>From startups finding their footing to enterprises scaling new heights — we partner with ambitious teams to turn bold ideas into polished digital realities that make a measurable difference.</p>
+                  <p style={{ fontSize:"13px",color:"#8892B0",lineHeight:1.75 }}>From startups finding their footing to enterprises scaling new heights — we partner with ambitious teams to turn bold ideas into polished digital realities that make a measurable difference.</p>
                   <div style={{ position:"absolute",bottom:0,left:0,right:0,height:"2px",background:"linear-gradient(90deg,transparent,#7B6EF6,#4FC3F7,transparent)" }} />
                 </div>
               </div>
@@ -308,6 +320,7 @@ export default function AboutPage() {
           <section className="ap-sec">
             <div className="ap-wrap">
               <div style={{ marginBottom:"36px",animation:"fadeUp .7s ease both .1s" }}>
+                <p style={{ fontSize:"9px",letterSpacing:".3em",color:"#4FC3F7",textTransform:"uppercase",fontFamily:"monospace",marginBottom:"10px" }}>What We Stand For</p>
                 <h2 className="ap-h2-lg"><span style={{ color:"#fff" }}>Our </span><span className="ap-grad">Core Values</span></h2>
               </div>
               <div className="ap-values-grid">
@@ -324,14 +337,14 @@ export default function AboutPage() {
 
 
 
-          
-          
+          <div className="ap-divider"/>
 
           {/* ════ TEAM ════ */}
           <section className="ap-sec-team">
             <div className="ap-wrap">
               <div style={{ marginBottom:"36px",animation:"fadeUp .7s ease both .1s" }}>
-                <h2 className="ap-h2-lg"><span style={{ color:"#000000" }}>Meet The </span><span className="ap-grad">Team</span></h2>
+                <p style={{ fontSize:"9px",letterSpacing:".3em",color:"#4FC3F7",textTransform:"uppercase",fontFamily:"monospace",marginBottom:"10px" }}>The People</p>
+                <h2 className="ap-h2-lg"><span style={{ color:"#fff" }}>Meet The </span><span className="ap-grad">Team</span></h2>
               </div>
               <div className="ap-team-grid">
                 {TEAM.map((member,i) => (
