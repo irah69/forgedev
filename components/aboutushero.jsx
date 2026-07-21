@@ -74,13 +74,34 @@ const heroY = useTransform(
   }}
 >
   <Image
-    src="/india.png"
+    src="/map1.png"
     alt="Map"
     fill
     priority
     className="object-contain"
   />
-
+  <Container
+        src="/logo.png"
+        width="clamp(70px,8vw,120px)"
+        height="clamp(70px,8vw,120px)"
+        top="25%"
+        right="5%"
+        className="-translate-y-1/2"
+        z={50}
+      />
+<Container
+        text="IRAH"
+        width="250px"
+        height="80px"
+        top="25%"
+        right="10%"
+        className="-translate-y-1/2"
+        z={50}
+        textClassName="flex items-center h-full font-[Cinzel] text-white text-[clamp(1.75rem,3vw,3rem)] tracking-[0.45em] font-semibold"
+      />
+      <div className="absolute bottom-10 left-10 flex items-center font-[Cinzel] text-white text-[clamp(1.2rem,2vw,2rem)] tracking-[0.35em] font-semibold uppercase">
+  <p>Operating from India • Building for the World</p>
+</div>
   <div
     className="absolute inset-x-0 top-0 h-48 z-10 pointer-events-none"
     style={{
