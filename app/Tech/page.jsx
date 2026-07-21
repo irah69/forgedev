@@ -1,7 +1,7 @@
 "use client";
 import { useRef, useState, useEffect } from "react";
 import { motion, useInView } from "framer-motion";
-
+import Image from "next/image";
 // Deterministic pseudo-random using a seeded LCG — same output on server & client
 function seededRandom(seed) {
   let s = seed;
@@ -12,19 +12,7 @@ function seededRandom(seed) {
 }
 
 // Soft drifting fog motes instead of neon "stars" — quieter, atmospheric
-const MOTES = (() => {
-  const rand = seededRandom(42);
-  return Array.from({ length: 22 }, (_, i) => ({
-    id: i,
-    size: rand() * 90 + 40,
-    top: rand() * 100,
-    left: rand() * 100,
-    opacity: rand() * 0.06 + 0.03,
-    duration: rand() * 14 + 16,
-    delay: rand() * 6,
-    drift: rand() * 40 - 20,
-  }));
-})();
+
 
 const techCategories = [
   {
@@ -160,26 +148,17 @@ function CategoryCard({ cat, index }) {
       {/* Header */}
       <div className="flex items-center justify-between gap-4 z-10">
         <div>
-          <p className="text-[10px] font-medium tracking-[0.35em] uppercase text-[#EDEAE0]/35 mb-2">
+          <p className="text-[10px] font-[cinzel] tracking-[0.35em] uppercase text-[#EDEAE0]/35 mb-2">
             {String(index + 1).padStart(2, "0")} — Layer
           </p>
           <h3
-            className="text-2xl font-medium tracking-tight text-[#F1EFE7] leading-tight"
+            className="text-2xl font-[cinzel] tracking-tight text-[#F1EFE7] leading-tight"
             style={{ fontFamily: "'Cormorant Garamond', serif" }}
           >
             {cat.label}
           </h3>
         </div>
-        <span
-          className="text-3xl leading-none select-none"
-          style={{
-            color: cat.accent,
-            fontFamily: "'Noto Serif JP', serif",
-            opacity: 0.55,
-          }}
-        >
-          {cat.kanji}
-        </span>
+
       </div>
 
       {/* Divider */}
@@ -206,7 +185,7 @@ function CategoryCard({ cat, index }) {
               style={{ background: cat.accent, opacity: 0.7 }}
             />
             <div className="min-w-0">
-              <p className="text-sm font-medium text-[#F1EFE7]/90 leading-none mb-1 tracking-wide">
+              <p className="text-sm font-[cinzel] text-[#F1EFE7]/90 leading-none mb-1 tracking-wide">
                 {tech.name}
               </p>
               <p className="text-xs text-[#EDEAE0]/40 truncate">{tech.desc}</p>
@@ -230,23 +209,23 @@ export default function TechStack() {
       `}</style>
 
       <section
-        className="relative min-h-screen py-28 px-5 overflow-hidden"
-        style={{
-          background:
-            "radial-gradient(ellipse 90% 60% at 50% 0%, #16201a 0%, #0a0f0c 50%, #06090a 100%)",
-          fontFamily: "'DM Mono', monospace",
-        }}
-      >
+  className="relative min-h-screen overflow-hidden bg-cover bg-center bg-no-repeat px-5 py-28"
+  style={{
+    backgroundImage: "url('/image.png')",
+    fontFamily: "'Cinzel', serif",
+  }}
+>
+    <div className="absolute inset-0 bg-black/60" />
         {/* film grain texture, matching the photographic mist in the reference images */}
-        <svg className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.05] mix-blend-overlay">
+        {/* <svg className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.05] mix-blend-overlay">
           <filter id="grain">
             <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch" />
           </filter>
           <rect width="100%" height="100%" filter="url(#grain)" />
-        </svg>
+        </svg> */}
 
         {/* drifting fog motes */}
-        {MOTES.map((m) => (
+       {/*  {MOTES.map((m) => (
           <motion.div
             key={m.id}
             className="absolute rounded-full bg-[#EDEAE0] blur-2xl"
@@ -260,15 +239,15 @@ export default function TechStack() {
             animate={{ x: [0, m.drift, 0], opacity: [m.opacity * 0.6, m.opacity, m.opacity * 0.6] }}
             transition={{ duration: m.duration, repeat: Infinity, delay: m.delay, ease: "easeInOut" }}
           />
-        ))}
+        ))} */}
 
         {/* faint sage glow, like light through the treeline */}
-        <div
+      {/*   <div
           className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[400px] rounded-full blur-[160px] opacity-[0.12] pointer-events-none"
           style={{ background: "#4F6A56" }}
-        />
+        /> */}
 
-        <ForestSilhouette />
+    
 
         <div className="relative z-10 max-w-5xl mx-auto">
           {/* Header */}
@@ -280,21 +259,18 @@ export default function TechStack() {
             className="text-center mb-24"
           >
             <div className="flex items-center justify-center gap-3 mb-6">
-              <IrahMark size={18} color="#8DA290" />
-              <p className="text-[11px] font-medium uppercase text-[#8DA290] tracking-[0.35em]">
-                Full-Stack Arsenal
-              </p>
-              <IrahMark size={18} color="#8DA290" />
+            
+              
             </div>
 
             <h2
-              className="text-5xl md:text-7xl font-medium leading-[1.02] tracking-tight text-[#F1EFE7] mb-6"
+              className="text-5xl md:text-7xl font-[cinzel] leading-[1.02] tracking-tight text-[#F1EFE7] mb-6"
               style={{ fontFamily: "'Cormorant Garamond', serif" }}
             >
-              Tech <span className="italic text-[#C9C2AE]">That Ships</span>
+              Tech That Ships
             </h2>
 
-            <p className="text-sm text-[#EDEAE0]/45 max-w-md mx-auto leading-relaxed tracking-wide">
+            <p className=" font-[cinzel] text-sm text-white/45 max-w-md mx-auto leading-relaxed tracking-wide">
               Every layer of the stack, handled — from considered frontends to
               dependable backends and quietly reliable deployments.
             </p>
