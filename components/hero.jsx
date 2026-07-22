@@ -172,10 +172,20 @@ const heroY = useTransform(
   </h1>
 </div>
 
-      <div className="absolute top-[45%] left-[5%] sm:left-[7%] md:left-[8%] lg:left-[10%]">
+      <div className="absolute top-[45%] left-[7%] sm:left-[7%] md:left-[8%] lg:left-[10%]">
         <IndianTime />
       </div>
-
+<div
+  className={`absolute top-[45%] right-[6%] -translate-y-1/2 rotate-90 origin-center font-[Cinzel] font-semibold
+    text-[clamp(0.75rem,1vw,1.1rem)]
+    tracking-[0.35em]
+    uppercase
+    text-white
+    whitespace-nowrap
+    select-none`}
+>
+  Scroll
+</div>
       {/* ============================================= */}
       {/* MOBILE & TABLET */}
       {/* ============================================= */}
@@ -208,7 +218,7 @@ const heroY = useTransform(
       <div className="hidden lg:block">
         {/* Main Hero */}
         <div className="absolute bottom-[10%] left-[5%]">
-          <div className="relative h-[clamp(400px,60vw,600px)] w-[clamp(240px,40vw,560px)]">
+          <div className="relative h-[clamp(340px,52vw,520px)] w-[clamp(240px,40vw,560px)]">
             <Image
               src="/3.webp"
               alt="Hero"
