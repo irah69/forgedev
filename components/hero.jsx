@@ -130,26 +130,47 @@ const heroY = useTransform(
       {/* Header (Shared) */}
       {/* -------------------------------- */}
 
-      <Container
-        src="/logo.png"
-        width="clamp(70px,8vw,120px)"
-        height="clamp(70px,8vw,120px)"
-        top="25%"
-        left="5%"
-        className="-translate-y-1/2"
-        z={50}
-      />
+      <div
+  className="
+    absolute
+    top-[25%]
+    left-[5%]
+    -translate-y-1/2
+    z-50
+    flex
+    items-center
+    gap-2
+    sm:gap-3
+    md:gap-4
+    lg:gap-5
+  "
+>
+  <Image
+    src="/logo.png"
+    alt="IRAH Logo"
+    width={120}
+    height={120}
+    className="h-[70px] w-[70px] sm:h-[80px] sm:w-[80px] md:h-[95px] md:w-[95px] lg:h-[120px] lg:w-[120px]"
+  />
 
-      <Container
-        text="IRAH"
-        width="250px"
-        height="80px"
-        top="25%"
-        left="10%"
-        className="-translate-y-1/2"
-        z={50}
-        textClassName="flex items-center h-full font-[Cinzel] text-white text-[clamp(1.75rem,3vw,3rem)] tracking-[0.45em] font-semibold"
-      />
+  <h1
+    className="
+      font-[Cinzel]
+      font-semibold
+      text-white
+      tracking-[0.25em]
+      sm:tracking-[0.3em]
+      lg:tracking-[0.45em]
+      text-[1.5rem]
+      sm:text-[2rem]
+      md:text-[2.5rem]
+      lg:text-[3rem]
+      whitespace-nowrap
+    "
+  >
+    IRAH
+  </h1>
+</div>
 
       <div className="absolute top-[45%] left-[5%] sm:left-[7%] md:left-[8%] lg:left-[10%]">
         <IndianTime />
