@@ -113,7 +113,7 @@ const heroY = useTransform(
   {/* Menu */}
 
   {/* UI */}
-  <AnimatePresence mode="wait">
+ <AnimatePresence mode="wait">
   {!open && (
     <motion.div
       key="hero-ui"
@@ -126,7 +126,10 @@ const heroY = useTransform(
       }}
       className="absolute inset-0 z-50"
     >
-      {/* Logo */}
+      {/* -------------------------------- */}
+      {/* Header (Shared) */}
+      {/* -------------------------------- */}
+
       <Container
         src="/logo.png"
         width="clamp(70px,8vw,120px)"
@@ -137,7 +140,6 @@ const heroY = useTransform(
         z={50}
       />
 
-      {/* IRAH */}
       <Container
         text="IRAH"
         width="250px"
@@ -149,43 +151,69 @@ const heroY = useTransform(
         textClassName="flex items-center h-full font-[Cinzel] text-white text-[clamp(1.75rem,3vw,3rem)] tracking-[0.45em] font-semibold"
       />
 
-      {/* Indian Time */}
-      <>
-      <div className="absolute top-[45%] left-[5%] sm:left-[7%] md:left-[8%] lg:left-[10%]"> 
-        <IndianTime /> 
+      <div className="absolute top-[45%] left-[5%] sm:left-[7%] md:left-[8%] lg:left-[10%]">
+        <IndianTime />
+      </div>
+
+      {/* ============================================= */}
+      {/* MOBILE & TABLET */}
+      {/* ============================================= */}
+
+      <div className="lg:hidden pt-[120vh] px-6 pb-12">
+        <div className="flex justify-center">
+          <div className="relative h-[360px] w-[221px] sm:h-[420px] sm:w-[300px]">
+            <Image
+              src="/hero8.avif"
+              alt="Hero"
+              fill
+              className="object-cover"
+            />
+          </div>
         </div>
-  {/* Normal content (first 120vh) */}
-<div className="h-[120vh]" />
 
-{/* Hero image */}
-<div className="relative flex justify-center lg:absolute lg:bottom-[10%] lg:left-[5%]">
-  <div className="relative h-[360px] w-[221px] sm:h-[420px] sm:w-[300px] md:h-[460px] md:w-[340px] lg:h-[clamp(400px,60vw,600px)] lg:w-[clamp(240px,40vw,560px)]">
-    <Image
-      src="/hero.png"
-      alt="Hero"
-      fill
-      className="object-cover"
-    />
-  </div>
-</div>
+        <div className="mt-12 flex justify-center">
+          <p className="max-w-md text-center font-[Cinzel] text-[clamp(1rem,4vw,1.25rem)] leading-8 tracking-[0.12em] text-white/80">
+            We build modern digital experiences that combine thoughtful design,
+            cutting-edge technology, and AI to help businesses create meaningful
+            products and lasting impact.
+          </p>
+        </div>
+      </div>
 
-{/* Secondary hero image */}
-<div className="hidden md:flex relative justify-center lg:absolute lg:bottom-[7%] lg:left-[25%]">
-  <div className="relative h-[176px] w-[90px] lg:h-[clamp(192px,29vw,288px)] lg:w-[clamp(96px,16vw,224px)]">
-    <Image
-      src="/hero3.png"
-      alt="Hero"
-      fill
-      className="object-cover"
-    />
-  </div>
-</div>
+      {/* ============================================= */}
+      {/* DESKTOP */}
+      {/* ============================================= */}
 
-{/* Text */}
-<div className="mt-8 flex justify-center px-6 lg:mt-0 lg:absolute lg:bottom-[10%] lg:right-[15%]">
+      <div className="hidden lg:block">
+        {/* Main Hero */}
+        <div className="absolute bottom-[10%] left-[5%]">
+          <div className="relative h-[clamp(400px,60vw,600px)] w-[clamp(240px,40vw,560px)]">
+            <Image
+              src="/hero8.avif"
+              alt="Hero"
+              fill
+              className="object-cover"
+            />
+          </div>
+        </div>
+
+        {/* Secondary Image */}
+        <div className="absolute bottom-[7%] left-[28%]">
+          <div className="relative h-[clamp(192px,29vw,288px)] w-[clamp(96px,16vw,224px)]">
+            <Image
+              src="/hero3.png"
+              alt="Hero"
+              fill
+              className="object-cover"
+            />
+          </div>
+        </div>
+
+        {/* Scroll Text */}
+        <div className="absolute bottom-[10%] right-[8%] w-[42rem] max-w-[42vw]">
   <ScrollRevealText />
 </div>
-</>
+      </div>
     </motion.div>
   )}
 </AnimatePresence>

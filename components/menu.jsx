@@ -65,22 +65,23 @@ export default function MenuOverlay() {
     <>
       {/* Menu Button */}
       <button
-        onClick={toggleMenu}
-        className="fixed top-13 right-[clamp(20px,10vw,120px)] z-[101] overflow-hidden"
-      >
-        <div className="relative h-6 w-24 overflow-hidden">
-          <motion.span
-            animate={{ y: showClose ? "-100%" : "0%" }}
-            transition={{
-              duration: 0.35,
-              ease: [0.76, 0, 0.24, 1],
-            }}
-            className="absolute left-0 top-0 flex flex-col font-[Cinzel] text-white uppercase tracking-[0.4em]"
-          >
-            <span className="h-6 leading-6">MENU</span>
-          </motion.span>
-        </div>
-      </button>
+  onClick={toggleMenu}
+  className="fixed top-13 right-[clamp(20px,10vw,120px)] z-[101] overflow-hidden"
+>
+  <div className="relative h-6 w-24 overflow-hidden">
+    <motion.div
+      animate={{ y: showClose ? "-24px" : "0px" }}
+      transition={{
+        duration: 0.35,
+        ease: [0.76, 0, 0.24, 1],
+      }}
+      className="absolute left-0 top-0 flex flex-col font-[Cinzel] text-white uppercase tracking-[0.4em]"
+    >
+      <span className="h-6 leading-6">MENU</span>
+      <span className="h-6 leading-6">CLOSE</span>
+    </motion.div>
+  </div>
+</button>
 
       <AnimatePresence
         onExitComplete={() => {
