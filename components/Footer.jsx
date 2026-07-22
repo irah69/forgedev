@@ -88,12 +88,12 @@ export default function Footer() {
                 </a>
               </li>
               <li>
-                <a href="#" className="transition hover:text-white">
+                <a href="Aboutus" className="transition hover:text-white">
                   Company
                 </a>
               </li>
               <li>
-                <a href="#" className="transition hover:text-white">
+                <a href="contact" className="transition hover:text-white">
                   Contact
                 </a>
               </li>
@@ -102,9 +102,7 @@ export default function Footer() {
 
           {/* Office */}
           <div>
-            <h3 className="mb-5 font-[Cinzel] text-xl uppercase tracking-wider">
-              INDIA
-            </h3>
+            
 
             <div className="space-y-1 font-[Cinzel] text-xl uppercase leading-9 text-[#CFC7BA]">
               <p>Hyderabad</p>
@@ -119,10 +117,21 @@ export default function Footer() {
               CONTACT
             </h3>
 
-            <div className="space-y-1 font-[Cinzel] text-xl uppercase leading-9 text-[#CFC7BA]">
-              <p>irahtech69@gmail.com</p>
-              <p>+91 90144977622</p>
-            </div>
+          <div className="space-y-1 font-[Cinzel] text-xl uppercase leading-9 text-[#CFC7BA]">
+  <a
+    href="mailto:irahtech69@gmail.com"
+    className="block transition-colors duration-300 hover:text-white"
+  >
+    irahtech69@gmail.com
+  </a>
+
+  <a
+    href="tel:+9190144977622"
+    className="block transition-colors duration-300 hover:text-white"
+  >
+    +91 9014497762
+  </a>
+</div>
           </div>
 
           {/* Social */}
