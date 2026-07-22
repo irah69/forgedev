@@ -184,7 +184,7 @@ const heroY = useTransform(
         <div className="flex justify-center">
           <div className="relative h-[360px] w-[221px] sm:h-[420px] sm:w-[300px]">
             <Image
-              src="/hero8.avif"
+              src="/3.webp"
               alt="Hero"
               fill
               className="object-cover"
@@ -210,7 +210,7 @@ const heroY = useTransform(
         <div className="absolute bottom-[10%] left-[5%]">
           <div className="relative h-[clamp(400px,60vw,600px)] w-[clamp(240px,40vw,560px)]">
             <Image
-              src="/hero8.avif"
+              src="/3.webp"
               alt="Hero"
               fill
               className="object-cover"
@@ -222,7 +222,7 @@ const heroY = useTransform(
         <div className="absolute bottom-[7%] left-[28%]">
           <div className="relative h-[clamp(192px,29vw,288px)] w-[clamp(96px,16vw,224px)]">
             <Image
-              src="/hero3.png"
+              src="/1.webp"
               alt="Hero"
               fill
               className="object-cover"
